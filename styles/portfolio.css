@@ -39,7 +39,7 @@ a {
   position: relative;
   text-align: center;
   border-bottom: 1px solid #ccc;
-  padding-top: 50px;
+  padding-top: 50px ;
   padding-bottom: 50px;
 }
 
@@ -124,9 +124,12 @@ a {
 }
 
 .card__left {
-  flex: 2 0 0;
+  flex: 3 0 0;
   text-align: left;
   padding-left: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
@@ -193,13 +196,19 @@ a {
   line-height: 32px;
   text-transform: uppercase;
   color: white;
-  word-wrap: break-word;
   font-size: 0.8em;
 }
 
 /*
 Skills proficiency
 */
+
+.skill__text{
+  transform: rotate(-90deg) translateX(-100%) translateX(-10px);
+  transform-origin: left top 0;
+  float: left;
+}
+
 
 .spaced {
   margin-bottom: 40px;
