@@ -11,7 +11,17 @@ a {
   color: #1da8ab;
 }
 
+.portfolio {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+}
+
 #app {
+  position: absolute;
+  margin-top: 100vh;
+  background: #efefef;
+  width: 100%;
 }
 .profile {
   height: 100vh;
