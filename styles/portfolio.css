@@ -26,7 +26,13 @@ a {
 .profile {
   height: 100vh;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0 !important;
+  align-items: center;
+  justify-content: space-around;
 }
+
 
 .profile::after {
   content: "";
@@ -58,27 +64,30 @@ a {
   height: 150px;
   border-radius: 50%;
   position: relative;
-  margin: 50px auto;
   box-shadow: 1px 1px 2px rgba(0,0,0,0.4);
   background-image: url(/images/profile.png);
   background-size: cover;
+  margin-bottom: 20px;
 }
 
 .profile__name {
-  font-size: 2.5em;
+  font-size: 2.0em;
   line-height: 1.8em;
   font-weight: bold;
+  padding: 0 20px;
 }
 
 .profile__function {
   font-size: 1.3em;
   line-height: 1.8em;
+  padding: 0 20px;
 }
 
-.profile__social {
-  margin: 40px;
-  min-height: 100px;
-  line-height: 100px;
+.profile__name-function {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .icon-li {
@@ -91,6 +100,11 @@ a {
 
 .icon-tw {
   background-image: url(/images/tw.png);
+}
+
+.icon-med {
+  background-image: url(/images/med.png);
+  background-size: contain;
 }
 
 .social-icon {
