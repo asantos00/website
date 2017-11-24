@@ -37,7 +37,7 @@ a {
 .profile::after {
   content: "";
   background-size: cover;
-  background: url(http://wallpapercave.com/wp/jnETzbZ.jpg);
+  background: url(../images/wallpaper-min.jpg);
   opacity: 0.3;
   position: absolute;
   top: 0;
