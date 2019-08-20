@@ -7,6 +7,7 @@ module.exports = {
       city: "Lisbon",
       country: "Portugal",
     },
+    siteUrl: 'https://alexandrempsantos.com',
     social: [
       {
         name: `twitter`,
