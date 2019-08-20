@@ -24,15 +24,21 @@ const Bio = () => {
       site {
         siteMetadata {
           author
+          description
+          location {
+            city
+            country
+          }
           social {
-            twitter
+            name
+            url
           }
         }
       }
     }
   `)
 
-  const { author, social } = data.site.siteMetadata
+  const { author, social, description, location } = data.site.siteMetadata
   return (
     <div
       style={{
@@ -54,12 +60,9 @@ const Bio = () => {
         }}
       />
       <p>
-        Written by <strong>{author}</strong> who lives and works in San
-        Francisco building useful things.
-        {` `}
-        <a href={`https://twitter.com/${social.twitter}`}>
-          You should follow him on Twitter
-        </a>
+        {author} - {location.city}, {location.country}
+        <br />
+        {description}
       </p>
     </div>
   )
