@@ -7,17 +7,25 @@ module.exports = {
   ],
   // Customize your site metadata:
   siteMetadata: {
-    title: `My Blog Title`,
-    author: `My Name`,
-    description: `My site description...`,
+    title: `learning as we go`,
+    author: `Alexandre Santos`,
+    description: `Helping people solving problems. Software developer, learner, reader, writer`,
+    location: {
+      city: "Lisbon",
+      country: "Portugal",
+    },
     social: [
       {
         name: `twitter`,
-        url: `https://twitter.com/gatsbyjs`,
+        url: `https://twitter.com/ampsantos0`,
       },
       {
         name: `github`,
-        url: `https://github.com/gatsbyjs`,
+        url: `https://github.com/asantos00`,
+      },
+      {
+        name: `linkedin`,
+        url: `https://www.linkedin.com/in/alexandrempsantos/`,
       },
     ],
   },
