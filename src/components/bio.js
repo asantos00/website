@@ -63,6 +63,13 @@ const Bio = () => {
         {author} - {location.city}, {location.country}
         <br />
         {description}
+        <br/>
+        {social.map(social => (
+          <React.Fragment>
+            <a href={social.url}>{social.name}</a>
+            {'  '}
+          </React.Fragment>
+        ))}
       </p>
     </div>
   )

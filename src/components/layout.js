@@ -51,6 +51,7 @@ class Layout extends React.Component {
         </h3>
       )
     }
+
     return (
       <div
         style={{
