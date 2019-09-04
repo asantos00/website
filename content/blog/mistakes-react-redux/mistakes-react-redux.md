@@ -8,17 +8,18 @@ date: "2018-10-24"
 
 [Video](https://www.youtube.com/watch?v=0FPeP4abYp0) | [Slides](https://speakerdeck.com/asantos00/redux-applications)
 
-I love [react](https://reactjs.org/), I've been writing applications with it since 2014. I've used lots of good and bad patterns, tools, approaches. Some of them make me proud, some make me feel ashamed. The main objective of this is to share them so you don't waste time doing the same exact mistakes I did.
-
-Some of these errors principles and patterns are not react/redux only, in my opinion, you can apply them to most of the software you write.
+I love [react](https://reactjs.org/), I've been writing applications with it since 2014. I've used lots of good and bad patterns, tools and approaches. Some of them make me proud, some make me feel ashamed.
 
 Now I start to get that this is kind of a normal feeling, especially after seeing great developers like Ryan Dahl's and his talk called [10 Things I Regret About Node.js](https://www.youtube.com/watch?v=M3BM9TB-8yA). If you did not see it, yet, you're missing a great piece of knowledge.
 
+Some of these errors principles, patterns and mistakes are not react/redux only, in my opinion, you can apply them to most of the software you write.
+
 Getting back to the main topic, the good part of doing all those kinds of mistakes is that we definitely learn. Either by looking back and thinking or by stumbling with you and your code from a year ago.
+The main objective of this is to share them so you don't waste time doing the same exact mistakes I did.
 
 With no more to say, let's proceed to the mistakes.
 
-## 1. *Componentize_ to soon - Create abstractions you don't need
+## 1. _Componentize_ to soon - Create abstractions you don't need
 
 We've all been there. Components and modules make our eyes shine, we like this utopic idea that one day building a feature will be just grabbing a bunch of components we built 6 months ago, wire them together and we're done. And I wouldn't say this does not happen, but I will say this is not how it normally happens.
 
@@ -45,20 +46,20 @@ render(<Button>Buy me!</Button>)
 What if we want to format this text?
 
 ```html
-<button>
+<Button>
   <Text bold>Buy me!</Text>
-</button>
+</Button>
 ```
 
 What if we want to format every single word?
 
 ```html
-<button>
+<Button>
   <Text bold>
     <Word onHover="{doStuff}">Buy</Word>
     <Word>me!</Word>
   </Text>
-</button>
+</Button>
 ```
 
 You get the point, you needed this:
@@ -86,44 +87,46 @@ We all know, it's always more 10 minutes in bed, more 40 minutes watching Netfli
 The same happens with our components. We had this beautiful button with a pixel-perfect style:
 
 ```html
-<button>
+<Button>
   Hello!
-</button>
+</Button>
 ```
 
 But we needed to invert the colors, and so we add a prop.
 
 ```html
-<button inverted>
+<Button inverted>
   Hello!
-</button>
+</Button>
 ```
 
 But we needed to make it wider, and we added a prop
 
 ```html
-<button wide>
+<Button wide>
   Hello!
-</button>
+</Button>
 ```
 
 But we needed to make it have a special behavior while on header, and we added a prop
 
 ```html
-<button isHeader>
+<Button isHeader>
   Hello!
-</button>
+</Button>
 ```
 
-Once again, you get the point. Now our beautiful button is everywhere, every time we need to touch that button's code, we pray and try to think about all the possible use cases.
+Once again, you get the point. Now our beautiful button is everywhere, every time we need to touch that button's code, we pray and try to think about all the possible use cases so we don't end up breaking it. We shouldn't have to do this.
 
 ## Lesson 2 - Compose components - Design with the open-closed principle in mind
 
-> The open/closed principle states "software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification
+The open closed principle states
 
-via Wikipedia
+> Software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification
 
-What does this mean in this case? Given the header example composition should have been used, something like the following:
+What does this mean in this case?
+
+Given the header example composition should have been used, something like the following:
 
 ```javascript
 import Button from 'components/button';
@@ -138,13 +141,13 @@ const HeaderButton = (props) => (
 
 ```
 
-Where the original button is extended, keeping the same API, without touching the original code, but using it and extending it. Compliant to **the open-closed principle**.
+Here the original button is extended, keeping the same API, without touching the original code, but using it and extending it. It is fully compliant to **the open-closed principle**, and thus much more easy to change in the future.
 
 ## 3. Badly designed redux store
 
-Redux is heavily used, and even though it establishes some conventions, it does not do much to enforce them. You can design your store as you want, etc.
+Redux is heavily used, and even though it establishes some conventions, it does not do much to enforce them. You can design your store as you want, create the actions you want, etc. You have full freedom.
 
-This is both a pro and a con, it's a tradeoff. What this means is that there's space for people to design their store badly, this is not redux's fault.
+This is both a pro and a con, it's a tradeoff. What this means is that sometimes people will design their store badly, and this is not redux's fault.
 
 Ever seen those components that have loads of logic on render? Or that info that you already have on the store but it is so hard to access it that you end up duplicating it? That's a **badly designed redux store**.
 
@@ -161,17 +164,21 @@ const state = {
 }
 ```
 
-You probably detected some of the mistakes happening here.
+And them you just `map` through the _todos_ to display them, it works right?
+
+Huuuum... not really.
+
+You've probably spotted some of the mistakes.
 
 Starting by the redundancy of the `selectedTodo`. What will happen if you update the `selectedTodo`? Will you have to remember to go to the list and update it again? Or will you forget and get incoherent data?
 
-What happens if you want to access the todo with the `id = 3`? Yes, we will have to iterate on the list, to try to find it.
+What happens if you want to access the todo with the `id = 3`? Yes, we will have to iterate on the list, to try to find it. That's ok for now, but we know it is going to be a problem.
 
 ## Lesson 3.1 - Design your store like a database
 
 Think about what queries are you going to do to your database? What are the indexes? Is it going to be updated? Or just read?
 
-Store items by id, use references, it **is a database**.
+Store items by indexes, use references, it **is a database**.
 
 ```javascript
 const state = {
@@ -214,13 +221,13 @@ const state = {
 }
 ```
 
-And then, a couple of months later, when you were doing the footer and you needed users' first name, you ended up accessing it like `header.userBar.users[0]` on the footer component?
+A couple of months later, when you were doing the footer and you needed users' first name, you ended up accessing it like `header.userBar.users[0]` on the footer component? Remember?
 
 Doesn't sound good, does it? What happens if the developer that is touching the header changes the structure? Will he remember to go and fix the footer? Most likely not.
 
 ## Lesson 3.2 - UI and Entities should be stored separately
 
-Not to talk about the need (or not) to store UI data on redux (most of the times you don't), if you store it, keep the UI data together, and keep your data (your entities) in a completely different place.
+Not to talk about the need (or not) to store UI data on redux (most of the times you don't), if you store it, keep the UI data in one place, and keep your data (your entities) in a completely different place.
 
 They shouldn't be coupled, you don't wanna mess the header loading state just because you changed the structure of a user, right?
 
@@ -254,11 +261,11 @@ const mapStateToProps = state => ({
 
 ```
 
-Sounds familiar? If it is in one place, that's not bad. But what if this spreads all around your application? What if the user store changes its structure?
+Sounds familiar? If it is in one place, that's not so bad (a litte bit though). But what if this spreads all around your application? What if the user store changes its structure? Will you come back and change it everywhere it is used?
 
 ## Lesson 4 - Depend on abstractions
 
-This is the **d** from [SOLID](https://www.engineerspock.com/2017/06/08/introduction-to-solid-principles/). In the end, and applied to this specific context, it means that you **shouldn't depend on concretions, but on abstractions**.
+This is the **d** from [SOLID](https://www.engineerspock.com/2017/06/08/introduction-to-solid-principles/) that pplied to this specific context, means that you **shouldn't depend on concretions, but on abstractions**.
 
 What does that mean? What if you used a **selector** to get the user's first name? Something like this:
 
@@ -266,9 +273,9 @@ What does that mean? What if you used a **selector** to get the user's first nam
 const getUserFirstName = (state) => state.users.list[0].name.first;
 ```
 
-Store it near the reducer and whenever you change the store structure, you also update this?
+Store it near the reducer and whenever you change the store structure, you also update this.
 
-Then your components can depend on this, and do something like:
+Then your components can depend on the selector, and your `mapStateToProps` now looks a little bit cleaner:
 
 ```javascript
 const mapStateToProps = state => ({
@@ -277,17 +284,21 @@ const mapStateToProps = state => ({
 
 ```
 
-Your components depend now on an abstraction, making it much easier to change without breaking whatever is using it.
+Your components depend now on an abstraction, making it much easier to change in future without breaking anything.
 
 ## Bonus - Lifting all the state up
 
-We've probably seen that too, store every single piece of state in redux store. Leading to a lot of store updates and a lot of data made globally that in reality is only being accessed locally. And why? Just because "we want to have redux advantages, we want to use reducers and actions".
+We've probably seen that too, store every single piece of state in redux store.
 
-Good news is that you can do that while using the components local state. I [wrote a blog post about it](https://alexandrempsantos.com/reducing-the-local-state/)
+This leads to a lot of store updates and a lot of data made globally that in reality is only being accessed locally. And why? Just because "we want to have redux advantages, we want to use reducers and actions".
+
+Good news is that you can do that while using the components' local state. I [wrote a blog post about it](https://alexandrempsantos.com/reducing-the-local-state/), give it a read, I promise it will be useful!
 
 ## Conclusion
 
-Those were the mistakes I made, and I've seen doing while writing applications. There are more but these were the ones I think are most impactful and the ones that can end up causing problems in maintaining an application. Below is a TLDR of them, if you just skimming through this post or if you wanna take short notes.
+Those were the mistakes I made and I've seen doing while writing applications. There are definitely more but these were the ones I think are most impactful and the ones that can end up causing problems in maintaining an application.
+
+Below is a TLDR of them, if you just skimming through this post or if you wanna take short notes.
 
 ❌ Create needless abstractions
 
