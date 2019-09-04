@@ -7,7 +7,7 @@ module.exports = {
       city: "Lisbon",
       country: "Portugal",
     },
-    siteUrl: 'https://alexandrempsantos.com',
+    siteUrl: "https://alexandrempsantos.com",
     social: [
       {
         name: `twitter`,
@@ -45,9 +45,9 @@ module.exports = {
           {
             resolve: "gatsby-remark-embed-gist",
             options: {
-              username: 'asantos00',
-              includeDefaultCss: true
-            }
+              username: "asantos00",
+              includeDefaultCss: true,
+            },
           },
           {
             resolve: `gatsby-remark-images`,
@@ -95,6 +95,6 @@ module.exports = {
       options: {
         pathToConfigModule: `src/utils/typography`,
       },
-    },
+    }
   ],
 }

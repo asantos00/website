@@ -36,7 +36,7 @@ And **that was my idea**, and unfortunately is the idea that lots of people shar
 
 Cypress is a e2e testing framework based on [puppeteer](https://github.com/GoogleChrome/puppeteer), a nodejs library to control Chromium based applications.
 
-I've chosen Cypress for this talk because of how easy it is to setup and run e2e tests.
+I think Cypress is different because of how easy it is to install, write tests, and run them.
 
 ## Demo application
 
@@ -107,7 +107,9 @@ describe('Cart | Calculations', () => {
 
 ```
 
+
 We're getting quite repetitive with our `addToCart` action, don't you think? Let's write a `Cypress.Command`. Let's go into `cypress/support/commands` file.
+
 
 ```javascript
 Cypress.Commands.add('addToCart', (team, nrOfTickets) => {
@@ -121,7 +123,9 @@ Cypress.Commands.add('addToCart', (team, nrOfTickets) => {
 })
 ```
 
+
 And now refactor our test to use this command
+
 
 ```javascript
 describe('Cart | Calculations', () => {
@@ -138,7 +142,9 @@ describe('Cart | Calculations', () => {
 
 ```
 
-A litte better, huh? Let's break the calculations and run it in the headless browser
+
+A little bit better, huh? Let's add a bug to the totalPrice logic and run it in the headless browser
+
 
 ```javascript
 // Cart.js
@@ -167,7 +173,7 @@ Let's push this branch and see how it looks on CI
 
 ![circle-ci-building](./circle-ci.png)
 
-For the case I'm using Circle CI, cypress.io even has a *orb* (it's something like a CircleCI recipe). That already does some things by default. Here's the `./circle/config.yml`
+For the case I'm using Circle CI, cypress.io even has a *orb* (it's something like a CircleCI recipe). That already does some things by default. Here's the `./circle/config.yml` using that recommended cypress orb.
 
 `gist:asantos00/7a1c484ac29127865bfc940f8362e1f2`
 
@@ -179,7 +185,7 @@ After the build complete, you'll be able to see the artifacts on the **Artifacts
 
 ## Tradeoffs
 
-As anything in life, Cypress also has tradeoffs, and they actually assume and do a nice job explaining them in detail [here](https://docs.cypress.io/guides/references/trade-offs.html#Permanent-trade-offs-1). I'm going to list the permanent ones:
+As anything, Cypress has tradeoffs, they tell them straight away and do a nice job explaining them in detail [here](https://docs.cypress.io/guides/references/trade-offs.html#Permanent-trade-offs-1). I'm going to list the permanent ones:
 
 - Cypress is not a general purpose automation tool.
 - Cypress commands run inside of a browser.
@@ -187,21 +193,22 @@ As anything in life, Cypress also has tradeoffs, and they actually assume and do
 - You cannot use Cypress to drive two browsers at the same time.
 - Each test is bound to a single origin.
 
-More details of each one, as well as the temporary ones are very well explained in the link above.
+In the above link they explain each one of them in detail. On that same page, the temporary tradeoffs are also listed.
 
-In terms of cross browser support, that is (gladly) considered temporary, you can see the progress [here](https://github.com/cypress-io/cypress/issues/310)
+Cross browser support is (gladly) considered temporary, you can see its progress [here](https://github.com/cypress-io/cypress/issues/310)
 
 
 ## Conclusion
 
-Cypress has in its APIs one of its best features. To me, the API and the ease of install is definitely something that makes it stand out from the rest.
+Cypress has, IMHO, in its APIs one of its best features. To me, the API and the ease of install is definitely something that makes it stand out from the rest.
 
-The fact the you can `npm install` and you're writing/running tests is amazing. Adding to that, the UI tool also helps debugging and writing tests as you can see the past screenshots.
+The fact the you can just `npm install` and start writing/running tests is amazing. Adding to that, the UI tool also helps  a lot debugging and developing new test cases.
 
-In the end, ant this is probably more of an personal taste, the tests are super readable and it just feels natural to skim through them.
+In the end, and this is probably more of an personal taste to, the API is so clean, tests are pretty easy to read and navigate, making it a good place for new starters.
 
+What do you think about Cypress?
 
-I would love to hear your opinion and experience with Cypress.io, as well as any questions/feedback you have about this post, please feel free to reach out!
+I would love to hear your opinion and experience as well as any questions/feedback you have about this post, please reach out in any of the networks below
 
 ### More related
 
