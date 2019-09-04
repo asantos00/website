@@ -4,6 +4,8 @@ description: "How Cypress.io enables you to write simple, readable, end to end t
 date: "2019-09-04"
 ---
 
+[Slides](https://speakerdeck.com/asantos00/e2e-tests-with-cypress-dot-io)
+
 I've been hearing about [cypress.io](https://cypress.io) for quite a few time, always heard good things, never had the time to try it.
 
 Last week I had the opportunity not only to try but also to implement it to write critical tests on project I've been working.
