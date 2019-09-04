@@ -1,15 +1,19 @@
-# E2E tests with Cypress.io
+---
+title: E2E tests with Cypress.io
+description: "How Cypress.io enables you to write simple, readable, end to end tests"
+date: "2019-09-04"
+---
 
-I've been hearing about cypress.io for quite a few time, always heard good things, never had the time to try it. Last week I had the opportunity not only to try but also to implement it to write critical tests on project I've been working.
-It worked flawlessly, I was so impressed I messaged a colleague of mine saying: "You have no more excuses not to write e2e tests, cypress.io makes it so easy that I took one hour to test authentication and basic navigation".
+I've been hearing about [cypress.io](https://cypress.io) for quite a few time, always heard good things, never had the time to try it. Last week I had the opportunity not only to try but also to implement it to write critical tests on project I've been working.
+It worked flawlessly, I was so impressed I messaged a colleague of mine saying: "*You have no more excuses not to write e2e tests, cypress.io makes it so easy that I took one hour to test authentication and basic navigation*".
 
 ## E2E tests, but why?
 
 It is a normal day, you just open JIRA, grab a task. You think a little bit about it, you open vscode and you start doing it. A couple of hours later your task is pretty much finished. You create your unit and integration tests for the cases you can recall. Everything seems fine, you push it, open a PR, approved, you merge it!
 
-You QA sees your ticket, tests the flow you did, everything seems to work. It's friday, and we know that friday is "deploy to production day"... And you do it.
+You QA sees your ticket, tests the flow you did, everything seems to work. It's friday, and we know that friday is "*deploy to production day*"... And you do it.
 
-Mid-weekend your boss calls you saying that the user can't pay, the button is broken and you are losing money, world is ending.
+Mid-weekend your boss calls you saying that the user can't pay, the button is broken and you are losing money, world is ending 👨‍🚒
 
 Hopefully, none of us will be caught in a situation like this, to (hopefully) help with that I'm writing this blogpost.
 
@@ -17,19 +21,22 @@ Hopefully, none of us will be caught in a situation like this, to (hopefully) he
 
 Now you might be saying something like:
 
-"I've already heard of e2e tests, they're always breaking and they're difficult to write and run. I don't wanna write them."
+> I've already heard of e2e tests, they're always breaking and they're difficult to write and run. I don't wanna write them.
 
-And that was my idea, and unfortunately is the idea that lots of people share. I hope to change it a little bit by the end of this.
+And **that was my idea**, and unfortunately is the idea that lots of people share. I hope to shake it a little bit by the end of this.
 
+## Cypress
 
-## Cypress.io
+Cypress is a e2e testing framework based on puppeteer, a node library to control Chromium based applications. There are many more in this same segment.
 
-Cypress.io is a e2e testing framework based on puppeteer, a node library to control Chromium based applications. There are many more in this same segment. I've chosen Cypress for this talk because of how easy it is to setup and run e2e tests.
+I've chosen Cypress for this talk because of how easy it is to setup and run e2e tests.
 
 ## Demo application
 
 I've built a small demo application where users can buy football tickets for the 3 big teams in Portugal.
-You can add tickets to cart, update them, remove from cart, and in the end, you can "buy" the tickets. And that's it.
+You can add tickets to cart, update them, remove from cart, and in the end, you can *buy* the tickets.
+
+The application is deployed [here](https://cranky-stonebraker-09ed2a.netlify.com/) (thanks to Netlify 🙏) if you wanna give it a go.
 
 ## Let's write some tests
 
@@ -188,7 +195,6 @@ In the end, ant this is probably more of an personal taste, the tests are super 
 
 
 I would love to hear your opinion and experience with Cypress.io, as well as any questions/feedback you have about this post, please feel free to reach out!
-
 
 ### More related
 
