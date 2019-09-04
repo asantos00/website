@@ -26,7 +26,7 @@ All redux benefits seemed cool: The functional paradigm, testing state transitio
 
 We recalled the following Dan Abramov tweet:
 
-![Dan Abramov tweet about reducers](./dan-tweet.png)
+![Dan Abramov tweet about reducers](./reducing-the-local-state/dan-tweet.png)
 
 In the end, we opted for a hybrid approach, having local reducers with local dispatches (pretty much what useReducer does, now that hooks were launched)
 

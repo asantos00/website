@@ -64,11 +64,11 @@ What if we want to format every single word?
 
 You get the point, you needed this:
 
-![screwdriver](./screwdriver.png)
+![screwdriver](./mistakes-react-redux/screwdriver.png)
 
 And you ended up with this:
 
-![swiss-knife](./swiss-knife.png)
+![swiss-knife](./mistakes-react-redux/swiss-knife.png)
 
 ## Lesson 1 - Do not predict the future. You are not gonna need it
 
@@ -82,7 +82,7 @@ We often commit this mistake, we should only build what we need.
 
 We all know, it's always more 10 minutes in bed, more 40 minutes watching Netflix, one more drink.
 
-![just one more](./just-one-more.jpeg)
+![just one more](./mistakes-react-redux/just-one-more.jpeg)
 
 The same happens with our components. We had this beautiful button with a pixel-perfect style:
 

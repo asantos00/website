@@ -75,8 +75,8 @@ describe('Cart | Add items', () => {
 
 To help writing your tests, we can run `npx cypress open` to open the Cypress UI that allows to run tests separatedly and to see what every command we're writing is doing.
 
-![cypress-1](./cypress-ui-1.png)
-![cypress-2](./cypress-ui-2.png)
+![cypress-1](./e2e-tests-with-cypress/cypress-ui-1.png)
+![cypress-2](./e2e-tests-with-cypress/cypress-ui-2.png)
 
 On the side, you can see what every step is doing, as well as the snapshots reflected on the right side.
 
@@ -163,7 +163,7 @@ const totalPrice = allCartKeys.reduce((price, gameId) => {
 
 Let's run the tests through the CLI, `npx cypress run`. We'll get the following output:
 
-![terminal](./terminal-output.png)
+![terminal](./e2e-tests-with-cypress/terminal-output.png)
 
 You probably noticed that Cypress generated a couple of files, `cypress/videos` and `cypress/screenshots`. Just open them and you can see how and why some tests are passing/failing.
 
@@ -171,7 +171,7 @@ You probably noticed that Cypress generated a couple of files, `cypress/videos` 
 
 Let's push this branch and see how it looks on CI
 
-![circle-ci-building](./circle-ci.png)
+![circle-ci-building](./e2e-tests-with-cypress/circle-ci.png)
 
 For the case I'm using Circle CI, cypress.io even has a *orb* (it's something like a CircleCI recipe). That already does some things by default. Here's the `./circle/config.yml` using that recommended cypress orb.
 
@@ -181,7 +181,7 @@ Notice the `store_artifacts` part of the configuration, it declares what folder 
 
 After the build complete, you'll be able to see the artifacts on the **Artifacts** section of CircleCI.
 
-![artifacts section](./circle-ci-artifacts.png)
+![artifacts section](./e2e-tests-with-cypress/circle-ci-artifacts.png)
 
 ## Tradeoffs
 
