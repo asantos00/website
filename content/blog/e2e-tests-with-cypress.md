@@ -131,12 +131,12 @@ A litte better, huh? Let's break the calculations and run it in the headless bro
 
 // Before
 const totalPrice = allCartKeys.reduce((price, gameId) => {
-return price + cart[gameId] * games[gameId].price
+    return price + cart[gameId] * games[gameId].price
 }, 0);
 
 // After (changing the * by /)
 const totalPrice = allCartKeys.reduce((price, gameId) => {
-return price + cart[gameId] / games[gameId].price
+    return price + cart[gameId] / games[gameId].price
 }, 0);
 
 ```
@@ -155,7 +155,7 @@ Let's push this branch and see how it looks on CI
 
 For the case I'm using Circle CI, cypress.io even has a *orb* (it's something like a CircleCI recipe). That already does some things by default. Here's the `./circle/config.yml`
 
-gist circle config
+`gist:asantos00/7a1c484ac29127865bfc940f8362e1f2`
 
 Notice the `store_artifacts` part of the configuration, it declares what folder should be saved.
 
