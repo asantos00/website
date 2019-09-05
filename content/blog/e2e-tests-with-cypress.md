@@ -36,9 +36,7 @@ And **that was my idea**, and unfortunately is the idea that lots of people shar
 
 ## Cypress
 
-Cypress is a e2e testing framework based on [puppeteer](https://github.com/GoogleChrome/puppeteer), a nodejs library to control Chromium based applications.
-
-I think Cypress is different because of how easy it is to install, write tests, and run them.
+Cypress is a e2e testing framework that runs directly the browser. In my opinion it stands out because of how easy it is to install, write and run tests.
 
 ## Demo application
 
