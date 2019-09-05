@@ -6,16 +6,17 @@ date: "2018-10-24"
 
 [Video](https://www.youtube.com/watch?v=0FPeP4abYp0) | [Slides](https://speakerdeck.com/asantos00/redux-applications)
 
-I love [react](https://reactjs.org/), I've been writing applications with it since 2014. I've used lots of good and bad patterns, tools and approaches. Some of them make me proud, some make me feel ashamed.
+I love [react](https://reactjs.org/), I've been writing applications with it since 2014, I've used lots of good and bad patterns, different tools and approaches. Some of them make me proud, some make me feel ashamed.
 
-Now I start to get that this is kind of a normal feeling, especially after seeing great developers like Ryan Dahl's and his talk called [10 Things I Regret About Node.js](https://www.youtube.com/watch?v=M3BM9TB-8yA). If you did not see it, yet, you're missing a great piece of knowledge.
+Now I start to get that this is kind of a normal feeling, especially after seeing great developers like Ryan Dahl and his talk called [10 Things I Regret About Node.js](https://www.youtube.com/watch?v=M3BM9TB-8yA). If you did not see it, yet, you're missing a great piece of knowledge.
 
-Some of these errors principles, patterns and mistakes are not react/redux only, in my opinion, you can apply them to most of the software you write.
+Some of the mentioned principles, patterns and mistakes are not react/redux only, in my opinion, you can apply them to most of the software you write.
 
-Getting back to the main topic, the good part of doing all those kinds of mistakes is that we definitely learn. Either by looking back and thinking or by stumbling with you and your code from a year ago.
+The good part of doing all those kinds of mistakes is that we learn. Either by looking back and thinking or by stumbling with you and your code from a year ago.
+
 The main objective of this is to share them so you don't waste time doing the same exact mistakes I did.
 
-With no more to say, let's proceed to the mistakes.
+With no more to say, let's proceed to the mistakes & lessons learned.
 
 ## 1. _Componentize_ to soon - Create abstractions you don't need
 
@@ -62,11 +63,11 @@ What if we want to format every single word?
 
 You get the point, you needed this:
 
-![screwdriver](./screwdriver.png)
+![screwdriver](./mistakes-react-redux/screwdriver.png)
 
 And you ended up with this:
 
-![swiss-knife](./swiss-knife.png)
+![swiss-knife](./mistakes-react-redux/swiss-knife.png)
 
 ## Lesson 1 - Do not predict the future. You are not gonna need it
 
@@ -80,7 +81,7 @@ We often commit this mistake, we should only build what we need.
 
 We all know, it's always more 10 minutes in bed, more 40 minutes watching Netflix, one more drink.
 
-![just one more](./just-one-more.jpeg)
+![just one more](./mistakes-react-redux/just-one-more.jpeg)
 
 The same happens with our components. We had this beautiful button with a pixel-perfect style:
 
