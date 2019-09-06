@@ -53,7 +53,7 @@ One of the basic features of my app is adding a number of tickets to the cart. L
 
 ```javascript
 describe('Cart | Add items', () => {
-    it('Buys tickets for sporitng',  () => {
+    it('Buys tickets for sporting',  () => {
         // Visits the root of our application
         cy.visit('/');
 
@@ -84,7 +84,7 @@ Let's write one more just to grant that total calculation is not wrong.
 
 ```javascript
 describe('Cart | Calculations', () => {
-    it('should sum tickerts values', () => {
+    it('should sum tickets values', () => {
         cy.visit('/');
 
         cy.contains('Sporting').within(el => {
@@ -108,7 +108,7 @@ describe('Cart | Calculations', () => {
 ```
 
 
-We're getting quite repetitive with our `addToCart` action, don't you think? Let's write a `Cypress.Command`. Let's go into `cypress/support/commands` file.
+We're getting quite repetitive with our `addToCart` action, don't you think? Let's write a `Cypress.Command`, open the `cypress/support/commands` file.
 
 
 ```javascript
@@ -204,11 +204,11 @@ Cypress has, IMHO, in its APIs one of its best features. To me, the API and the 
 
 The fact the you can just `npm install` and start writing/running tests is amazing. Adding to that, the UI tool also helps  a lot debugging and developing new test cases.
 
-In the end, and this is probably more of an personal taste to, the API is so clean, tests are pretty easy to read and navigate, making it a good place for new starters.
+To finish and this is probably more of an personal taste, I found the API is so clean, tests are pretty easy to read and navigate, making it a good place for starters when onboarding on a project.
 
-What do you think about Cypress?
+What do you think about Cypress, have you used it?
 
-I would love to hear your opinion and experience as well as any questions/feedback you have about this post, please reach out in any of the networks below
+I would love to hear your opinion and experience as well as any questions/feedback you have about this post. Feel free to reach out to me!
 
 ### More related
 
