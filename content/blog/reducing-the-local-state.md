@@ -2,6 +2,7 @@
 title: Simplifying local state with reducers
 description: "How using the reducer pattern simplifies state managing in local components"
 date: "2019-03-27"
+published: true
 ---
 
 Anybody that has been using react for some time is probably aware of the big amount of solutions to manage state. It always depends on multiple factors, project, context, team, size of an app…

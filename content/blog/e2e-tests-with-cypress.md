@@ -2,6 +2,7 @@
 title: E2E tests with Cypress.io
 description: "How Cypress.io enables you to write simple, readable, end to end tests"
 date: "2019-09-04"
+published: true
 ---
 
 [Slides](https://speakerdeck.com/asantos00/e2e-tests-with-cypress-dot-io) | [Code](https://github.com/asantos00/cypress-e2e)

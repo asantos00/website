@@ -2,13 +2,14 @@
 title: Solve modals with context and hooks
 description: "Take advantage of React's new features to solve the hassle that popup are"
 date: "2019-09-05"
+published: false
 ---
 
 React Context was launched a while ago, in version v16.3.0. From there, lots of questions and opinions aroused.
 
 Some of them questioning when should Context be used, others asking if it replaces Redux. This latter one I have to admit bothers me a little bit. Redux itself doesn't share state across the tree, it's just a functional state container, `react-redux` `connect()` does it, and I think there's lot of misconceptions around that.
 
-Anyways, not gonna spend more keystrokes this discussion. 5 minor versions later, `react` launched hooks, there was lots of excitment when [Dan Abramov]() [first spoke about it](https://www.youtube.com/watch?v=dpw9EHDh2bM) and v16.8.0 brought that to a _production level_ (and everyone started rewriting their apps with hooks).
+Anyways, not gonna spend more keystrokes this discussion. 5 minor versions later, `react` launched hooks, there was lots of excitment when [Dan Abramov](https://twitter.com/dan_abramov) [first spoke about it](https://www.youtube.com/watch?v=dpw9EHDh2bM) and v16.8.0 brought that to a _production level_ (and everyone started rewriting their apps with hooks).
 
 I shared the enthusiasm, moderatedly, we didn't rewrite our apps. But now, every-time I see a usecase for it whenever I'm building a new component or fixing a bug, I'll use it without thinking twice. I actually commented a few days ago with a former colleague that hooks are one of the best abstractions I've seen in React.
 
@@ -236,4 +237,8 @@ Hooks are awesome, I love what they enable you for such a simple syntax. The fac
 
 This is one of the many use cases we found in our daily jobs, and made it easy to solve the problem again.
 
-There is a site I use whenever I'm writing hooks and wanna see other examples, [useHooks](https://usehooks.com/). That is also good if you just wanna grab a simple hook you've used/written many times like `useLocalStorage` and don't want to add a project dependency for that.
+There is a site I use whenever I'm writing hooks and wanna see other examples and nice patterns, it is called [useHooks](https://usehooks.com/). That is also good if you just wanna grab a simple (few lines) hook and don't want do add yet another dependency to your project.
+
+What's your experience with hooks/context? Are you using them in production? What types of problems are them solving? What are the downsides?
+
+I would love to know more about how you're using hooks, reach out to me!

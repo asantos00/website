@@ -2,6 +2,7 @@
 title: "Using mocked APIs to increase developer productivity"
 description: "How not to depend on backend APIs to keep developing front-end applications"
 date: "2019-05-22"
+published: true
 ---
 
 When we’re developing a frontend, we just might be lucky enough to have a full-fledged API, although in the real world, for the most time,  we’ll get ourselves into a position where we have to develop without an API is available with all the functionality we require in the future.

@@ -2,6 +2,7 @@
 title: Mistakes I've made writing react/redux applications
 description: A compilation of mistakes and lessons from writing react/redux applications
 date: "2018-10-24"
+published: true
 ---
 
 [Video](https://www.youtube.com/watch?v=0FPeP4abYp0) | [Slides](https://speakerdeck.com/asantos00/redux-applications)
