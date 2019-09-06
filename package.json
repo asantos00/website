@@ -1,12 +1,9 @@
 {
-  "name": "gatsby-starter-blog",
+  "name": "@asantos00/website",
   "private": true,
-  "description": "A starter for a blog powered by Gatsby and Markdown",
+  "description": "alexandrempsantos.com personal website",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
-  },
+  "author": "Alexandre Santos <alexandre.santozz@github.com>",
   "dependencies": {
     "gatsby": "^2.13.70",
     "gatsby-image": "^2.2.9",
