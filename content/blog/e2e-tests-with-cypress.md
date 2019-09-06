@@ -20,7 +20,9 @@ It is a normal day, you just open JIRA, grab a task. You think a little bit abou
 
 Everything seems fine, you push it, open a PR, approved, you merge it!
 
-You QA sees your ticket, tests the flow you did, everything seems to work. It's friday, and we know that friday is "*deploy to production day*"... And you do it.
+The QA sees your ticket, tests the flow and everything seems to work. It's Friday which means is "deploy to production day" (we all know it)... you just do it!
+
+![just-do-it](./e2e-tests-with-cypress/just-do-it.gif)
 
 Mid-weekend your boss calls you saying that the user can't pay, the button is broken and you are losing money, world is ending 👨‍🚒
 
