@@ -4,7 +4,7 @@ description: "How Cypress.io enables you to write simple, readable, end to end t
 date: "2019-09-04"
 ---
 
-[Slides](https://speakerdeck.com/asantos00/e2e-tests-with-cypress-dot-io)
+[Slides](https://speakerdeck.com/asantos00/e2e-tests-with-cypress-dot-io) | [Code](https://github.com/asantos00/cypress-e2e)
 
 I've been hearing about [cypress.io](https://cypress.io) for quite a few time, always heard good things, never had the time to try it.
 
