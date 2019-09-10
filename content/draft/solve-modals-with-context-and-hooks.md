@@ -26,37 +26,66 @@ Second problem, most of the repeated code didn't have anything to do with the `D
 This is how it was being handled before:
 
 ```javascript
-class UserListPage extends Component {
-  state = {
-    userToRemove: null,
-    isRemoveModalOpen: false,
-  }
+const Modal = ({ isOpen, context, title, body, onConfirm, onCancel }) => (
+  <Dialog open={isOpen}>
+    <DialogTitle>{title}</DialogTitle>
+    <DialogContent>
+      {context && `Are you sure you want to remove ${context.name}?`}
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={() => onConfirm(context)}>Remove</Button>
+      <Button color="secondary" onClick={() => onCancel(context)}>
+        Cancel
+      </Button>
+    </DialogActions>
+  </Dialog>
+);
 
-  // methods
+const deleteUserRequest = id => {
+  alert(`Tried to delete user with id: ${id}`);
+};
 
-  render() {
-    const { isRemoveModalOpen, userToRemove } = this.state
+const UserListPage = ({ users }) => {
+  const [userToRemove, setUserToRemove] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(null);
 
-    return (
-      // Other logic
-      <Dialog open={isRemoveModalOpen}>
-        <DialogTitle>Remove user</DialogTitle>
-        <DialogContent>
-          Are you sure you wanna remove {userToRemove?.name}?
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => this.deleteUser(userToRemove)}>Confirm</Button>
-          <Button color="secondary">Cancel</Button>
-        </DialogActions>
-      </Dialog>
-    )
-  }
-}
+  return (
+    <section>
+      <Modal
+        isOpen={isModalOpen}
+        title="Remove user"
+        context={userToRemove}
+        onCancel={() => {
+          setUserToRemove(null);
+          setIsModalOpen(false);
+        }}
+        onConfirm={user => {
+          deleteUserRequest(user);
+          setUserToRemove(null);
+          setIsModalOpen(false);
+        }}
+      />
+      {users.map(user => (
+        <div>
+          {user.id} - {user.name}
+          <button
+            onClick={() => {
+              setIsModalOpen(true);
+              setUserToRemove(user);
+            }}
+          >
+            Remove user
+          </button>
+        </div>
+      ))}
+    </section>
+  );
+};
 ```
 
 And by looking at this, it itches a little bit. I don't really like this _stateful_ approach of storing the `userToRemove` as I think it scatters the logic all around the component, enlarging the possibility of people deleting/touching code that deals with this without them knowing.
 
-All of this and the big pain that this wasn't reusable, we could extract the component (tbh, that how is was, wrote it this way for demo purposes) but in the end, as it is _stateful_, it will always be coupled to a `class`.
+All of this and the big pain that this wasn't reusable, we could extract the component (tbh, that how is was, wrote it this way for demo purposes) but in the end, it is coupled to the state. Notice how we have to keep setting `userToRemove` just so when someone clicks one of the buttons in the popup we know what user we tried to remove in the first place.
 
 We also didn't wanted to be copy pasting `Dialog` code whenever we want a new modal, we just wanted to delegate this to _someone else_. And yes, if you ask, this could have been handled with a parent component that had this dialog and logic. Even though it kind of fixes it, it would mean we would have to start passing callbacks to every component that wanted to open a modal.
 
