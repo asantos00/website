@@ -5,6 +5,8 @@ date: "2019-10-10"
 published: false
 ---
 
+[Code](https://codesandbox.io/s/cool-mestorf-ybn1q)
+
 A few months ago I wrote about how [mocked apis](https://alexandrempsantos.com/using-mocked-apis-to-increase-developer-productivity/) can help in the real world where we sometimes build frontends for APIs that are not ready yet.
 
 Main focus was to create a _closer to reality_ server that you could run your frontend against, without extra code in your application's side.
@@ -21,19 +23,17 @@ https://twitter.com/samselikoff/status/1131309704318193665
 
 Outside the ember world, there _was_ no _go to solution_ to develop frontends without a finished API.
 
-They were starting to **extract the core** of `ember-cli-mirage` to `@miragejs/server`.
+## They were starting to **extract the core** of `ember-cli-mirage` to `@miragejs/server`!
 
 At the time I replied to this tweet and ended up having a few chats with Sam because they wanted to understand what were people's painpoints and how could Mirage solve them.
 
 I ended up helping them with the extraction to [@miragejs/server](https://github.com/miragejs/server), learned a lot and had a very nice opportunity to work with [Sam](https://twitter.com/samselikoff) and [Ryan](https://twitter.com/ryantotweets), they are awesome 🙏.
 
-Even better than that was that `@miragejs/server` happened! `v0.1.25` is out (beta but almost ready), as well as the [website](https://miragejs.com/) and there are still things in the oven.
-
-Let's recap a little bit.
+A few months latter `@miragejs/server` is in beta! `v0.1.25` is out, as well as the [website](https://miragejs.com/)!
 
 # The problem
 
-The [miragejs website](https://miragejs.com/) explains it better than I ever could.
+The [miragejs website](https://miragejs.com/) explains it better than I ever could, so here it goes:
 
 ## Have you ever worked on a React or Vue app that needed to talk to a backend API before it was ready?
 
@@ -91,7 +91,9 @@ You're not doing yourself any favors by writing code that pretends the network d
 
 # Mocked APIs v2 - A much better version
 
-I'll be demoing how to do the same thing (and much more) I [wrote about](https://alexandrempsantos.com/using-mocked-apis-to-increase-developer-productivity/) last time, but now with the amazing `@miragejs/server`.
+I'll be demoing how to do the same thing (and a little more) I [wrote about](https://alexandrempsantos.com/using-mocked-apis-to-increase-developer-productivity/) last time, but now with the amazing `@miragejs/server`.
+
+---
 
 You have your app running, you wanna start mocking some endpoints. Let's imagine this is your _fetching code_
 
@@ -110,7 +112,6 @@ useEffect(() => {
 In order to start mocking this endpoint with `@miragejs/server`, here's what we'd do:
 
 ```js
-// import this file somewhere in your app
 import { Server } from "@miragejs/server"
 
 let server = new Server()
@@ -136,7 +137,7 @@ server.get("/posts", () => [
 ])
 ```
 
-It just this, Mirage will intercept your requests and start answering with the defined answer.
+With just this code Mirage will intercept your requests and start answering with the defined response.
 
 ## What if I want to do more?
 
@@ -147,7 +148,7 @@ import { Server } from "@miragejs/server"
 
 let server = new Server({
   scenarios: {
-    default: ({ db }) => {
+    'default': ({ db }) => {
       db.loadData({
         posts: [
           {
@@ -178,7 +179,7 @@ server.get("/posts", schema => schema.db.posts)
 
 By doing this, Mirage stores `posts` in a database that you can then access and modify later.
 
-Now that we have `posts` persisted, let's add the endpoint that enables to edit them:
+Talking about modifying stuff... Now that we have `posts` persisted, let's add the endpoint that enables to edit them:
 
 ```js
 server.put("/posts/:id", (schema, request) => {
@@ -188,8 +189,7 @@ server.put("/posts/:id", (schema, request) => {
 })
 ```
 
-If we do a `PUT /posts/1` with the body `{ "title": "test-edit" }`, that's how our `GET /posts` response would be like afterwards:
-
+After we do a `PUT /posts/1` with the body `{ "title": "test-edit" }`, this how our list of posts it's going to look:
 ```js
 {
   id: 1,
@@ -201,13 +201,13 @@ If we do a `PUT /posts/1` with the body `{ "title": "test-edit" }`, that's how o
 
 ```
 
-By having the `posts` stored into a database, we can now manipulate them in the route handlers, which adds lots of flexibility.
+By having the `posts` stored into a database, we can now manipulate them in the route handlers (ex: create and delete routes).
 
 ## Useful features
 
-Mirage is a great piece of software, it offers many more features than the ones I've demoed here, I'll list some:
+Mirage offers lots of features, since serializers to models (you can check in the docs). Besides those _complex_ ones, there are a couple of simple features that end up being very useful:
 
-- Custom responses - Useful for things like developing error scenarios
+- *Custom responses* - Useful for things like developing error scenarios
 
 ```js
 import { Response } from '@miragejs/server';
@@ -224,7 +224,7 @@ server.get("/posts", () => {
 
 ```
 
-- API latency - Useful to test how your app deals with loading
+- *API latency* - Useful to test how your app deals with loading
 
 ```js
 
@@ -242,6 +242,8 @@ You can start the server before the tests with the provided data and then assert
 
 # Conclusion
 
-Now that [mirage is out]() there is no more reason to _"spin up 2 servers just so you can develop a button"_ or to have local mocked data.
+Now that [mirage is out]() there is no more reason to _"spin up 2 servers just so you can develop a button"_.
 
-Mirage enables you to develop your frontend with the same exact concerns you would have if you would be developing against a server, but it makes it easier to simulate states, more important **you're not ignoring the network**.
+Mirage enables you to develop your frontend with the same exact concerns you would have if you would be developing against a server, but it makes it easier to simulate states.
+
+More important than that **you're not ignoring the network**.
