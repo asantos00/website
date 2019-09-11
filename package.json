@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Alexandre Santos <alexandre.santozz@github.com>",
   "dependencies": {
+    "@weknow/gatsby-remark-twitter": "^0.2.3",
     "gatsby": "^2.13.70",
     "gatsby-image": "^2.2.9",
     "gatsby-plugin-feed": "^2.3.6",
