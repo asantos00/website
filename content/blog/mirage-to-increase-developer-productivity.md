@@ -19,7 +19,7 @@ https://twitter.com/samselikoff/status/1131309704318193665
 
 At the time I replied to this tweet showing my excitment. Ended up having a few chats with Sam because he wanted to understand what were people's painpoints and how could Mirage help solve them.
 
-I ended up helping them with the extraction to [@miragejs/server](https://github.com/miragejs/server), learned a lot and had a very nice opportunity to work with [Sam](https://twitter.com/samselikoff) and [Ryan](https://twitter.com/ryantotweets), and they are awesome 🙏. They're always very keen to help and discuss whatever topics I needed.
+I ended up helping them with the extraction to [@miragejs/server](https://github.com/miragejs/server), learned a lot and had a very nice opportunity to work with [Sam](https://twitter.com/samselikoff) and [Ryan](https://twitter.com/ryantotweets), and they are awesome 🙏. They were always very keen to help and discuss whatever topics I needed, even reviewing this post that you're reading!
 
 A few months latter `@miragejs/server` is in beta! `v0.1.25` is out, as well as the [new website](https://miragejs.com/)!
 
