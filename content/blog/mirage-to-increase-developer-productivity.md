@@ -2,7 +2,7 @@
 title: "MirageJS to increase developer productivity"
 description: "How to build a production ready frontend without a finished API"
 date: "2019-10-10"
-published: false
+published: true
 ---
 
 [Code](https://github.com/asantos00/mirage-increase-developer-productivity)
@@ -19,7 +19,7 @@ https://twitter.com/samselikoff/status/1131309704318193665
 
 At the time I replied to this tweet showing my excitment. Ended up having a few chats with Sam because he wanted to understand what were people's painpoints and how could Mirage help solve them.
 
-I ended up helping them with the extraction to [@miragejs/server](https://github.com/miragejs/server), learned a lot and had a very nice opportunity to work with [Sam](https://twitter.com/samselikoff) and [Ryan](https://twitter.com/ryantotweets), and they are awesome 🙏.
+I ended up helping them with the extraction to [@miragejs/server](https://github.com/miragejs/server), learned a lot and had a very nice opportunity to work with [Sam](https://twitter.com/samselikoff) and [Ryan](https://twitter.com/ryantotweets), and they are awesome 🙏. They're always very keen to help and discuss whatever topics I needed.
 
 A few months latter `@miragejs/server` is in beta! `v0.1.25` is out, as well as the [new website](https://miragejs.com/)!
 
@@ -27,7 +27,7 @@ A few months latter `@miragejs/server` is in beta! `v0.1.25` is out, as well as 
 
 Developing frontends without a finished API... That's a pain right? And why?
 
-The [miragejs website](https://miragejs.com/) explains it better than I ever could:
+The [Miragejs website](https://miragejs.com/) explains it better than I ever could:
 
 ## Have you ever worked on a React or Vue app that needed to talk to a backend API before it was ready?
 
@@ -109,27 +109,28 @@ Then, on Mirage side, to mock that specific URL:
 import { Server } from "@miragejs/server"
 
 // Create a new server instance - Intercepts the requests
-let server = new Server()
-
-server.urlPrefix = "https://alexandrempsantos.com/api"
-server.namespace = "v1"
-
-server.get("/posts", () => [
-  {
-    id: 1,
-    title: "Mocking an API with axios",
-    author: "asantos00",
-    createdAt: 1557937282,
-    body: "Lorem ipsum dolor sit amet, consectetur.",
+const server = new Server({
+  urlPrefix: "https://alexandrempsantos.com/",
+  namespace: "api",
+  routes() {
+    this.get("/posts", () => [
+      {
+        id: 1,
+        title: "Mocking an API with axios",
+        author: "asantos00",
+        createdAt: 1557937282,
+        body: "Lorem ipsum dolor sit amet, consectetur.",
+      },
+      {
+        id: 2,
+        title: "Forget axios interceptors. @miragejs/server",
+        author: "asantos00",
+        createdAt: 758851200,
+        body: "Lorem ipsum dolor sit amet, consectetur.",
+      },
+    ])
   },
-  {
-    id: 2,
-    title: "Forget axios interceptors. @miragejs/server",
-    author: "asantos00",
-    createdAt: 758851200,
-    body: "Lorem ipsum dolor sit amet, consectetur.",
-  },
-])
+})
 ```
 
 With just this code Mirage will intercept your requests and start answering with the defined response.
@@ -159,35 +160,33 @@ I've just demonstrated the simplest use case possible. Let's take a little more 
 ```js
 import { Server } from "@miragejs/server"
 
-let server = new Server({
-  scenarios: {
-    default: ({ db }) => {
-      db.loadData({
-        posts: [
-          {
-            id: 1,
-            title: "Mocking an API with axios",
-            author: "asantos00",
-            createdAt: 1557937282,
-            body: "Lorem ipsum dolor sit amet, consectetur.",
-          },
-          {
-            id: 2,
-            title: "Forget axios interceptors. @miragejs/server",
-            author: "asantos00",
-            createdAt: 758851200,
-            body: "Lorem ipsum dolor sit amet, consectetur.",
-          },
-        ],
-      })
-    },
+const server = new Server({
+  urlPrefix: "https://alexandrempsantos.com/",
+  namespace: "api",
+  seeds({ db }) {
+    db.loadData({
+      posts: [
+        {
+          id: 1,
+          title: "Mocking an API with axios",
+          author: "asantos00",
+          createdAt: 1557937282,
+          body: "Lorem ipsum dolor sit amet, consectetur.",
+        },
+        {
+          id: 2,
+          title: "Forget axios interceptors. @miragejs/server",
+          author: "asantos00",
+          createdAt: 758851200,
+          body: "Lorem ipsum dolor sit amet, consectetur.",
+        },
+      ],
+    })
+  },
+  routes() {
+    this.get("/posts", schema => schema.db.posts)
   },
 })
-
-server.urlPrefix = "https://alexandrempsantos.com/api"
-server.namespace = "v1"
-
-server.get("/posts", schema => schema.db.posts)
 ```
 
 By doing this, Mirage stores `posts` in a database that you can then access and modify later.
@@ -195,7 +194,7 @@ By doing this, Mirage stores `posts` in a database that you can then access and 
 Talking about modifying stuff... Now that we have `posts` persisted, let's add the endpoint that enables to edit them:
 
 ```js
-server.put("/posts/:id", (schema, request) => {
+this.put("/posts/:id", (schema, request) => {
   schema.db.posts.update(request.params.id, {
     title: request.requestBody.title,
   })
@@ -232,7 +231,7 @@ import { Response } from "@miragejs/server"
 
 // ...
 
-server.get("/posts", () => {
+this.get("/posts", () => {
   return new Response(
     400,
     { "Content-Type": "application/json" },
@@ -244,11 +243,11 @@ server.get("/posts", () => {
 - _API latency_ - Useful to test how your app deals with loading
 
 ```js
-const server = new Server()
+const server = new Server({
+  timing: 2000, // applies to all routes
+})
 
-server.timing = 2000 // all routes
-
-server.get("/posts", handlePosts, { timing: 3000 }) // only applies to single route
+this.get("/posts", handlePosts, { timing: 3000 }) // only applies to single route
 ```
 
 Another great use of `@miragejs/server` is testing.
@@ -257,13 +256,13 @@ You can start the server before the tests with the provided data and then assert
 
 # Conclusion
 
-Now that [mirage is out]() there is no more reason to be mocking data locally in your application or to spin up your whole infrastructure just to develop a single page.
+Now that [Mirage is out](https://github.com/miragejs/server) there is no more reason to be mocking data locally in your application or to spin up your whole infrastructure just to develop a single page.
 
 Mirage enables you to develop your frontend with the same exact concerns you would have if you would be developing against a server, but it makes it easier to simulate states.
 
 More important than that **you're not ignoring the network**.
 
-Have you tried `@miragejs/server`? Are you interested? Hope this is useful.
+Have you tried @miragejs/server? Are you interested?
 
 I would love to hear what you have to say and answer any question that may arise, either about this blogpost or Mirage.
 
