@@ -5,7 +5,7 @@ date: "2019-10-10"
 published: false
 ---
 
-[Code](https://codesandbox.io/s/cool-mestorf-ybn1q)
+[Code](https://github.com/asantos00/mirage-increase-developer-productivity)
 
 A few months ago I wrote about how [mocked apis](https://alexandrempsantos.com/using-mocked-apis-to-increase-developer-productivity/) can help in the real world where we frequently build frontends for with APIs that are not ready yet.
 
@@ -17,7 +17,7 @@ https://twitter.com/samselikoff/status/1131309704318193665
 
 ## They were starting to **extract the core** of ember-cli-mirage to @miragejs/server!
 
-At the time I replied to this tweet (it looked amazing!). Ended up having a few chats with Sam because he wanted to understand what were people's painpoints and how could Mirage help solve them.
+At the time I replied to this tweet showing my excitment. Ended up having a few chats with Sam because he wanted to understand what were people's painpoints and how could Mirage help solve them.
 
 I ended up helping them with the extraction to [@miragejs/server](https://github.com/miragejs/server), learned a lot and had a very nice opportunity to work with [Sam](https://twitter.com/samselikoff) and [Ryan](https://twitter.com/ryantotweets), and they are awesome 🙏.
 
@@ -87,6 +87,8 @@ You're not doing yourself any favors by writing code that pretends the network d
 
 I'll be showing how to do the same thing (and a little more) than I [my last blog post about mocked APIs](https://alexandrempsantos.com/using-mocked-apis-to-increase-developer-productivity/) but now with `@miragejs/server`.
 
+If you prefer to be looking at the code while following, [here you have it](https://github.com/asantos00/mirage-increase-developer-productivity)
+
 ---
 
 Imagine you want to build a page that lists the posts in your blog. You don't have an API but you know how the contract will look like, and you write your _fetching code_.
@@ -132,6 +134,24 @@ server.get("/posts", () => [
 
 With just this code Mirage will intercept your requests and start answering with the defined response.
 
+## What about the other endpoints?
+
+If you're not starting an app from scratch and you want to use `@miragejs/server`, you will most likely not be able to write all the mirage routes at once. To help you that and to cover the case that you have routes that you don't want to mock, mirage has `passthrough`.
+
+```js
+// mirage route definitions
+
+this.passthrough()
+```
+
+And with this, all the requests for the current `urlPrefix` and `namespace` that don't have a Mirage route will be mocked.
+
+A common use case is to `passthrough` calls to external services, or authentication.
+
+```js
+this.passthrough("https://authentication-server.com")
+```
+
 ## What if I want to do more?
 
 I've just demonstrated the simplest use case possible. Let's take a little more advantage of what Mirage provides us.
@@ -141,7 +161,7 @@ import { Server } from "@miragejs/server"
 
 let server = new Server({
   scenarios: {
-    'default': ({ db }) => {
+    default: ({ db }) => {
       db.loadData({
         posts: [
           {
@@ -205,10 +225,10 @@ By having the `posts` stored into a database, we can now manipulate them in the 
 
 Mirage offers lots of features, since serializers to models (you can check in the docs). Besides those _complex_ ones, there are a couple of simple features that end up being very useful daily:
 
-- *Custom responses* - Useful for things like developing error scenarios or returning the right code after creation/edition.
+- _Custom responses_ - Useful for things like developing error scenarios or returning the right code after creation/edition.
 
 ```js
-import { Response } from '@miragejs/server';
+import { Response } from "@miragejs/server"
 
 // ...
 
@@ -217,21 +237,18 @@ server.get("/posts", () => {
     400,
     { "Content-Type": "application/json" },
     { message: "Title not valid" }
-  );
-});
-
+  )
+})
 ```
 
-- *API latency* - Useful to test how your app deals with loading
+- _API latency_ - Useful to test how your app deals with loading
 
 ```js
-
-const server = new Server();
+const server = new Server()
 
 server.timing = 2000 // all routes
 
-server.get('/posts', handlePosts, { timing: 3000 }) // only applies to single route
-
+server.get("/posts", handlePosts, { timing: 3000 }) // only applies to single route
 ```
 
 Another great use of `@miragejs/server` is testing.
