@@ -236,8 +236,14 @@ You can start the server before the tests with the provided data and then assert
 
 # Conclusion
 
-Now that [mirage is out]() there is no more reason to _"spin up 2 servers just so you can develop a button"_.
+Now that [mirage is out]() there is no more reason to be mocking data locally in your application or to spin up your whole infrastructure just to develop a single page.
 
 Mirage enables you to develop your frontend with the same exact concerns you would have if you would be developing against a server, but it makes it easier to simulate states.
 
 More important than that **you're not ignoring the network**.
+
+Have you tried `@miragejs/server`? Are you interested? Hope this is useful.
+
+I would love to hear what you have to say about both this blogpost, Mirage, or any questions you might have.
+
+Reach out to me!
