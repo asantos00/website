@@ -7,23 +7,23 @@ published: false
 
 [Code](https://codesandbox.io/s/cool-mestorf-ybn1q)
 
-A few months ago I wrote about how [mocked apis](https://alexandrempsantos.com/using-mocked-apis-to-increase-developer-productivity/) can help in the real world where we sometimes build frontends for APIs that are not ready yet.
+A few months ago I wrote about how [mocked apis](https://alexandrempsantos.com/using-mocked-apis-to-increase-developer-productivity/) can help in the real world where we frequently build frontends for with APIs that are not ready yet.
 
-Outside the ember world, there _was_ no _go to solution_ to develop frontends without a finished API.
+In ember, `ember-cli-mirage` was the solution, but outside the ember world, there _was_ no _go to solution_ to develop frontends without a finished API.
 
 Funny thing was that the [ember-cli-mirage](https://twitter.com/samselikoff/status/1131309704318193665) team was also thinking about something similar:
 
 https://twitter.com/samselikoff/status/1131309704318193665
 
-## They were starting to **extract the core** of `ember-cli-mirage` to `@miragejs/server`!
+## They were starting to **extract the core** of ember-cli-mirage to @miragejs/server!
 
-At the time I replied to this tweet and ended up having a few chats with Sam because he wanted to understand what were people's painpoints and how could Mirage help solve them.
+At the time I replied to this tweet (it looked amazing!). Ended up having a few chats with Sam because he wanted to understand what were people's painpoints and how could Mirage help solve them.
 
-I ended up helping them with the extraction to [@miragejs/server](https://github.com/miragejs/server), learned a lot and had a very nice opportunity to work with [Sam](https://twitter.com/samselikoff) and [Ryan](https://twitter.com/ryantotweets), they are awesome 🙏.
+I ended up helping them with the extraction to [@miragejs/server](https://github.com/miragejs/server), learned a lot and had a very nice opportunity to work with [Sam](https://twitter.com/samselikoff) and [Ryan](https://twitter.com/ryantotweets), and they are awesome 🙏.
 
 A few months latter `@miragejs/server` is in beta! `v0.1.25` is out, as well as the [new website](https://miragejs.com/)!
 
-# The problem
+# Back to the problem
 
 Developing frontends without a finished API... That's a pain right? And why?
 
@@ -85,15 +85,13 @@ You're not doing yourself any favors by writing code that pretends the network d
 
 # Mocked APIs v2 - A much better version
 
-I'll be showing how to do the same thing (and a little more) that I [wrote about](https://alexandrempsantos.com/using-mocked-apis-to-increase-developer-productivity/) last time, but now with the amazing `@miragejs/server`.
+I'll be showing how to do the same thing (and a little more) than I [my last blog post about mocked APIs](https://alexandrempsantos.com/using-mocked-apis-to-increase-developer-productivity/) but now with `@miragejs/server`.
 
 ---
 
-You have your app running, you wanna start mocking some endpoints. Let's imagine this is your _fetching code_
+Imagine you want to build a page that lists the posts in your blog. You don't have an API but you know how the contract will look like, and you write your _fetching code_.
 
 ```js
-// Somewhere in your react component
-
 const [posts, setPosts] = useState([])
 
 useEffect(() => {
@@ -103,11 +101,12 @@ useEffect(() => {
 }, [])
 ```
 
-In order to start mocking this endpoint with `@miragejs/server`, here's what we'd do:
+Then, on Mirage side, to mock that specific URL:
 
 ```js
 import { Server } from "@miragejs/server"
 
+// Create a new server instance - Intercepts the requests
 let server = new Server()
 
 server.urlPrefix = "https://alexandrempsantos.com/api"
@@ -135,7 +134,7 @@ With just this code Mirage will intercept your requests and start answering with
 
 ## What if I want to do more?
 
-I've just demonstrated the simplest use case where you just return a plain json. Let's make it a little bit smarter:
+I've just demonstrated the simplest use case possible. Let's take a little more advantage of what Mirage provides us.
 
 ```js
 import { Server } from "@miragejs/server"
@@ -183,7 +182,10 @@ server.put("/posts/:id", (schema, request) => {
 })
 ```
 
-After we do a `PUT /posts/1` with the body `{ "title": "test-edit" }`, this how our list of posts it's going to look:
+After we do a `PUT /posts/1` with the body `{ "title": "test-edit" }`, our post will be edited.
+
+Now if we do our `GET /posts` here's how the post with `id: 1` is going to look like.
+
 ```js
 {
   id: 1,
@@ -193,15 +195,17 @@ After we do a `PUT /posts/1` with the body `{ "title": "test-edit" }`, this how 
   body: "Lorem ipsum dolor sit amet, consectetur.",
 }
 
+// ... rest of the posts
+
 ```
 
-By having the `posts` stored into a database, we can now manipulate them in the route handlers (ex: create and delete routes).
+By having the `posts` stored into a database, we can now manipulate them in the route handlers, for instance to create a delete and a creation route.
 
 ## Useful features
 
-Mirage offers lots of features, since serializers to models (you can check in the docs). Besides those _complex_ ones, there are a couple of simple features that end up being very useful:
+Mirage offers lots of features, since serializers to models (you can check in the docs). Besides those _complex_ ones, there are a couple of simple features that end up being very useful daily:
 
-- *Custom responses* - Useful for things like developing error scenarios
+- *Custom responses* - Useful for things like developing error scenarios or returning the right code after creation/edition.
 
 ```js
 import { Response } from '@miragejs/server';
@@ -224,15 +228,15 @@ server.get("/posts", () => {
 
 const server = new Server();
 
-server.timing = 2000 // all the apis
+server.timing = 2000 // all routes
 
-server.get('/posts', handlePosts, { timing: 3000 }) // only applies to single api
+server.get('/posts', handlePosts, { timing: 3000 }) // only applies to single route
 
 ```
 
 Another great use of `@miragejs/server` is testing.
 
-You can start the server before the tests with the provided data and then assert that the endpoints where called and that the right data was mutated (that's material for another blogpost).
+You can start the server before the tests with the provided data and then assert that the endpoints where called and that the right data was mutated (more on this on a next blogpost).
 
 # Conclusion
 
@@ -244,6 +248,6 @@ More important than that **you're not ignoring the network**.
 
 Have you tried `@miragejs/server`? Are you interested? Hope this is useful.
 
-I would love to hear what you have to say about both this blogpost, Mirage, or any questions you might have.
+I would love to hear what you have to say and answer any question that may arise, either about this blogpost or Mirage.
 
-Reach out to me!
+Feel free to reach out to me!
