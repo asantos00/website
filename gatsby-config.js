@@ -42,7 +42,12 @@ module.exports = {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
-          "@weknow/gatsby-remark-twitter",
+          {
+            resolve: "@weknow/gatsby-remark-twitter",
+            options: {
+              align: "center",
+            },
+          },
           {
             resolve: "gatsby-remark-embed-gist",
             options: {
@@ -96,6 +101,6 @@ module.exports = {
       options: {
         pathToConfigModule: `src/utils/typography`,
       },
-    }
+    },
   ],
 }
