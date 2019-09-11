@@ -9,31 +9,25 @@ published: false
 
 A few months ago I wrote about how [mocked apis](https://alexandrempsantos.com/using-mocked-apis-to-increase-developer-productivity/) can help in the real world where we sometimes build frontends for APIs that are not ready yet.
 
-Main focus was to create a _closer to reality_ server that you could run your frontend against, without extra code in your application's side.
+Outside the ember world, there _was_ no _go to solution_ to develop frontends without a finished API.
 
-Last time I managed to get a collection of npm packages that glued together would end up in a _pretty basic_ mocked server that would:
-
-- Intercept request to the specified routes
-- Answer with a contextual response
-- Persist state in every run so you could save/edit your entities
-
-Funny thing was that the [ember-cli-mirage](https://twitter.com/samselikoff/status/1131309704318193665) team (TLDR: ember addon that lets you develop your frontend against mocked routes) was also thinking about something similar:
+Funny thing was that the [ember-cli-mirage](https://twitter.com/samselikoff/status/1131309704318193665) team was also thinking about something similar:
 
 https://twitter.com/samselikoff/status/1131309704318193665
 
-Outside the ember world, there _was_ no _go to solution_ to develop frontends without a finished API.
-
 ## They were starting to **extract the core** of `ember-cli-mirage` to `@miragejs/server`!
 
-At the time I replied to this tweet and ended up having a few chats with Sam because they wanted to understand what were people's painpoints and how could Mirage solve them.
+At the time I replied to this tweet and ended up having a few chats with Sam because he wanted to understand what were people's painpoints and how could Mirage help solve them.
 
 I ended up helping them with the extraction to [@miragejs/server](https://github.com/miragejs/server), learned a lot and had a very nice opportunity to work with [Sam](https://twitter.com/samselikoff) and [Ryan](https://twitter.com/ryantotweets), they are awesome 🙏.
 
-A few months latter `@miragejs/server` is in beta! `v0.1.25` is out, as well as the [website](https://miragejs.com/)!
+A few months latter `@miragejs/server` is in beta! `v0.1.25` is out, as well as the [new website](https://miragejs.com/)!
 
 # The problem
 
-The [miragejs website](https://miragejs.com/) explains it better than I ever could, so here it goes:
+Developing frontends without a finished API... That's a pain right? And why?
+
+The [miragejs website](https://miragejs.com/) explains it better than I ever could:
 
 ## Have you ever worked on a React or Vue app that needed to talk to a backend API before it was ready?
 
@@ -91,7 +85,7 @@ You're not doing yourself any favors by writing code that pretends the network d
 
 # Mocked APIs v2 - A much better version
 
-I'll be demoing how to do the same thing (and a little more) I [wrote about](https://alexandrempsantos.com/using-mocked-apis-to-increase-developer-productivity/) last time, but now with the amazing `@miragejs/server`.
+I'll be showing how to do the same thing (and a little more) that I [wrote about](https://alexandrempsantos.com/using-mocked-apis-to-increase-developer-productivity/) last time, but now with the amazing `@miragejs/server`.
 
 ---
 
