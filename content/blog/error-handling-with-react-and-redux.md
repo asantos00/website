@@ -5,21 +5,21 @@ date: "2020-04-05"
 published: false
 ---
 
-Error handling is a hard subject. It is also not fun, you just don't wanna do it. At the same time you know it is crucial for a good user experience. You can try to forget about them, and use common excuses like "this is not very likely to fail", "errors will not happen". Or a more bold, cowboy style phrase like "my code has no bugs" 🤠.
+Error handling is a hard subject. It is also not fun, you just don't wanna do it. At the same time you know it is crucial for good user experience. You can try to forget about them, and use common excuses like "this is not very likely to fail", "errors will not happen". Or a more bold, cowboy style phrase like "my code has no bugs" 🤠.
 
 Let me remind you of _Murphy's law_:
 
 > Anything that can go wrong will go wrong
 
-Trust me, and trust Murphy, it will go wrong. Worse experience than having errors happening is having your used being completely unaware of them and thus not able to react or report.
+Trust me, and trust Murphy, it will go wrong. Worse experience than having errors happening is having your user being completely unaware of them and thus not able to react or report.
 
 # Error codes format
 
-Pretty much all appications that are bigger than a simple exercise need to deal with errors. If you have an application that does HTTP requests, you know you will end up having to store your somewhere in order to show them to the user.
+Pretty much all applications that are bigger than a simple exercise need to deal with errors. If you have an application that does HTTP requests, you know you will end up having to store your somewhere to show them to the user.
 
 We will focus on the strategy we believe to be good to deal and communicate errors to the user.
 
-First thing we did was to align with the back-end an error format, we ended up with this.
+The first thing we did was to align with the back-end an error format, we ended up with this.
 
 ```json
 {
@@ -35,7 +35,7 @@ First thing we did was to align with the back-end an error format, we ended up w
 
 `errorCode` is an internal error code the user can use to report the specific error
 
-`errorMessage` describes the error and is shown to the user, it will later become a i18n code.
+`errorMessage` describes the error and is shown to the user, it will later become an i18n code.
 
 `errors` is an object that describes the errors on the payload that was sent before
 
@@ -49,9 +49,9 @@ To provide this, we decided to go to a composable solution that can be used in _
 
 If you're not familiar with redux terms, here's a TLDR (feel free to skip if you are):
 
-- _reducers_ define how your state is mutated. Based on an action (think a event) and on the current state, they know how to calculate the next state.
+- _reducers_ define how your state is mutated. Based on an action (think an event) and on the current state, they know how to calculate the next state.
 
-- _action_  is similar to an _event_ that is sent to the store in order to trigger a state change
+- _action_  is similar to an _event_ that is sent to the store to trigger a state change
 
 - _action creators_ are functions that create actions
 
@@ -59,7 +59,7 @@ If you're not familiar with redux terms, here's a TLDR (feel free to skip if you
 
 The examples we've used are written in `react`, `redux` and `reselect`, but the practices and principles used are technology agnostic.
 
-## Before: the default way
+## Before - the default way
 
 Let's create an HTTP request and write the error handling approach.
 
@@ -119,11 +119,11 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(ArticleListPage)
 ```
 
-This is a default thunk, dispatching actions on start of the request, on success and on error.
+This is a default thunk, dispatching actions at the start of the request, on success and error.
 
 We have identified some problems with this approach:
 
-- There is **no enforced error structure**. One developer can send `error` in the action where other can directly send `error.errorMessage`
+- There is **no enforced error structure**. One developer can send `error` in the action where others can directly send `error.errorMessage`
 
 - The code to handle errors on reducers will be **repeated for every request** and can end up not respecting the structure too.
 
@@ -131,7 +131,7 @@ We have identified some problems with this approach:
 
 - Error messages are shown in different formats across the application leading to a **not so pleasant user experience**.
 
-## After: How to solve these problems?
+## After - How to solve these problems?
 
 Let's have a look at the code again:
 
@@ -237,7 +237,7 @@ export const createErrorSelector = fn => {
 }
 ```
 
-With this approach, we managed to fix all the listed problems. We have created a layer of decoupling that enables to change without breaking all the other usages.
+With this approach, we managed to fix all the listed problems. We have created a layer of decoupling that enables us to change without breaking all the other usages.
 
 - Enforced error structure
 
@@ -245,7 +245,7 @@ With this approach, we managed to fix all the listed problems. We have created a
 
 - Decoupled reducers and components from errors format
 
-- Error messages shown coherently
+- Error messages are shown coherently
 
 
 We've decided to _colocate_ the 3 functions: `createErrorSelector, errorReducer` and `errorActionCreator`. If one of them needs to be changed, it most likely means that the other two also need to. In contrast, all the _reducers_, _components_ and _thunks_ that are dealing with errors can remain intact.
@@ -254,9 +254,9 @@ This was the kind of flexibility we aimed to.
 
 ## Future improvements
 
-If we decide to add translation codes, or to change the error structure that comes from the back-end, we know we will only have to change a single file.
+If we decide to add translation codes or to change the error structure that comes from the back-end, we know we will only have to change a single file.
 
-**Writing code that is easy to change** is something we're always aiming for at [KI labs](https://www.linkedin.com/company/ki-labs-lisbon/) and [xgeeks](https://www.xgeeks.io/). Our habitat are fast changing environments and recently bootstraped companies that interate fast. Reach out to use if this is an environment where you would thrive into! 😉
+**Writing code that is easy to change** is something we're always aiming for at [KI labs](https://www.linkedin.com/company/ki-labs-lisbon/) and [xgeeks](https://www.xgeeks.io/). Our habitats are fast-changing environments and recently bootstrapped companies that iterate fast. Reach out to use if this is an environment where you would thrive into! 😉
 
 How are you handling your errors in this kind of situation? Have you created something similar? Are you using something automated to deal with error states? How are you displaying them?
 
