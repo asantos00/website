@@ -13,7 +13,7 @@ Let me remind you of _Murphy's law_:
 
 Trust me, and trust Murphy, it will go wrong. Worse experience than having errors happening is having your used being completely unaware of them and thus not able to react or report.
 
-# Error code alignement
+# Error codes format
 
 Pretty much all appications that are bigger than a simple exercise need to deal with errors. If you have an application that does HTTP requests, you know you will end up having to store your somewhere in order to show them to the user.
 
@@ -51,11 +51,11 @@ If you're not familiar with redux terms, here's a TLDR (feel free to skip if you
 
 - _reducers_ define how your state is mutated. Based on an action (think a event) and on the current state, they know how to calculate the next state.
 
-- _action_ an action is similar to an _event_ that is sent to the redux store in order to trigger a state change
+- _action_  is similar to an _event_ that is sent to the store in order to trigger a state change
 
 - _action creators_ are functions that create actions
 
-- _selectors_ are no more than _getters_ to a redux store, enabling decoupling of the store from its users
+- _selectors_ are no more than _getters_ to a store, enabling decoupling of the store from its users
 
 The examples we've used are written in `react`, `redux` and `reselect`, but the practices and principles used are technology agnostic.
 
@@ -63,7 +63,7 @@ The examples we've used are written in `react`, `redux` and `reselect`, but the 
 
 Let's create an HTTP request and write the error handling approach.
 
-We will use _thunks_ as we believe they're simpler to understand. If you're not familiar with them, they're functions that produce side-effects and `dispatch` actions.
+We will use [redux-thunk](https://github.com/reduxjs/redux-thunk) as we believe they're simpler to understand. If you're not familiar with them: they are functions that produce side-effects and dispatch actions.
 
 ```js
 const createArticle = (title, text) => dispatch => {
@@ -119,13 +119,15 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(ArticleListPage)
 ```
 
-This is a default `redux-thunks` request, dispatching actions on start of the request and on error. We have identified some problems with this approach:
+This is a default thunk, dispatching actions on start of the request, on success and on error.
+
+We have identified some problems with this approach:
 
 - There is **no enforced error structure**. One developer can send `error` in the action where other can directly send `error.errorMessage`
 
 - The code to handle errors on reducers will be **repeated for every request** and can end up not respecting the structure too.
 
-- If the reducer, the action creator or the component change, **it is very likely that the other 2 will break**. `Can't access property 'errorMessage of undefined` I'm looking at you.
+- If the reducer, action creator or component change, **it is very likely that the other 2 will break**, they are coupled. `Can't access property 'errorMessage of undefined` I'm looking at you.
 
 - Error messages are shown in different formats across the application leading to a **not so pleasant user experience**.
 
@@ -166,13 +168,14 @@ const reducer = (state, action) => {
     case "CREATE_ARTICLE_REQUEST":
       return {
         ...state,
-        isLoading: true,
         ...errorReducer(state, action),
+        isLoading: true,
       }
     case "CREATE_ARTICLE_ERROR":
       return {
         ...state,
         ...errorReducer(state, action),
+        isLoading: false,
       }
   }
 }
@@ -224,6 +227,8 @@ const getArticlesErrorMessage = createErrorSelector(state => state.articles)
 The implementation of `createErrorSelector` is shown below, it extends `reselect` `createSelector` to lookup for the error in the specific structure we want.
 
 ```js
+import { createSelector } from 'reselect';
+
 export const createErrorSelector = fn => {
   return createSelector(
     fn,
@@ -234,13 +239,24 @@ export const createErrorSelector = fn => {
 
 With this approach, we managed to fix all the listed problems. We have created a layer of decoupling that enables to change without breaking all the other usages.
 
-We've decided to _colocate_ the 3 functions: `createErrorSelector, errorReducer` and `errorActionCreator`. If one of them needs to be changed, it most likely means that the other two also need to. In contrast, all the _reducers_, _components_ and _thunks_ that are dealing with errors can remain intact. This was the kind of flexibility we aimed to.
+- Enforced error structure
+
+- Error reducer is shared
+
+- Decoupled reducers and components from errors format
+
+- Error messages shown coherently
+
+
+We've decided to _colocate_ the 3 functions: `createErrorSelector, errorReducer` and `errorActionCreator`. If one of them needs to be changed, it most likely means that the other two also need to. In contrast, all the _reducers_, _components_ and _thunks_ that are dealing with errors can remain intact.
+
+This was the kind of flexibility we aimed to.
 
 ## Future improvements
 
 If we decide to add translation codes, or to change the error structure that comes from the back-end, we know we will only have to change a single file.
 
-**Writing code that is easy to change** is something we're always aiming for at KI labs. Our habitat are fast changing environments and recently bootstraped companies that want to interate fast. Reach out if that's an environment you want to work in 😉
+**Writing code that is easy to change** is something we're always aiming for at [KI labs](https://www.linkedin.com/company/ki-labs-lisbon/) and [xgeeks](https://www.xgeeks.io/). Our habitat are fast changing environments and recently bootstraped companies that interate fast. Reach out to use if this is an environment where you would thrive into! 😉
 
 How are you handling your errors in this kind of situation? Have you created something similar? Are you using something automated to deal with error states? How are you displaying them?
 
