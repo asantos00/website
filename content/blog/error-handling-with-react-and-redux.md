@@ -26,7 +26,7 @@ The first thing we did was to align with the back-end an error format, we ended 
   "errorCode": "1001",
   "errorMessage": "Validation error has occurred.",
   "errors": {
-    "resourceQuotaDto.cpuLimit": "Must not be null",
+    "description": "Must not be null",
     "name": "Must not be null"
   },
   "errorTimestamp": "2020-03-06T08:14:03.690Z"
