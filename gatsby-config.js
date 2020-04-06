@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `learning as we go`,
     author: `Alexandre Portela dos Santos`,
-    description: `Software developer (trying to) help businesses | Learner | Writer`,
+    description: `(trying to) help businesses with tech | Full-time learner | Writer`,
     location: {
       city: "Lisbon",
       country: "Portugal",
@@ -42,6 +42,7 @@ module.exports = {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
+          "gatsby-remark-reading-time",
           {
             resolve: "@weknow/gatsby-remark-twitter",
             options: {
