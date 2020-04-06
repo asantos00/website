@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `learning as we go`,
     author: `Alexandre Portela dos Santos`,
-    description: `Software developer (trying to) help businesses | Learner | Writer`,
+    description: `(trying to) help businesses with tech | Full-time learner | Writer`,
     location: {
       city: "Lisbon",
       country: "Portugal",
