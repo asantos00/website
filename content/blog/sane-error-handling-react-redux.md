@@ -1,6 +1,6 @@
 ---
-title: Error handling with react and redux
-description: "A decoupled and painless proposal on dealing with errors with react + redux applications"
+title: A sane approach to error handling with react and redux
+description: "A decoupled and painless proposal on how to deal with errors in react + redux applications"
 date: "2020-04-06"
 published: true
 ---
