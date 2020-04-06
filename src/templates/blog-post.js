@@ -8,6 +8,7 @@ import { rhythm, scale } from "../utils/typography"
 
 class BlogPostTemplate extends React.Component {
   render() {
+    const readingTime = this.props.data.markdownRemark.fields.readingTime.text;
     const post = this.props.data.markdownRemark
     const siteTitle = this.props.data.site.siteMetadata.title
     const { previous, next, published } = this.props.pageContext
@@ -36,7 +37,7 @@ class BlogPostTemplate extends React.Component {
                 marginBottom: rhythm(1),
               }}
             >
-              {post.frontmatter.date}
+              {readingTime} - {post.frontmatter.date}
             </p>
           </header>
           <section dangerouslySetInnerHTML={{ __html: post.html }} />
@@ -99,6 +100,12 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+      }
+      fields {
+        slug
+        readingTime {
+          text
+        }
       }
     }
   }
