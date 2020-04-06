@@ -65,6 +65,7 @@ Let's create an HTTP request and write the error handling approach.
 
 We will use [redux-thunk](https://github.com/reduxjs/redux-thunk) as we believe they're simpler to understand. If you're not familiar with them: they are functions that produce side-effects and dispatch actions.
 
+This is a default thunk, dispatching actions at the start of the request, on success and error.
 ```js
 import axios from "axios"
 
@@ -110,14 +111,12 @@ const ArticleListPage = () => {
   const errorMessage = useSelector(state => state.articles.error.errorMessage)
   return (
     <div>
-      {error && <p>There was an error: {errorMessage}</p>}
+      {errorMessage && <p>There was an error: {errorMessage}</p>}
       {/* Cut for brevity */}
     </div>
   )
 }
 ```
-
-This is a default thunk, dispatching actions at the start of the request, on success and error.
 
 We have identified some problems with this approach:
 
@@ -167,13 +166,11 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "CREATE_ARTICLE_REQUEST":
       return {
-        ...state,
         ...errorReducer(state, action),
         isLoading: true,
       }
     case "CREATE_ARTICLE_ERROR":
       return {
-        ...state,
         ...errorReducer(state, action),
         isLoading: false,
       }
@@ -227,7 +224,7 @@ export const ErrorMessage = ({ error }) => {
     return null;
   }
 
-  return (<p>{error}</p>>);
+  return (<p>{error}</p>);
 }
 ```
 
