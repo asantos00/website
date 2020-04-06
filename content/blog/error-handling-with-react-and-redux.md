@@ -1,8 +1,8 @@
 ---
 title: Error handling with react and redux
 description: "A decoupled and painless proposal on dealing with errors with react + redux applications"
-date: "2020-04-05"
-published: false
+date: "2020-04-06"
+published: true
 ---
 
 Error handling is a hard subject. It is also not fun, you just don't wanna do it. At the same time you know it is crucial for good user experience. You can try to forget about them, and use common excuses like "this is not very likely to fail", "errors will not happen". Or a more bold, cowboy style phrase like "my code has no bugs" 🤠.
