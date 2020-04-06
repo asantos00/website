@@ -15,7 +15,7 @@ Trust me, and trust Murphy, it will go wrong. Worse experience than having error
 
 # Error codes format
 
-Pretty much all applications that are bigger than a simple exercise need to deal with errors. If you have an application that does HTTP requests, you know you will end up having to store your somewhere to show them to the user.
+Pretty much all applications that are bigger than a simple exercise need to deal with errors. If you have an application that does HTTP requests, you know you will end up having to store your HTTP errors somewhere to show them to the user.
 
 We will focus on the strategy we believe to be good to deal and communicate errors to the user.
 
@@ -194,7 +194,10 @@ export const errorReducer = (state, action) => {
 
   return {
     ...state,
-    error: action.payload.response.data,
+    error: {
+      errorMessage: DEFAULT_ERROR_MESSAGE,
+      ...action.payload.response.data
+    },
   }
 }
 ```
@@ -232,7 +235,7 @@ import { createSelector } from 'reselect';
 export const createErrorSelector = fn => {
   return createSelector(
     fn,
-    storeIndex => get(storeIndex, "error.errorMessage", null)
+    storeIndex => _.get(storeIndex, "error.errorMessage", null)
   )
 }
 ```
@@ -247,10 +250,21 @@ With this approach, we managed to fix all the listed problems. We have created a
 
 - Error messages are shown coherently
 
-
-We've decided to _colocate_ the 3 functions: `createErrorSelector, errorReducer` and `errorActionCreator`. If one of them needs to be changed, it most likely means that the other two also need to. In contrast, all the _reducers_, _components_ and _thunks_ that are dealing with errors can remain intact.
+We've decided to locate the 3 functions: `createErrorSelector, errorReducer` and `errorActionCreator` in the same file. If one of them needs to be changed, it most likely means that the other two also need to. In contrast, all the _reducers_, _components_ and _thunks_ that are dealing with errors can remain intact.
 
 This was the kind of flexibility we aimed to.
+
+## Side by side
+
+**Before**
+
+![before-changes](./error-handling-with-react-and-redux/react-redux-scheme-before.png)
+
+**After**
+
+![before-changes](./error-handling-with-react-and-redux/react-redux-scheme-after.png)
+
+In blue are the layers we've added.
 
 ## Future improvements
 
