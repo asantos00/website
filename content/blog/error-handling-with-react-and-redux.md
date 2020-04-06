@@ -51,7 +51,7 @@ If you're not familiar with redux terms, here's a TLDR (feel free to skip if you
 
 - _reducers_ define how your state is mutated. Based on an action (think an event) and on the current state, they know how to calculate the next state.
 
-- _action_  is similar to an _event_ that is sent to the store to trigger a state change
+- _action_ is similar to an _event_ that is sent to the store to trigger a state change
 
 - _action creators_ are functions that create actions
 
@@ -66,10 +66,12 @@ Let's create an HTTP request and write the error handling approach.
 We will use [redux-thunk](https://github.com/reduxjs/redux-thunk) as we believe they're simpler to understand. If you're not familiar with them: they are functions that produce side-effects and dispatch actions.
 
 ```js
+import axios from "axios"
+
 const createArticle = (title, text) => dispatch => {
   dispatch({ type: "CREATE_ARTICLE_REQUEST" })
 
-  return httpClient
+  return axios
     .post("/api/articles", { title, text })
     .then(successHandler)
     .catch(error => {
@@ -102,21 +104,17 @@ const reducer = (state, action) => {
 And on your components, you would do something like the following to show the error to the user:
 
 ```js
-const ArticleListPage = ({ error }) => {
+import { useSelector } from "react-redux"
+
+const ArticleListPage = () => {
+  const errorMessage = useSelector(state => state.articles.error.errorMessage)
   return (
     <div>
-      <p>There was an error: {error}</p>
+      {error && <p>There was an error: {errorMessage}</p>}
       {/* Cut for brevity */}
     </div>
   )
 }
-
-const mapStateToProps = state => ({
-  /* Cut for brevity */
-  error: state.articles.error.errorMessage,
-})
-
-export default connect(mapStateToProps)(ArticleListPage)
 ```
 
 This is a default thunk, dispatching actions at the start of the request, on success and error.
@@ -136,9 +134,11 @@ We have identified some problems with this approach:
 Let's have a look at the code again:
 
 ```js
+import axios from 'axios;
+
 const createArticle = (title, text) => dispatch => {
   dispatch({ type: "CREATE_ARTICLE_REQUEST" })
-  return httpClient
+  return axios
     .post("/api/articles", { title, text })
     .then(successHandler)
     .catch(error => {
@@ -196,7 +196,7 @@ export const errorReducer = (state, action) => {
     ...state,
     error: {
       errorMessage: DEFAULT_ERROR_MESSAGE,
-      ...action.payload.response.data
+      ...action.payload.response.data,
     },
   }
 }
@@ -205,7 +205,11 @@ export const errorReducer = (state, action) => {
 And on your components, you would do something like the following to show the error to the user:
 
 ```jsx
+import { useSelector } from 'react-redux';
+import { getArticlesErrorMessage } from '../store/articles/selectors';
+
 const ArticleListPage = ({ errorMessage }) => {
+  const errorMessage = useSelector(getArticlesErrorMessage)
   return (
     <div>
       <ErrorMessage message={errorMessage}>
@@ -213,15 +217,21 @@ const ArticleListPage = ({ errorMessage }) => {
     </div>
   );
 };
-
-const mapStateToProps = (state) => ({
-  errorMessage: getArticlesErrorMessage(state)
-});
-
-export connect(mapStateToProps)(ArticleListPage)
 ```
 
-Using `ErrorMessage` component to present the error coherently. To finish, we added this selector that is used by components to get error messages.
+Using `ErrorMessage` component to present the error coherently.
+
+```js
+export const ErrorMessage = ({ error }) => {
+  if (!error) {
+    return null;
+  }
+
+  return (<p>{error}</p>>);
+}
+```
+
+To finish, we added this selector that is used by components to get error messages.
 
 ```js
 const getArticlesErrorMessage = createErrorSelector(state => state.articles)
@@ -230,12 +240,13 @@ const getArticlesErrorMessage = createErrorSelector(state => state.articles)
 The implementation of `createErrorSelector` is shown below, it extends `reselect` `createSelector` to lookup for the error in the specific structure we want.
 
 ```js
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect"
+import { get } from "lodash"
 
 export const createErrorSelector = fn => {
   return createSelector(
     fn,
-    storeIndex => _.get(storeIndex, "error.errorMessage", null)
+    storeIndex => get(storeIndex, "error.errorMessage", null)
   )
 }
 ```
