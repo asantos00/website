@@ -13,7 +13,7 @@ Let me remind you of _Murphy's law_:
 
 Trust me, and trust Murphy, it will go wrong. Worse experience than having errors happening is having your user being completely unaware of them and thus not able to react or report.
 
-# Error codes format
+## Error codes format
 
 Pretty much all applications that are bigger than a simple exercise need to deal with errors. If you have an application that does HTTP requests, you know you will end up having to store your HTTP errors somewhere to show them to the user.
 
@@ -41,7 +41,7 @@ The first thing we did was to align with the back-end an error format, we ended 
 
 `errorTimestamp` is the timestamp of this response
 
-# Integrating errors in reducers and components
+## Integrating errors in reducers and components
 
 As we said before, _error handling is not fun_. We want to make it _as simple as possible_ so we're sure the error coverage is easy to increase across the application.
 
