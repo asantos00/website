@@ -278,7 +278,7 @@ In blue are the layers we've added.
 
 If we decide to add translation codes or to change the error structure that comes from the back-end, we know we will only have to change a single file.
 
-**Writing code that is easy to change** is something we're always aiming for at [KI labs](https://www.linkedin.com/company/ki-labs-lisbon/) and [xgeeks](https://www.xgeeks.io/). Our habitats are fast-changing environments and recently bootstrapped companies that iterate fast. Reach out to use if this is an environment where you would thrive into! 😉
+**Writing code that is easy to change** is something we're always aiming for at [KI labs](https://www.linkedin.com/company/ki-labs-lisbon/) and [xgeeks](https://www.xgeeks.io/). Our habitats are fast-changing environments and recently bootstrapped companies that iterate fast. Reach out to us if this is an environment where you would thrive into! 😉
 
 How are you handling your errors in this kind of situation? Have you created something similar? Are you using something automated to deal with error states? How are you displaying them?
 
