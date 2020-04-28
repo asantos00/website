@@ -127,7 +127,7 @@ We want to see a list of wines from our cellar, but it currently presents nothin
 
 We know that to get the list of wines, an API request has to be done.
 
-To be able to mock HTTP requests for testing purposes we added [miragejs](https://miragejs.com/). It is an HTTP mocking library that can be used to develop and develop an application without an API by mocking the network requests.
+To be able to mock HTTP requests for testing purposes we added [miragejs](https://miragejs.com/). It is an HTTP mocking library that can be used to develop and test an application without an API by mocking the network requests.
 
 Setting up miragejs with cypress is very easy, you can check it out the [link on miragejs documentation](https://miragejs.com/quickstarts/cypress/).
 
