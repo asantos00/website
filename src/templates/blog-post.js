@@ -20,6 +20,7 @@ class BlogPostTemplate extends React.Component {
           title={post.frontmatter.title}
           description={post.frontmatter.description || post.excerpt}
           url={slug}
+          image={post.frontmatter.featuredImage}
         />
         <article>
           <header>
@@ -100,6 +101,13 @@ export const pageQuery = graphql`
       html
       frontmatter {
         title
+        featuredImage {
+          childImageSharp {
+            fluid(maxWidth: 800) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
         date(formatString: "MMMM DD, YYYY")
         description
       }

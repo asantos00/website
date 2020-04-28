@@ -2,6 +2,7 @@
 title: Yes, TDD does apply to your use case
 description: Growing an application guided by tests
 date: "2020-04-28"
+featuredImage: ./growing-software-guided-by-tests/feedback-loop-tdd.png
 published: true
 ---
 
