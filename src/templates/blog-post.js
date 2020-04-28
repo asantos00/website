@@ -20,6 +20,8 @@ class BlogPostTemplate extends React.Component {
           title={post.frontmatter.title}
           description={post.frontmatter.description || post.excerpt}
           url={slug}
+          date={post.frontmatter.date}
+          isPost
           image={post.frontmatter.featuredImage}
         />
         <article>
@@ -108,7 +110,7 @@ export const pageQuery = graphql`
             }
           }
         }
-        date(formatString: "MMMM DD, YYYY")
+        date(formatString: "YYYY-MM-DD")
         description
       }
       fields {

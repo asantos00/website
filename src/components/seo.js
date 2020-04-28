@@ -9,8 +9,9 @@ import React from "react"
 import PropTypes from "prop-types"
 import Helmet from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
+import getSchema from "./schema"
 
-function SEO({ description, lang, meta, title, url, image }) {
+function SEO({ description, lang, meta, date, title, url, image, isPost }) {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -18,7 +19,7 @@ function SEO({ description, lang, meta, title, url, image }) {
           siteMetadata {
             title
             siteDescription
-            author,
+            author
             siteUrl
           }
         }
@@ -26,7 +27,11 @@ function SEO({ description, lang, meta, title, url, image }) {
     `
   )
 
-  const imageSrc = image ? `${site.siteMetadata.siteUrl}${image.childImageSharp.fluid.src}`: '';
+  console.log(isPost)
+
+  const imageSrc = image
+    ? `${site.siteMetadata.siteUrl}${image.childImageSharp.fluid.src}`
+    : ""
   const metaDescription = description || site.siteMetadata.siteDescription
 
   return (
@@ -73,16 +78,33 @@ function SEO({ description, lang, meta, title, url, image }) {
           name: `twitter:description`,
           content: metaDescription,
         },
-      ].concat(meta).concat(image ? { property: 'og:image', content: imageSrc } : [])
-    }
-    />
+      ]
+        .concat(meta)
+        .concat(image ? { property: "og:image", content: imageSrc } : [])}
+    >
+      {isPost ? (
+        <script type="application/ld+json">
+          {JSON.stringify(
+            getSchema({
+              isPost,
+              siteTitle: site.siteMetadata.title,
+              siteUrl: site.siteMetadata.siteUrl,
+              title,
+              author: site.siteMetadata.author,
+              date,
+              image: imageSrc,
+            })
+          )}
+        </script>
+      ) : null}
+    </Helmet>
   )
 }
 
 SEO.defaultProps = {
   lang: `en`,
   meta: [],
-  description: ``,
+  description: null,
 }
 
 SEO.propTypes = {
