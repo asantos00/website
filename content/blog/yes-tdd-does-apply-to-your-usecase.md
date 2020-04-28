@@ -7,53 +7,49 @@ published: false
 
 A few months ago I finished reading [Growing Object-Oriented Software, Guided by Tests](http://www.growing-object-oriented-software.com/). I have to confess that before I started I thought it was just one more book about TDD.
 
-I had read a couple of books and articles in the past and at the end, my thought was always:
+I had read a couple of books and articles about this and at the end, my thought was always:
 
 > TDD does not apply to my use case
 
-This book changed my mind.
+This book changed my mind. Interestingly, the authors pointed my main thought as one of the biggest misconceptions that is about TDD, that kept me engaged.
 
-What caught me is that the authors pointed it out as one of the more common misconceptions about TDD.
-Other than small research apps, I always had 2 main problems while trying to adopt TDD at first:
+Everytime I tried to write tests first before reading the book, I always had 2 main thoughs while trying to adopt TDD:
 
-1. We can't write **all the tests upfront**
-2. I can be **unbiased** even if I wrote the tests after the logic
+- I can't write **all the tests upfront**, that's impossible
+- I can write the tests afterwards and still **not be biased**, it is the same thing, right?
 
-Both these assumptions are wrong in some way:
-
-1. You **don't need** to, to test first doesn't mean to write _all the tests first_
-2. You **are** biased. You'll end up testing implementation details most of the time.
+Both these assumptions are wrong in some way.
 
 ## Why TDD
 
-A lot was written about TDD and it's advantages, I'll not list them all, nor explain them in detail. I'll just name a few that hope to make become clear after reading this blogpost
+A lot was written about TDD and it's advantages, I'll not write them again. Just name a few that I'm trying to make clear on this blogpost.
 
-- Interface first design - Start from requirements to implementation
+- Interface first design - Start from requirements and go towards the implementation
 - You only build what you need - Not more, not less
-- Short feedback loops
+- Short feedback loops - Your code always compiles and runs
 - Write small chunks of code that work
 
-At the end of the day, TDD has in all its practices a lot of what's considered to be good software design practices.
+At the end of the day, TDD encourages a lot of what's considered to be good software design practices.
 
 # Building the app
 
-If you want to follow the code, [here you have it](https://github.com/asantos00/wine-cellar).
-
 ## What are we going to build?
 
-As a wine lover, I want to create an app to keep a list of my favorite wines.
+As a wine lover, I want to create an app to keep a list of my favorite wines. 🍷
 
-Let's commit to satisfy the following **user story**
+Let's code to satisfy the following **user story**
 
-> User can see the wine current stock in the homepage
+> User can see the wine cellar current stock in the homepage
 
-The examples will be presented in react (using nextjs) and typescript. To test it uses cypress for acceptance tests and jest plus react-testing-library for unit tests.
+The examples will be presented in react (using nextjs) and typescript. To test it uses cypress for acceptance tests and jest plus react-testing-library for unit tests. However, all the blogpost is more focused on the practices and patterns that are universal, not tight to specific technologies.
+
+If you want to follow the code, [here you have it](https://github.com/asantos00/wine-cellar).
 
 # Enough with the words, show me the code!
 
 To start, we should demystify a very common myth on TDD: **No, we are not writing all the tests upfront**.
 
-Quoting the authors:
+We should go in small cycles, writing tests and functionality bit by bit.
 
 > Write the simplest meaningful test possible
 
@@ -61,19 +57,21 @@ You might be asking _"What type of test? Acceptance? Unit?"_. Fair question.
 
 ![feedback-loop](./growing-software-guided-by-tests/feedback-loop-tdd.png)
 
-The above image explains what will be the common flow when developing on TDD. We write a high-level test first, after that we start the implementation, writing unit tests along the way to help us.
+The above image explains what will be the common flow when developing on TDD. We write a failing high-level test first, and we start the design and imlpementation, writing unit tests along the way to help us.
 
-You gotta remember the following quote:
+You gotta think of this the following way:
 
 > Outer loop helps business, inner loop helps developers.
 
-This means all acceptance tests should test something meaningful to the business, and unit tests are lower level and closely related to code.
+This means all acceptance tests should test something meaningful to the business, and unit tests are lower level and closely related to code. A passing unit test probably means very little o the app's purpose.
 
 Acceptance tests normally take more time to pass, they normally require a feature chunk to be implemented. Unit tests should be quick to go from failing to passing.
 
 ## 1. Writing the first acceptance test
 
-**User story:** User can see the current stock in the homepage
+**User story:**
+
+> User can see the wine cellar current stock in the homepage
 
 We want to start testing very simple stuff:
 
@@ -96,7 +94,7 @@ And we have the first failing test
 
 ![first-failing-test](./growing-software-guided-by-tests/first-failing-test.png)
 
-Let us make it pass.
+Let us make it pass by editing `pages/index.tsx`.
 
 ```js
 // pages/index.tsx
@@ -117,7 +115,7 @@ export default function Home() {
 
 And we have our test passing!
 
-We can go back and code the whole page at once! Or maybe not... Should we try to write the test first?
+We can go back and code the whole page at once! Or maybe not... Shouldn't we try to write the test first?
 
 Let's keep faithful to the _golden rule of TDD_
 
@@ -125,7 +123,7 @@ Let's keep faithful to the _golden rule of TDD_
 
 ## 2. A failing acceptance test
 
-We want some too see a list of wines from our cellar, but it currently presents nothing. Our next task is to write a test for that.
+We want to see a list of wines from our cellar, but it currently presents nothing. Our next task is to write a test for that.
 
 We know that to get the list of wines, an API request has to be done.
 
@@ -177,9 +175,9 @@ We want to develop a page that requests an API for wines and displays it on the 
 ### 3.1 API Client
 
 To not write the HTTP logic inside our components, we need an API client.
-What do we need from the API client to do? It must have a `getWines` method that returns the list of wines in stock.
+What do we need from the API client to do? It must have a `getWines` method that returns the list of wines in stock. We'll use singleton pattern for simplicity.
 
-As we said, _acceptance tests help the business, unit tests help the developer_. We're writing the API client module and a **unit test** is a very good fit.
+As we said, _acceptance tests help the business, unit tests help the developer_. Since we're writing the API client module, a **unit test** is a very good fit.
 
 Before we start running the test, we should get the watch mode running. `npm run test:watch`
 
@@ -201,7 +199,7 @@ it("should do a http request to /wines", () => {
 })
 ```
 
-To have this test running, we also need to declare and export the `getWines` method on our `api.ts` file otherwise the code will not compile due to the export not being defined.
+To have this test running, we also need to declare and export a `getWines` dummy method on our `api.ts` file otherwise the code will not compile due to the export not being defined.
 
 ```js
 // services/api.ts
@@ -240,7 +238,7 @@ Ran all test suites related to changed files.
 
 A failed test, no surprises. What should we do next? The tests **are guiding us** by saying `axios.get` wasn't called.
 
-Let's try to code the API client method that calls `axios.get` on the `services/api.ts` file.
+Let's go to the API client method that should be doing a `GET` request, on the `services/api.ts` file.
 
 **Suggestion**: Keep a window on the side with our test watch command running.
 
@@ -275,7 +273,7 @@ Watch Usage: Press w to show more.
 
 ```
 
-How's our acceptance suite? it's still failing. Remember we said unit tests are faster to pass than acceptance? We'll get there.
+How's our acceptance suite? It's still failing. Remember we said unit tests are faster to pass than acceptance? We'll get there.
 
 
 ### 3.2 Displaying the wines list
@@ -372,7 +370,7 @@ Ran all test suites related to changed files.
 Watch Usage: Press w to show more.
 ```
 
-What's missing? By looking at our acceptance test, wines are still not being shown. We're almost there.
+What's missing? By looking at our acceptance test, wines are still not being shown, but we're almost there.
 
 ![wines not shown](./growing-software-guided-by-tests/wines-not-shown.png)
 
@@ -396,6 +394,7 @@ it('renders wines coming from client', async () => {
 
   // waitFor should be used to wait for async operations
   await waitFor(() => {
+    expect(getWines).toHaveBeenCalled();
     expect(getByText('Douro 2019')).toBeTruthy();
     expect(getByText('Alentejo 2020')).toBeTruthy();
   })
@@ -405,13 +404,13 @@ it('renders wines coming from client', async () => {
 Guess what? It is failing.
 
 ```
-      27 |   const { getByText} = render(<Home />)
-      28 |
-    > 29 |   expect(getByText('Douro 2019')).toHaveLength(1);
-         |          ^
-      30 |   expect(getByText('Alentejo 2020')).toHaveLength(1);
-      31 | })
-      32 |
+      36 |   await waitFor(() => {
+      37 |     expect(getWines).toHaveBeenCalled();
+    > 38 |     expect(getByText('Douro 2019')).toBeTruthy();
+         |            ^
+      39 |     expect(getByText('Alentejo 2020')).toBeTruthy();
+      40 |   })
+      41 | })
 
 ```
 
@@ -428,7 +427,7 @@ export function Home() {
   useEffect(() => {
     getWines()
       .then(wines => {
-        setWines(wines)
+        setWines(wines) // Saving the wines on state
       })
   }, []);
 
@@ -438,6 +437,7 @@ export function Home() {
       <h2>Available Stock</h2>
       <main>
         <ul>
+          {/* Creating an li for every wine */}
           {wines.map(wine => <li key={wine.name}>{wine.name} {wine.year}</li>)}
         </ul>
       </main>
@@ -463,23 +463,23 @@ Ran all test suites related to changed files.
 
 ## 4. Are we done?
 
-Remember the first acceptance test we wrote? It is now green! This means we're done with this small feature.
+Remember the first acceptance test we wrote? It is now **green**! This means we're done with this feature.
 
 ![acceptance-test-passing](./growing-software-guided-by-tests/acceptance-test-passing.png)
 
 # Conclusion
 
-By writing an acceptance test first and going **step by step** with the unit tests. We managed to go from failing test to failing test until the feature was done. This was done by always keeping the code running and avoiding regressions, while tests _guided us_ through the process.
+By writing an acceptance test first and going **step by step** with the unit tests, e managed to go from failing test to failing test until the feature was done. This was done by always keeping the code running and avoiding regressions, while tests _guided us_ throughout the process.
 
-We finally got to a point where we have all parts of the process tested. From the API client to the component to the final test where pieces are glued together.
+We finally got to a point where we had all parts of the process tested. From the API client to the component to the final test where all pieces are working together.
 
-Have you noticed how we always thought about the interface first? All our tests were driven by that. We didn't change tests for them to pass. We wrote the tests that made sense and coded until they got green.
+Have you noticed how we always thought about the interface first? All our tests were driven by that. We didn't change tests for them to pass. We wrote the tests for behaviour that made sense and coded until they got green.
 
-The authors also mention that with TDD, the test turns testing into a design activity. Along with the whole post that hopefully supports that thought, I'll leave this quote from Kent Beck.
+In th book, the authors say that, with TDD, testing turns testing into a software design activity. I'll leave here this quote from Kent Beck.
 
 > We use the tests to clarify our ideas about what we want the code to do. I was finally able to separate logic from physical design. I'd always been told to do that but no one ever explained how.
 
-TDD also helps rapidly get feedback about the design ideas by seeing the interfaces before all the logic is written.
+TDD also helps to rapidly get feedback about the design ideas by seeing the interfaces before all the logic is written.
 
 Wrapping up, how does TDD fit our daily life? One can't deny that the software we write **will change**. To build a system that can change, grow, and evolve, we have to cope with _unanticipated changes_, by using practices that support the change from day 0, this becomes easier. TDD helps with all of this, helping to avoid regressions and serving as live documentation for the application behavior.
 

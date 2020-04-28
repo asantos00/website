@@ -25,7 +25,12 @@ module.exports = {
     ],
   },
   plugins: [
-    `gatsby-plugin-sitemap`,
+    {
+      resolve: `gatsby-plugin-sitemap`,
+      options: {
+        sitemapSize: 5000
+      }
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
