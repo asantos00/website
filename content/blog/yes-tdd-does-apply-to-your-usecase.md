@@ -2,7 +2,7 @@
 title: Yes, TDD does apply to your use case
 description: Growing an application guided by tests
 date: "2020-04-28"
-published: false
+published: true
 ---
 
 A few months ago I finished reading [Growing Object-Oriented Software, Guided by Tests](http://www.growing-object-oriented-software.com/). I have to confess that before I started I thought it was just one more book about TDD.
@@ -63,7 +63,7 @@ You gotta think of this the following way:
 
 > Outer loop helps business, inner loop helps developers.
 
-This means all acceptance tests should test something meaningful to the business, and unit tests are lower level and closely related to code. A passing unit test probably means very little o the app's purpose.
+This means all acceptance tests should test something meaningful to the business, and unit tests are lower level and closely related to code. A passing unit test probably means very little to the app's purpose.
 
 Acceptance tests normally take more time to pass, they normally require a feature chunk to be implemented. Unit tests should be quick to go from failing to passing.
 
@@ -469,7 +469,7 @@ Remember the first acceptance test we wrote? It is now **green**! This means we'
 
 # Conclusion
 
-By writing an acceptance test first and going **step by step** with the unit tests, e managed to go from failing test to failing test until the feature was done. This was done by always keeping the code running and avoiding regressions, while tests _guided us_ throughout the process.
+By writing an acceptance test first and going **step by step** with the unit tests, we managed to go from failing test to failing test until the feature was done. This was done by always keeping the code running and avoiding regressions, while tests _guided us_ throughout the process.
 
 We finally got to a point where we had all parts of the process tested. From the API client to the component to the final test where all pieces are working together.
 
