@@ -6,26 +6,28 @@ featuredImage: ./growing-software-guided-by-tests/feedback-loop-tdd.png
 published: false
 ---
 
-After reading my last [blog post - Yes, tdd does apply to your usecase](https://alexandrempsantos.com/yes-tdd-does-apply-to-your-usecase/), my friend [Ruskin](https://twitter.com/jonnyparris) gave me very interesting feedback.
+After reading my last post, [Yes, tdd does apply to your usecase](https://alexandrempsantos.com/yes-tdd-does-apply-to-your-usecase/), my friend [Ruskin](https://twitter.com/jonnyparris) gave me very interesting feedback.
 
-He pointed out some existing flaws of my proposed solution.   This was great, I don't believe in software as something individual and done once and forgot forever. Or at least that was never how it worked for me on the real world. I got so intrigued about the feedback I just got that I had this dilema: "Should I edit the last post?"
+He pointed out some existing flaws of my proposed solution, and this was great. I don't believe in software as something individual and done once and forgot forever. Or at least that was never how it worked for me on the real world.
+
+I got so intrigued about the feedback that I had the dilema: _Should I edit the last post?_
 
 Instead of editing my last blog post, which would mean losing the initial thoughts and how to improve on them, I've decided to write this one.
 
 # What feedback did I got?
 
-- Some common myths are listed but it does not explain why I believe they're wrong.
+- Some **common myths about TDD** were listed but it does not explain why I believe they're wrong.
 
-- In order to go completely _interface first_. I should have done the flow differently
+- In order to go completely _interface first_. I should have done the flow differently (I'll explain it later)
 
 # Debunking the myths
 
-These were some common TDD myths I've presented last post:
+These were some common TDD thoughts that came to my mind everytime I tried TDD before reading the book:
 
-- I can't write **all the tests upfront**, that's impossible
-- I can write the tests afterwards and still **not be biased**, it is the same thing, right?
+- I **can't** write all the tests upfront, that's impossible
+- I **can** write the tests afterwards and still **not be biased**, it is pretty much the same thing, right?
 
-It is true, I've finished the post without clearly explaining why **they're both wrong**, or at least not explicitly.
+I've finished my last post without clearly explaining, at least explicitly, why **they're both wrong**.
 
 That is what we're here for.
 
@@ -41,11 +43,11 @@ Again, quoting Kent Beck:
 
 Those _magicians_ just had **better habits**, and they knew how to use them in order to design overal better and easy to change software.
 
-A few chapters in and I "Growing Object-Oriented Software Guided by Tests" was feeling magic, because the tools were helping me. In this case, _the tests were helping me_ designing better software, and testing my ideias faster. That blew my mind 🤯.
+A few chapters in "Growing Object-Oriented Software Guided by Tests" and I was feeling magic because the tools were helping me. In this case, _the tests were helping me_ designing better software and testing my ideias faster. That blew my mind 🤯.
 
 **TLDR:** You don't need to write all the tests upfront. You just need to write the _simplest meaningful test_ for the feature you're writing, and come back to write the next one when it is green.
 
-You do write tests before coding, just not all of them. Just keep this cycle of writing a test and writing the logic until this piece of functionality is done.
+You do write tests before coding, just not all of them. Just keep this short cycle of writing a test and writing the logic for it until a piece of functionality is done.
 
 ## I can write the tests afterwards
 
@@ -63,15 +65,19 @@ Try to say the underlying colors and not the words.
 
 Thought job right? Your brain automatically reads the words while you're trying to say the color.
 
-Quoting Daniel Kahneman on _Thinking fast and slow_ talking about the two modes of the brain as _systems_.
+Quoting Daniel Kahneman on _Thinking fast and slow_ looking at the two modes of the brain as _systems_.
 
 > "System 1" is fast, instinctive and emotional; "System 2" is slower, more deliberative, and more logical.
 
-The instinctive brain is tricking you, getting in your way. You want to say the underneath colors, but your mind automatic reads the word. This is how _testing last_ was to me. It felt like starting to do something without a clear objective in mind, in the end, you'll always take what's there.
+The instinctive brain (System 1) is tricking you, getting in your way. You want to say the underneath colors, but your mind automatic reads the word. This is how _testing last_ was to me. It also felt like starting to do something without a clear goal in mind.
+
+Let me quote Seneca (yes, I like quotes) in a saying that is very common in my hometown, Ericeira:
+
+> There is no favorable wind for the sailor who doesn’t know where to go
 
 By writing tests first I noticed I was putting the bar much higher before writing my logic. It turned out as a safety, knowing I did establish my completion criteria before starting to code made me sleep better at night.
 
-**TLDR:** You can, yes. But do not expect most of the TDD advantages. It is the fact that you do it first that makes it so effective, **it's a matter of discipline** more than anything else.
+**TLDR:** You can write tests last, yes. But do not expect most of the TDD advantages. It is the fact that you do it first that makes it so effective, **it's a matter of discipline** more than anything else.
 
 # Going "interface first"
 
