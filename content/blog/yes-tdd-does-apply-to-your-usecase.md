@@ -21,6 +21,8 @@ Everytime I tried to write tests first before reading the book, I always had 2 m
 
 Both these assumptions are wrong in some way.
 
+Do you want to know why? I wrote about it [here](http://alexandrempsantos.com/ok-tdd-sounds-great-but).
+
 ## Why TDD
 
 A lot was written about TDD and it's advantages, I'll not write them again. Just name a few that I'm trying to make clear on this blogpost.
@@ -174,6 +176,8 @@ Now that we have a meaningful failing acceptance test. We can focus on the featu
 We want to develop a page that requests an API for wines and displays it on the screen.
 
 ### 3.1 API Client
+
+_Disclaimer: We could have started by the component itself, instead of the client. There is more to this [here](https://alexandrempsantos.com/ok-tdd-sounds-great-but#going-interface-first)_
 
 To not write the HTTP logic inside our components, we need an API client.
 What do we need from the API client to do? It must have a `getWines` method that returns the list of wines in stock. We'll use singleton pattern for simplicity.
@@ -483,6 +487,8 @@ In th book, the authors say that, with TDD, testing turns testing into a softwar
 TDD also helps to rapidly get feedback about the design ideas by seeing the interfaces before all the logic is written.
 
 Wrapping up, how does TDD fit our daily life? One can't deny that the software we write **will change**. To build a system that can change, grow, and evolve, we have to cope with _unanticipated changes_, by using practices that support the change from day 0, this becomes easier. TDD helps with all of this, helping to avoid regressions and serving as live documentation for the application behavior.
+
+If there are still some questions I didn't answer, I tried to do it [here](https://alexandrempsantos.com/ok-tdd-sounds-great-but).
 
 Have you ever tried TDD? Do you normally use it? I'd like to hear your concerns and any thoughts you have about what I just wrote. I hope it was helpful and relevant. Happy to chat about it on any of the platforms below.
 
