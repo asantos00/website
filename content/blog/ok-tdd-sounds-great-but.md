@@ -10,9 +10,9 @@ After reading my last post, [Yes, tdd does apply to your usecase](https://alexan
 
 He pointed out some existing flaws of my proposed solution. This was great. I don't believe in software as something individual and done once and forgotten forever. At least, that was never how it worked for me in the real world.
 
-I got so intrigued about the feedback that I had the dilemma: _Should I edit the last post?_
+I got so intrigued about the feedback that I had the dilemma: _Should I edit the last post? Or write a new one?_
 
-Instead of editing, which would mean losing the initial thoughts. I thought it would be great to explain how to improve on it, and the rationale behind it. Here we are.
+Instead of editing, which would mean losing the initial thoughts. I thought it would be great to explain how to improve, and the rationale behind it. Here we are.
 
 # What feedback did I got?
 
@@ -20,18 +20,18 @@ It was essentially two things:
 
 - Some myths about TDD were listed and said wrong, but **missing the why**
 
-- I preached **interface first** software design, but didn't follow as much as I should in some parts
+- I referred **interface first** software design, but didn't follow it as much as I should in some parts
 
 # Debunking the myths
 
-Before changing my mind in regards to TDD, I tried it a couple of times. Ended up thinking that:
+Before changing my mind in regards to TDD, I tried it a couple of times. Always ended up thinking that:
 
 - I **can't** write all the tests upfront, that's impossible
 - I **can** write the tests afterward and still **not be biased**, it is pretty much the same thing, right?
 
 These are two very common misconceptions about TDD, and even though I listed them in my last post, I failed to explain **why they are wrong**.
 
-That is what we're here for.
+That's what we're here for.
 
 ## I need to write all the tests upfront
 
@@ -43,13 +43,15 @@ Again, quoting Kent Beck:
 
 > I'm not a great programmer; I'm just a good programmer with great habits.
 
-Those _magicians_ just had **better habits**, and they knew how to use them to design better, to produce easy to change software.
+Those _magicians_ just had **better habits**, and they knew how to use them to design better and to produce easy to change software.
 
 A few chapters in the book, and I was starting to feel the magic. The tools were helping me, being more specific, _the tests were helping me_ to design better and to test my ideas faster. I also didn't have to wait for the implementation to discover some design flaws as they were clear from the start. That blew my mind 🤯.
 
-**TLDR:** You don't need to write all the tests upfront. You need to write the _simplest meaningful test_ for the feature you'll implement. Implement it, and come back to write the next test when it's green.
+___
 
-You do write tests before coding, just not all of them. To me, the secret was to keep this short cycle of writing a test and the logic for it, bit by bit, until the feature is done.
+**TLDR:** No, you don't need to write all the tests upfront. You need to write the _simplest meaningful test_ for the feature you'll implement. Implement it, and come back to write the next test when this one is green.
+
+You do _write tests before coding_, just not all of them. To me, the secret was to keep this short cycle of writing a test and the logic for it, multiple times until the feature is done.
 
 ## I can write the tests afterward
 
@@ -79,6 +81,8 @@ It also felt like starting to do something without a clear goal in mind. Let me 
 > There is no favorable wind for the sailor who doesn’t know where to go
 
 By writing tests first I noticed I was putting the bar much higher before writing my logic, and my completion criteria were clear from the start.
+
+___
 
 **TLDR:** You can write tests last, yes. But do not expect most of the TDD advantages. It is the fact that you do it first that makes it so effective, **it's a matter of discipline** more than anything else.
 
@@ -162,13 +166,13 @@ it("tries to get wines", () => {
 
 From here onwards, the whole flow would come up naturally. First by creating the API client tests, then the logic itself, and later use it on the component that needed to fetch the data. You can see the rest of the flow [here](https://alexandrempsantos.com/yes-tdd-does-apply-to-your-usecase#31-api-client).
 
-With the proposed changes, the flow strictly follows the **interface down** principle, making it more intuitive to follow and improve the overall code design.
+With the proposed changes, the flow strictly follows the **interface first** principle, making it more intuitive to follow and improve the overall code design.
 
 # Conclusion
 
 I hope to have answered some questions that were left floating the last time I wrote. At the same time, I wanted to demonstrate that both _writing_ and _software_ are **iterative** and **feedback-driven** processes.
 
-This post also broadcasts the precious knowledge that [Ruskin](https://twitter.com/jonnyparris) shared with me (many thanks for that 🙏). The mentioned problems/doubts were probably common in other people too, and I hope to have made them clear by now
+This post also writes down the precious knowledge that [Ruskin](https://twitter.com/jonnyparris) shared with me (many thanks for that 🙏). The noted problems and doubts were probably common in other people too, and I hope to have made them clear by now
 
 Are you still not convinced by TDD? What problems do you have using it? [Doesn't it apply to your use case?](https://alexandrempsantos.com/yes-tdd-does-apply-to-your-usecase) 😉
 
