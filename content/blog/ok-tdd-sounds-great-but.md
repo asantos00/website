@@ -12,19 +12,19 @@ He pointed out some existing flaws of my proposed solution. This was great. I do
 
 I got so intrigued about the feedback that I had the dilemma: _Should I edit the last post? Or write a new one?_
 
-Instead of editing, which would mean losing the initial thoughts. I thought it would be great to explain how to improve, and the rationale behind it. Here we are.
+Instead of editing, which would mean losing the initial thoughts, I thought it would be great to explain how to improve, and the rationale behind it. Here we are.
 
-# What feedback did I got?
+# What feedback did I get?
 
 It was essentially two things:
 
-- Some myths about TDD were listed and said wrong, but **missing the why**
+- Some myths about TDD were listed as wrong, but **missing the why**
 
-- I referred **interface first** software design, but didn't follow it as much as I should in some parts
+- I referred to **interface first** software design, but didn't follow it as much as I should in some parts
 
 # Debunking the myths
 
-Before changing my mind in regards to TDD, I tried it a couple of times. Always ended up thinking that:
+Before changing my mind in regards to TDD, I tried it a couple of times. I always ended up thinking that:
 
 - I **can't** write all the tests upfront, that's impossible
 - I **can** write the tests afterward and still **not be biased**, it is pretty much the same thing, right?
@@ -53,7 +53,7 @@ ___
 
 You do _write tests before coding_, just not all of them. To me, the secret was to keep this short cycle of writing a test and the logic for it, multiple times until the feature is done.
 
-## I can write the tests afterward
+## I can write the tests afterwards
 
 You actually can, and that's what I did most of the time. I thought I wouldn't be biased, I wouldn't end up testing implementation details. I'm not here to trick myself, right?
 
@@ -68,13 +68,13 @@ It was a little like the following exercise:
 Try to say the underlying colors and not the words.
 ___
 
-Thought job, right? Your brain automatically reads the words while you're trying to say the color.
+Tough job, right? Your brain automatically reads the words while you're trying to say the color.
 
 Quoting Daniel Kahneman on _Thinking fast and slow_:
 
 > "System 1" is fast, instinctive, and emotional; "System 2" is slower, more deliberative, and more logical.
 
-The instinctive part of the brain (System 1) is tricking you. You want to say the underneath colors, but your mind automatically reads the word, unconsciously. This is how **testing last** was to me.
+The instinctive part of the brain (System 1) is tricking you. You want to say the underlying colors, but your mind automatically reads the word, unconsciously. This is how **testing last** was to me.
 
 It also felt like starting to do something without a clear goal in mind. Let me quote Seneca (yes, I like quotes) in a saying that is very common in my hometown, the fishing village Ericeira:
 
