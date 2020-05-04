@@ -1,9 +1,8 @@
 ---
 title: Ok, TDD sounds great, but...
 description: Do you have to write all the tests first? Is it that different if you write them afterward?
-date: "2020-04-29"
-featuredImage: ./growing-software-guided-by-tests/feedback-loop-tdd.png
-published: false
+date: "2020-05-04"
+published: true
 ---
 
 After reading my last post, [Yes, tdd does apply to your usecase](https://alexandrempsantos.com/yes-tdd-does-apply-to-your-usecase/), my friend [Ruskin](https://twitter.com/jonnyparris) gave me very interesting feedback.
