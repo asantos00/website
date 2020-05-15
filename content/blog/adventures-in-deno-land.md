@@ -3,6 +3,7 @@ title: Adventures in deno land
 description: Thoughts after using deno to build a small API that fetches tweets
 date: "2020-05-15"
 published: false
+featuredImage: ./adventures-in-deno-land/banner.png
 ---
 
 Earlier this week [deno](https://deno.land/) was released. I got very excited by it the first time I've seen [Ryan Dahl talk](https://youtu.be/M3BM9TB-8yA) at jsconf.
