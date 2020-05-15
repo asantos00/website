@@ -6,7 +6,7 @@ published: false
 featuredImage: ./adventures-in-deno-land/banner.png
 ---
 
-Earlier this week [deno](https://deno.land/) was released. I got very excited by it the first time I've seen [Ryan Dahl talk](https://youtu.be/M3BM9TB-8yA) at jsconf.
+Earlier this week [deno](https://deno.land/) was released. I got very excited by it since I first seen [Ryan Dahl talk](https://youtu.be/M3BM9TB-8yA) at jsconf.
 
 This talk is one of my personal favorites, it is a lesson on humility. Having Ryan looking at what we build and criticizing it shows how easy it is to look at improvements in work we did 10 years ago, even if that work is used by millions of people.
 
@@ -14,9 +14,9 @@ Back to what brought me here, after the excitement I took some hours one of thes
 
 ## I gotta build something with it
 
-After reading the documentation, it looked great. But my way to actually learn it is to _build something with it_. It brings me closer to the real pains I have when I write applications.
+After reading the documentation, it looked great. But my way to actually learn is to _build something with it_. It brings me closer to the real pains I have when I write applications.
 
-I decided to **build an API that connects to twitter** and returns all tweets from a user with more than 5 likes. I also decided I was deploying it on Kubernetes so it looked a little closer to a real application.
+I decided to **build an API that connects to twitter** and returns 15 tweets from a user with more than 5 likes. I also decided I was deploying it on Kubernetes so it looked a little closer to a real application.
 
 If you wanna follow the code, [here you have it](https://github.com/asantos00/deno-twitter-popular)
 
@@ -95,7 +95,9 @@ const add1 = require("./utils/math")
 
 Is `math` a file? Or a folder with an `index.js` inside of it? What is the file is not `.js`?
 
-You get the point, **node imports are hard**, and deno solves if very well. Following a `golang` approach, of having _absolute urls_, this might sound strange at first, but give it a try.
+You get the point, **node imports are hard**, and deno solves if very well.
+
+Following a `golang` like approach, of having _absolute urls_ that might sound strange at first, but give it a try.
 
 - It solves local imports by adding the extension to it.
 
@@ -113,13 +115,15 @@ import { serve } from "https://deno.land/std/http/server.ts"
 
 No more magic module resolution.
 
-This module resolution enabled some fun stuff like what [R. Alex Anderson](https://twitter.com/ralex1993/status/1261039838100221952) did. I'm sure a lot more will appear in the next days.
+This absolute module resolution enabled some fun stuff like what [R. Alex Anderson](https://twitter.com/ralex1993/status/1261039838100221952) did. I'm sure a lot more will appear in the next days.
+
+https://twitter.com/ralex1993/status/1261039838100221952
 
 **Note**: VSCode plugin functions well with the third party imports, you can `cmd+click` on dependen and you're directed to the code.
 
 ## Third party dependencies
 
-Let's talk about third party dependencies, first, forget `npm install`. As it relies on absolute urls, it doesn't need this _installation_ step to run (at least not manually).
+Let's talk about third party dependencies, first, forget `npm install`. As _deno_ relies on absolute urls, it doesn't need this _installation_ step to run (at least not manually).
 
 When you try to run, it downloads the dependencies, caches them, and then runs with the cached version. To force the caching of a module without running it, you can run `$ deno cache [module url]`.
 
