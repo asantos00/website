@@ -1,8 +1,8 @@
 ---
 title: Adventures in deno land
-description: Thoughts after using deno to build a small API that fetches tweets
+description: Thoughts after trying out deno to build a small API that connects to twitter
 date: "2020-05-15"
-published: false
+published: true
 featuredImage: ./adventures-in-deno-land/banner.png
 ---
 
