@@ -2,7 +2,7 @@
 title: Adventures in deno land
 description: Thoughts after trying out deno to build a small API that connects to twitter
 date: "2020-05-15"
-published: true
+published: false
 featuredImage: ./adventures-in-deno-land/banner.png
 ---
 
