@@ -2,7 +2,7 @@
 title: Adventures in deno land
 description: Thoughts after trying out deno to build a small API that connects to twitter
 date: "2020-05-15"
-published: false
+published: true
 featuredImage: ./adventures-in-deno-land/banner.png
 ---
 
@@ -23,9 +23,9 @@ The decision was to **build an API that connects to twitter** and returns 15 twe
 
 If you wanna follow the code, [here you have it](https://github.com/asantos00/deno-twitter-popular)
 
-At first, I was kinda lost and didn't know any APIs. I've decided to go explore the [standard library](https://deno.land/std). I got very impressed by how approachable was the code, took some time to read it and learned a ton.
+At first, I was kinda lost and didn't know any APIs. I've decided to go explore the [standard library](https://deno.land/std). I got very impressed by how approachable was the code, took some time to read it, and learned a ton.
 
-It actually got this idea on the back of my mind, that might lead to a future article, similar what Paul Irish did 10 years ago on [10 things I learned from the jquery source](https://www.paulirish.com/2010/10-things-i-learned-from-the-jquery-source/) but for deno source, might actually do it!
+It got this idea on the back of my mind, which might lead to a future article, similar to what Paul Irish did 10 years ago on [10 things I learned from the jquery source](https://www.paulirish.com/2010/10-things-i-learned-from-the-jquery-source/) but for deno source, might actually do it!
 
 After getting to know the basics, installing the [VSCode plugin](https://marketplace.visualstudio.com/items?itemName=justjavac.vscode-deno) and deno, we were ready to start my adventure.
 
@@ -33,7 +33,7 @@ To be honest, _it wasn't a real adventure_, everything looked so familiar that I
 
 ## Getting to code
 
-By using standard library's `http server` it was very easy to build a server and get it up running handling requests.
+By using the standard library's `http server` it was very easy to build a server and get it up running handling requests.
 
 ```js
 import { serve } from "./deps.ts";
@@ -61,7 +61,7 @@ Deno opted for mimicking existing Web APIs where they existed, rather than inven
 
 ## Running it
 
-Running the code was a breeze. One of deno's seeling points is security and I couldn't agree more it improved over node. You notice it the first time you try to run a program. Now you need to list what permissions your program will need to run.
+Running the code was a breeze. One of deno's selling points is security and I couldn't agree more it improved over node. You notice it the first time you try to run a program. Now you need to list what permissions your program will need to run.
 
 ```sh
 $ deno run --allow-net ./index.ts
@@ -76,7 +76,7 @@ error: Uncaught PermissionDenied: access to environment variables, run again wit
     at Object.getEnv [as get] ($deno$/ops/os.ts:27:10)
 ```
 
-Which is a very reasonable and comprehensive error, again, good job on this!
+This is a very reasonable and comprehensive error, again, good job on this!
 
 When running the code, the `--inspect` flag enables developers to use Chrome Dev Tools the same way they did in _node_, the debugging experience is as good as developers are used to.
 
@@ -104,7 +104,7 @@ Is `math` a file? Or a folder with an `index.js` inside of it? What is the file 
 
 You get the point... **Node imports are hard**.
 
-Deno follows a `golang` like approach, of having _absolute urls_. If it sounds strange to you, bare with us for a little. Let's look at advantages:
+Deno follows a `golang` like approach, of having _absolute urls_. If it sounds strange to you, bare with me. Let's look at the advantages:
 
 - It solves local imports by adding the extension to it.
 
@@ -114,7 +114,7 @@ import { add1 } from "./utils/math.ts"
 
 You know just from reading it that `math.ts` is a file.
 
-- It solves third party imports by having an absolute url
+- It solves third party imports by having an absolute URL
 
 ```js
 import { serve } from "https://deno.land/std/http/server.ts"
@@ -136,7 +136,7 @@ When you first try to run it, it downloads the dependencies, caches them, and th
 
 To force the caching of a module without running it, you can also run `$ deno cache [module url]`.
 
-You are probably thinking it is strange and error prone to URLs all around the code? That's right. You can manage it however you want, as all modules have absolute URLs now, it's just code at the end of the day.
+You are probably thinking it is strange and error-prone to URLs all around the code? That's right. You can manage it however you want, as all modules have absolute URLs now, it's just code at the end of the day.
 
 Deno recommends having a `deps.ts` file, you can call it whatever you want but since it [is in the documentation](https://deno.land/manual/linking_to_external_code#it-seems-unwieldy-to-import-urls-everywhere), I see this start becoming a standard. On that file, you can import all the dependencies from the URLs and export the methods used.
 
@@ -158,7 +158,7 @@ RUN deno cache deps.ts
 
 By doing this, the `RUN` command will only run if the `deps.ts` file changed. With this, and as the installation step is now _automatic_, having it running on docker also became simpler.
 
-There is one thing that has to be taken care of with deno, we have to sned the flags for the permissions
+There is one thing that has to be taken care of with deno, we have to send the flags for the permissions.
 
 ```docker
 CMD ["run", "--allow-net", "index.ts"]
@@ -170,7 +170,7 @@ Deno also provides an `install` command. But, as I said earlier, it does not ins
 
 Its usage is similar to the `npm install --global` flag, citing the explanation on the official website about `install`:
 
-_This command creates a thin, executable shell script which invokes deno using the specified CLI flags and main module. It is place in the installation root's bin directory._
+_This command creates a thin, executable shell script which invokes deno using the specified CLI flags and main module. It is placed in the installation root's bin directory._
 
 When you install a global binary, you also have to specify what permissions it will need, again, secure by default.
 
@@ -182,18 +182,18 @@ And you can then run `$ file_server`
 
 # Conclusion
 
-Coming from the JS/TS world I'd say deno got lots of things right. It has the familiarity of JS and TS with small twists, to the better side. Having the standard library written in TS is also a big plus, at it isn't always straight-forward to set it up in node.
+Coming from the JS/TS world I'd say deno got lots of things right. It has the familiarity of JS and TS with small twists, to the better side. Having the standard library written in TS is also a big plus, at it isn't always straightforward to set it up in node.
 
 The standard library is great, it looks both readable and well thought. Quoting the `deno_std` main repo:
 
 > deno_std is a loose port of Go's standard library. When in doubt, simply port Go's source code, documentation, and tests.
 
-This is funny and interesting at the same time, deno used the effort the golang community put in its standard lib to drive its own, the end result looks great.
+This is funny and interesting at the same time, deno used the effort the golang community put in its standard lib to drive its own, the result looks great.
 
 The permission system is also great and intuitive. Module resolution is now simpler and removes pretty much all the magic we got used to in _node lands_.
 All the async APIs return Promises now. It means using `await` and `.then` everywhere, not incurring into callback hell and not needing tools like `promisify` and such.
 
-Adding to all of this, deno also got inspiration from golang by shipping a lot of the essential tools in the main binary. Discussions about bundler, formatter, and test runner will no longer be a thing, and even if they are, there's an official way now. I haven't tried the test suite and the documentation generator yet, might write about it later.
+Adding to all of this, deno also got inspiration from golang by shipping a lot of the essential tools in the main binary. Discussions about bundler, formatter, and test runner will no longer be a thing, and even if they are, there's an official way now. I haven't tried the test suite and the documentation generator yet, I might write about it later.
 
 Gotta say the overall experience of building a (very small) application with it was very good and intuitive. Can't wait to build something more _real_ with it!
 
