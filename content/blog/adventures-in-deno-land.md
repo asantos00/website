@@ -90,7 +90,7 @@ Example:
 const path = require("path")
 ```
 
-The dependency we're importing, _path_ might come from node standard library\*. At the same time, it can also be from _node\-modules_, you could also have installed a dependency named _path_, right? Ok, now you found the dependency, do you know what is the file you are loading? Is it index.js? What if _package.json_ has a different _main_ file defined?
+The dependency we're importing, _path_ might come from node standard library. At the same time, it can also be from _node\-modules_, you could also have installed a dependency named _path_, right? Ok, now you found the dependency, do you know what is the file you are loading? Is it index.js? What if _package.json_ has a different _main_ file defined?
 
 Lots of unknowns, right?
 

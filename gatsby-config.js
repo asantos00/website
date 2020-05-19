@@ -29,8 +29,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-sitemap`,
       options: {
-        sitemapSize: 5000
-      }
+        sitemapSize: 5000,
+      },
     },
     {
       resolve: `gatsby-source-filesystem`,
@@ -58,6 +58,13 @@ module.exports = {
             },
           },
           {
+            resolve: "gatsby-remark-external-links",
+            options: {
+              target: "_blank",
+              rel: "nofollow",
+            },
+          },
+          {
             resolve: "gatsby-remark-embed-gist",
             options: {
               username: "asantos00",
@@ -77,10 +84,10 @@ module.exports = {
             },
           },
           {
-            resolve: 'gatsby-remark-autolink-headers',
+            resolve: "gatsby-remark-autolink-headers",
             options: {
-              offsetY: 54
-            }
+              offsetY: 54,
+            },
           },
           `gatsby-remark-prismjs`,
           `gatsby-remark-copy-linked-files`,
