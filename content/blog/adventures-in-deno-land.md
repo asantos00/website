@@ -8,7 +8,7 @@ featuredImage: ./adventures-in-deno-land/banner.png
 
 Earlier this week [deno](https://deno.land/) was released.
 
-As I was very excited it since I first heard about in on [Ryan Dahl talk](https://youtu.be/M3BM9TB-8yA) on jsconf, I had to give it a try.
+As I was very excited since I first heard about it on [Ryan Dahl's talk](https://youtu.be/M3BM9TB-8yA) on jsconf, I had to give it a try.
 
 This talk is one of my personal favorites, it is a lesson on humility.
 Having Ryan looking at what he built 10 years ago with a criticizing tone is interesting. Even when _node_ is used by millions of people, its creator still feels bad about some decisions made at the time.
