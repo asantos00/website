@@ -52,7 +52,7 @@ Step 2 was to connect it to twitter API. Having `fetch` already included on `den
 
 ```js
 fetch(
-  "https://api.twitter.com//1.1/search/tweets.json&q=(from: ampsantos0 min_faves: 5)",
+  "https://api.twitter.com/1.1/search/tweets.json&q=(from: ampsantos0 min_faves: 5)",
   { headers: new Headers([["content-type", "application/json"]]) }
 )
 ```
