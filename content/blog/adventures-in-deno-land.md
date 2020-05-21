@@ -8,18 +8,18 @@ featuredImage: ./adventures-in-deno-land/banner.png
 
 Earlier this week [deno](https://deno.land/) was released.
 
-As I was very excited since I first heard about it on [Ryan Dahl's talk](https://youtu.be/M3BM9TB-8yA) on jsconf, I had to give it a try.
+As I was very excited ever since I first heard about it on [Ryan Dahl's talk](https://youtu.be/M3BM9TB-8yA) at [jsconf](https://jsconf.eu), I had to give it a try.
 
 This talk is one of my personal favorites, it is a lesson on humility.
 Having Ryan looking at what he built 10 years ago with a criticizing tone is interesting. Even when _node_ is used by millions of people, its creator still feels bad about some decisions made at the time.
 
-Getting back to what brought me here... After hearing of the launch of v1.0 I took some hours to learn more about it. The documentation is very good, by following what they call _the manual_ one could have a very good understanding of how to start using.
+Getting back to what brought me here... After hearing of the launch of v1.0 I took some hours to learn more about it. The documentation is very well written and structured, which by following what they call _the manual_ one could have a very good understanding of how to start using it.
 
 ## Building something
 
 After reading the documentation, it looked great, in theory. But my default way to learn is normally to _build something with it_. It normally helps me identify pains I'd have in the real world if I had to build a _real_ application with it.
 
-The decision was to **build an API that connects to twitter** and returns 15 tweets from a user with more than 5 likes, I called it _popular tweets_. This small server should then run on a kubernetes environment.
+The decision was to **build an API that connects to twitter** and returns 15 tweets from a user with more than 5 likes, I called it _popular tweets_. This small server should then run on a Kubernetes environment.
 
 If you wanna follow the code, [here you have it](https://github.com/asantos00/deno-twitter-popular)
 
@@ -38,7 +38,7 @@ By using the standard library's `http server` it was very easy to build a server
 ```js
 import { serve } from "./deps.ts";
 
-const s = server({ port: 8080 });
+const s = serve({ port: 8080 });
 
 for await (const req of s) {
   req.respond({
@@ -64,19 +64,26 @@ Deno opted for mimicking existing Web APIs where they existed, rather than inven
 Running the code was a breeze. One of deno's selling points is security and I couldn't agree more, it improved over _node_. You notice it the first time you try to run a program as you need to list what permissions your program needs.
 
 ```sh
-$ deno run --allow-net ./index.ts
+$ deno run ./index.ts
 ```
 
-When you happen to use something you don't have permission to, here's what you get:
+Given that in this case we are using network to both expose our **endpoint** (:8080) and access **Twitter's API** without our explicit consent, here's what you get:
 
 ```
-error: Uncaught PermissionDenied: access to environment variables, run again with the --allow-env flag
+error: Uncaught PermissionDenied: network access to "0.0.0.0:8080", run again with the --allow-net flag
     at unwrapResponse ($deno$/ops/dispatch_json.ts:43:11)
     at Object.sendSync ($deno$/ops/dispatch_json.ts:72:10)
-    at Object.getEnv [as get] ($deno$/ops/os.ts:27:10)
+    at Object.listen ($deno$/ops/net.ts:51:10)
+    at listen ($deno$/net.ts:152:22)
 ```
 
 This is a very reasonable and comprehensive error, again, good job on this!
+
+A good approach for this is by enabling whitelist permissions by using the flag `--allow-net` which deno does it in a very simple and pragmatic way:
+
+```sh
+$ deno run --allow-net=0.0.0.0:8080,api.twitter.com index.ts
+```
 
 When running the code, the `--inspect` flag enables developers to use Chrome Dev Tools the same way they did in _node_, the debugging experience is as good as developers are used to.
 
