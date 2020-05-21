@@ -61,13 +61,13 @@ Deno opted for mimicking existing Web APIs where they existed, rather than inven
 
 ## Running it
 
-Running the code was a breeze. One of deno's selling points is security and I couldn't agree more, it improved over _node_. You notice it the first time you try to run a program as you need to list what permissions your program needs.
+Running the code was a breeze. One of deno's selling points is security and I couldn't agree more, it improved over _node_. You notice it the first time you try to run a program:
 
 ```sh
 $ deno run ./index.ts
 ```
 
-Given that in this case we are using network to both expose our **endpoint** (:8080) and access **Twitter's API** without our explicit consent, here's what you get:
+Once we are, in this case, using network to both expose our **endpoint** (:8080) and access **Twitter's API** without our explicit consent, here's what you get:
 
 ```
 error: Uncaught PermissionDenied: network access to "0.0.0.0:8080", run again with the --allow-net flag
