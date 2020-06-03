@@ -41,7 +41,7 @@ To install the dependencies while integrity checking every installed resource, o
 $ deno cache -r --lock=lock.json deps.ts
 ```
 
-The generated file is no more that a json object of dependencies and a checksum for them.
+The generated file is no more that a json object of dependencies and a checksum.
 
 ## VSCode extension
 
@@ -49,23 +49,23 @@ The vscode extension is the exact same that I presented last time, it was just m
 
 > Moved from https://github.com/justjavac/vscode-deno to https://github.com/denoland/vscode_deno in order to have an "official" Deno plugin.
 
-It works very well, even though it still has a small problem of when cmd + click on external dependencies, it does not assume it's language. It should detect automatically if it is a javascript of a ts file and highlight it accordingly.
+It works very well, even though it still has a small problem of when cmd + click on external dependencies, it does not detect the language. It should detect automatically if it is a javascript of a ts file and highlight it accordingly.
 
-It's probably an **oportunity for contribution** that I might take, after I get the time to understand the code
+I'm sure it will be fixed soon but it's also an **oportunity for contribution** that I might take, after I get the time to understand the code from vscode and the plugin itself.
 
 ## Documentation
 
-Another of the advantages presented by Ryan in his talk has that deno included a documentation generator (as well as other tools) on the official bynary. The documentation generator doesn't have (yet) a section on the website, but we'll explore it a bit here.
+Another of the advantages presented by Ryan in his talk has that deno included a documentation generator on the official bynary. The documentation generator doesn't have (yet) a section on the website, but we'll explore it a bit here.
 
 ### Documentation of remote modules
 
-Deno caching local modules allows stuff like coding in an airplane (that was also possible in node). However, deno provides a cool way to see the third party code documentation without having to browse the code.
+Deno caching local modules allows stuff like coding in an airplane (that was also possible in node if you have ran `npm install` before). However, deno provides a cool way to see the third party code documentation without having to browse the code.
 
 ```bash
 $ deno doc https://deno.land/std/http/server.ts
 ```
 
-This outputs the methods exposed by the standard library http server.
+This outputs the methods exposed by the standard library's http server.
 
 ````
 function listenAndServe(addr: string | HTTPOptions, handler: (req: ServerRequest) => void): Promise<void>
@@ -119,7 +119,7 @@ One great example of the documentation generation uses is _deno_ [run time API](
 
 It uses Deno to generate modules with the `--json` command and provides a really nice layout around it.
 
-I've actually started trying to adapt the code and all the logic that deno doc website uses to generate documentation on the fly so people can run it locally for their own projects. [Here it is]()  TODO - not finished
+I've actually started trying to adapt the code from the official docs and the logic it uses to generate documentation on the fly so people can run it locally for their own projects. [Here it is]()  TODO - not finished
 ````
 
 ## Fine grained permissions
@@ -134,7 +134,7 @@ That is true, however, I was alerted by my friend [Felipe Schmitt] that in order
 
 This would, as expected, allow network calls to `api.twitter.com` but disallow all the other calls. Instead of allowing complete access to network, we're allowing just a bit, by whitelisting and blocking everything else by default.
 
-This is very well explained on the [Permissions page](https://deno.land/manual/getting_started/permissions.). This was recently added on [this PR](https://github.com/denoland/deno/pull/5426), one of the many docs updates that have been happening.
+This is now very well explained on the [Permissions page](https://deno.land/manual/getting_started/permissions.), is one of the documentation improvements that were added after the v.1.0.0 launch.
 
 ## Running code in the browser
 
@@ -142,11 +142,12 @@ Another very interesting feature of _deno_, also included in the offical binary,
 
 It allows you to bundle your code into a single `.js` file. That file can be run as any other deno program, with `deno run`.
 
-What I find interesting is that the generated code, if it doesn't use the `Deno` namespace, can run in the browser. The possibilities for this are limitless, for instance, what if I wanted a frontend to interact with my API via a client?
+What I find interesting is that the generated code, when it doesn't use the `Deno` namespace, **can run on the browser**. The possibilities for this are limitless, for instance, what if I wanted a frontend to interact with my API via a client?
 
 I can write that client in deno, here's the code to get the popular tweets.
 
 ```js
+// client/index.ts
 import { Tweet } from "../twitter/client.ts"
 
 export function popular(handle: string): Promise<Tweet[]> {
@@ -156,24 +157,23 @@ export function popular(handle: string): Promise<Tweet[]> {
 }
 ```
 
-This code lives on the API codebase, and thus it is written in _deno_ (you can tell by the imports having file extensions). It uses types from the twitter client the API uses.
+This code lives on the API codebase, and thus it is written in _deno_ (you can tell by the imports having file extensions). It uses the same types from the twitter client.
 
-Having the client living on the API codebase means that whoever updates the API can also update the client, abstracting the backend and API changes from the frontend code.
+Having the client living on the API codebase means that whoever updates the API should also update the client, abstracting the backend and API changes from the frontend code.
 
-Then, I can run the `bundle` command and put the generated file in a folder.
+Then, we can run the `bundle` command and put the generated file in a folder.
 
 ```bash
 $ deno bundle client/index.ts public/client.js
 ```
 
-It will generate the `client.js` file that is able to be run in the browser. Then, for demonstration purposes we can create a `public/index.html` file with the following code:
+It will generate the `client.js` file that is able to be run in the browser. For demonstration purposes we can create a `public/index.html` file with the following code:
 
 ```html
 <script type="module">
   import * as client from "./client.js"
 
   async function fetchTwitter(event) {
-    const value = document.querySelector("#handle").value
     const result = await client.popular(value)
 
     /*
@@ -182,6 +182,8 @@ It will generate the `client.js` file that is able to be run in the browser. The
   }
 </script>
 ```
+
+Which uses the client that was initially written in deno, and is now a js file.
 
 And the `public` folder can be served by any webserver. Since we're talking about deno, we can serve it with standard library's file server.
 
