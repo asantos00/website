@@ -27,6 +27,7 @@ const SubscribeToNewsletter = () => {
 
   return (
     <div>
+      <hr />
       <h2>Subscribe to my newsletter to get updates on my new articles!</h2>
       <p>
         I will{" "}
