@@ -16,8 +16,8 @@ Back to the main subject, on that post I explored the standard library, module i
 
 - Lock files
 - Official VSCode extension
-- Documentation
-- More granular permissions
+- Documentation generator
+- Stricter permissions
 - Running deno code in the browser
 - Tests
 
@@ -124,7 +124,7 @@ I've actually started trying to adapt the code from the official docs and the lo
 
 This is, again, one thing that _deno_ got very well. They're easy to use and secure by default. On the last post I explained that in order for a script to be able to access the network, for instance, you'd have to explicitly use `--allow-net` flag when running it.
 
-That is true, however, I was alerted by my friend [Felipe Schmitt] that in order for it to be stricter, we can use:
+That is true, however, I was alerted by my friend [Felipe Schmitt](https://twitter.com/schmittfelipe) that in order for it to be stricter, we can use:
 
 ```
 deno run --allow-net=api.twitter.com index.ts
