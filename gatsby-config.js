@@ -89,6 +89,13 @@ module.exports = {
               offsetY: 54,
             },
           },
+          {
+            resolve: "gatsby-plugin-mailchimp",
+            options: {
+              endpoint:
+                "https://alexandrempsantos.us10.list-manage.com/subscribe/post?u=37acc8aa08566077588f03991&amp;id=70433914cd", // string; add your MC list endpoint here; see instructions below
+            },
+          },
           `gatsby-remark-prismjs`,
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,

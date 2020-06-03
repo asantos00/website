@@ -5,6 +5,7 @@ import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm } from "../utils/typography"
+import SubscribeToNewsletter from "../components/subscribe-to-newsletter"
 
 class BlogIndex extends React.Component {
   render() {
@@ -30,7 +31,9 @@ class BlogIndex extends React.Component {
                     {title}
                   </Link>
                 </h3>
-                <small>{node.fields.readingTime.text} - {node.frontmatter.date}</small>
+                <small>
+                  {node.fields.readingTime.text} - {node.frontmatter.date}
+                </small>
               </header>
               <section>
                 <p
@@ -42,6 +45,7 @@ class BlogIndex extends React.Component {
             </article>
           )
         })}
+        <SubscribeToNewsletter />
       </Layout>
     )
   }
@@ -56,7 +60,11 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMarkdownRemark(sort: {fields: [frontmatter___date], order: DESC}, limit: 1000, filter: {frontmatter: {published: {eq: true}}}) {
+    allMarkdownRemark(
+      sort: { fields: [frontmatter___date], order: DESC }
+      limit: 1000
+      filter: { frontmatter: { published: { eq: true } } }
+    ) {
       edges {
         node {
           excerpt
