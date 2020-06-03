@@ -14,13 +14,12 @@ It was very well-received. To be honest it was well more than what I was expecte
 
 On my last post I've explored the standard library, module imports, simple permission system and dependency management. Today I'm trying to cover the following topics:
 
-- Tests
-- Official VSCode extension
-- More granular permissions
-- Documentation generation
-- Running deno code in the browser
 - Lock files
-- Oak
+- Official VSCode extension
+- Documentation
+- More granular permissions
+- Running deno code in the browser
+- Tests
 
 Again, if you want to follow the code, [here you have it]().
 
