@@ -1,18 +1,16 @@
 ---
 title: Second adventure in deno land
-description: Going a little bit deeper on deno. Lock files, testing, running code in the browser.
+description: Going a little deeper on deno. Lock files, testing, sharing code between deno and the browser.
 date: "2020-06-15"
 published: true
 featuredImage: ./adventures-in-deno-land/banner.png
 ---
 
-On my last post, I wrote about [my first adventure in deno.land](https://alexandrempsantos.com/adventures-in-deno-land/). I have to say it was a fun one. That excitement of trying some new technology was always there, it ended with me think about new possibilities and tools and what am I going to build with it.
+On my last post, I wrote about [my first adventure in deno.land](https://alexandrempsantos.com/adventures-in-deno-land/). I have to say it was a fun one. That excitement of trying some new technology was always there. It ended with me think about new possibilities and tools and asking what am I going to build with it.
 
-At the time I built a small twitter bot, without any libraries, to scratch the surface of the standard library, and to get to know _deno_ a little better in a context that is not an overly simplistic "hello world".
+I built a small twitter bot, without any libraries, to scratch the surface of the standard library, and to get to know _deno_ a little better in a context that is not an overly simplistic "hello world".
 
-It was very well-received. To be honest it was well more than what I was expected. I was considering if I should publish it or not and had it in draft for some days. After deciding to publish it ended up being, to the time, my most read and reacted post ever.
-
-For you to have an idea, it redirected in a day, as many people as my website normally has in a month. I got quite lucky on the "deno hype train".
+It was very well-received. To be honest it was well more than what I was expected. It ended up being, to the time, my most read and reacted post ever. It redirected in a day, as many people as my website normally has in a month. I got quite lucky on the "deno hype train".
 
 Back to the main subject, on that post I explored the standard library, module imports, simple permission system and dependency management. Today I'm talking about the following topics:
 
