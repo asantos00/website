@@ -2,7 +2,7 @@
 title: Second adventure in deno land
 description: Going a little bit deeper on deno. Lock files, testing, running code in the browser.
 date: "2020-06-15"
-published: false
+published: true
 featuredImage: ./adventures-in-deno-land/banner.png
 ---
 
