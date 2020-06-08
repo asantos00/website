@@ -6,11 +6,13 @@ published: true
 featuredImage: ./adventures-in-deno-land/banner.png
 ---
 
-On my last post, I wrote about [my first adventure in deno.land](https://alexandrempsantos.com/adventures-in-deno-land/). I have to say it was a fun one. That excitement of trying some new technology was always there. It ended with me think about new possibilities and tools and asking what am I going to build with it.
+On my last post, I wrote about [my first adventure in deno.land](https://alexandrempsantos.com/adventures-in-deno-land/).
 
-Last time I built a small twitter bot, without any libraries, to scratch the surface of the standard library, and to get to know _deno_ a little better in a context that is not an overly simplistic "hello world".
+It was a fun one the excitement of trying some new technology was always there. _deno_ left me thinking about new possibilities and asking myself what am I going to build with it.
 
-It was very well-received, way more than what I was expecting. It ended up being, to the time, my most read and reacted post ever. I guess I got quite lucky on the "deno hype train".
+Last time I built a small twitter bot, to scratch the surface of the standard library, and to get to know _deno_ a little better in a context that is more than an "hello world".
+
+It was very well-received, way more than what I was expecting. It ended up being, to the time, my most read and reacted post ever. I guess I got quite lucky on the "_deno_ hype train".
 
 Back to what brought me here today, after exploring the standard library, module imports, simple permission system and dependency management. Today I'll go around the following topics:
 
@@ -43,7 +45,7 @@ $ deno cache -r --lock=lock.json deps.ts
 
 The [generated file](https://github.com/asantos00/deno-twitter-popular/blob/master/lock.json) is no more that a json object of dependencies and a checksum
 
-## VSCode extension
+## Official VSCode extension
 
 The official vscode extension is launched! However, it is the exact same that I talked about last time. It was just moved to the official repo, as the changelog states
 
