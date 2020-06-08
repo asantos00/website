@@ -8,7 +8,7 @@ featuredImage: ./adventures-in-deno-land/banner.png
 
 On my last post, I wrote about [my first adventure in deno.land](https://alexandrempsantos.com/adventures-in-deno-land/).
 
-It was a fun one the excitement of trying some new technology was always there. _deno_ left me thinking about new possibilities and asking myself what am I going to build with it.
+It was a fun one, the excitement of trying some new technology was always there. _deno_ left me thinking about new possibilities and asking myself what am I going to build with it.
 
 Last time I built a small twitter bot, to scratch the surface of the standard library, and to get to know _deno_ a little better in a context that is more than an "hello world".
 
