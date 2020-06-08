@@ -1,7 +1,7 @@
 ---
 title: Second adventure in deno land
-description: Going a little deeper on deno. Lock files, testing, sharing code between deno and the browser.
-date: "2020-06-15"
+description: Going a little deeper on deno. Lock files, testing, sharing code between deno and the browser,
+date: "2020-06-10"
 published: true
 featuredImage: ./adventures-in-deno-land/banner.png
 ---
@@ -18,10 +18,10 @@ Back to the main subject, on that post I explored the standard library, module i
 - Official VSCode extension
 - Documentation generator
 - Stricter permissions
-- Running deno code in the browser
-- Tests
+- Running _deno_ code in the browser
+- Testing
 
-Again, if you want to follow the code, [here you have it]().
+Again, if you want to follow the code, [here you have it](https://github.com/asantos00/deno-twitter-popular).
 
 ## Lock files
 
@@ -57,9 +57,11 @@ I'm sure it will be fixed soon but it's also an **oportunity for contribution** 
 
 Another of the advantages presented by Ryan in his talk has that deno included a documentation generator on the official bynary. The documentation generator doesn't have (yet) a section on the website, but we'll explore it a bit here.
 
-### Documentation of remote modules
+### Browse modules documentation
 
-Deno caching local modules allows stuff like coding in an airplane (that was also possible in node if you have ran `npm install` before). However, deno provides a cool way to see the third party code documentation without having to browse the code.
+Even though deno has no `install` step, the `cache` lets you develop in an airplane, as it loads the modules the first time and then uses the cached one. While working on an airplane, what if you want to look at third party code docs? You can use your editor of choice, yes, but there's an alterantive.
+
+_deno_ provides a cool way to see the third party code documentation without having to browse the code.
 
 ```bash
 $ deno doc https://deno.land/std/http/server.ts
@@ -94,7 +96,7 @@ type HTTPSOptions
   Options for creating an HTTPS server.
 ```
 
-Very neat, right? A very nice way of having an overview of the modules.
+Very neat, right? A very nice way of having an overview of the modules exported symbols.
 
 To see the documentation for a specific symbol, one can also run.
 
@@ -112,17 +114,34 @@ function listenAndServe(addr: string | HTTPOptions, handler: (req: ServerRequest
 
 ```
 
+You can actually use the documentation command to have an overview of your code's exported modules, it works the same way.
+
+```bash
+$ deno doc twitter/client.ts
+```
+
+Output:
+
+```ts
+const search
+  Searches for the recent tweets of the provided username that have more than 5 likes
+
+interface Tweet
+  Fields in a tweet
+
+interface TweetResponse
+  The response from Twitter API
+```
+
 The `--json` flag is also supported (however, not for symbols), and allows generating the documentation in the json format, enabling programmatic uses.
 
 One great example of the documentation generation uses is _deno_ [runtime API](https://doc.deno.land/https/github.com/denoland/deno/releases/latest/download/lib.deno.d.ts).
 
-It uses Deno to generate modules with the `--json` command and provides a really nice layout around it.
-
-I've actually started trying to adapt the code from the official docs and the logic it uses to generate documentation on the fly so people can run it locally for their own projects. [Here it is]() TODO - not finished
+It uses Deno to generate modules with the `--json` command and provides a really nice layout around it. We just needed to add `typedoc` to our modules, like what we did [here](https://github.com/asantos00/deno-twitter-popular/commit/dbac72b58f46ace067381cbdfc5708877b033aac#diff-8575744caf69ee401aa128c0f0d46a42R71).
 
 ## Fine grained permissions
 
-This is, again, one thing that _deno_ got very well. They're easy to use and secure by default. On the last post I explained that in order for a script to be able to access the network, for instance, you'd have to explicitly use `--allow-net` flag when running it.
+As we talked [on my previous post](https://alexandrempsantos.com/adventures-in-deno-land/), one thing that _deno_ got very well were permissions. They're easy to use and secure by default. Previously, I've explained that in order for a script to be able to access the network, for instance, you'd have to explicitly use `--allow-net` flag when running it.
 
 That is true, however, I was alerted by my friend [Felipe Schmitt](https://twitter.com/schmittfelipe) that in order for it to be stricter, we can use:
 
@@ -130,7 +149,7 @@ That is true, however, I was alerted by my friend [Felipe Schmitt](https://twitt
 deno run --allow-net=api.twitter.com index.ts
 ```
 
-This would, as you probably guess, allow network calls to `api.twitter.com` but disallow all the other calls. Instead of allowing complete access to network, we're allowing just part of it, whitelisting and blocking everything else by default.
+This will, as you probably guessed, allow network calls to `api.twitter.com` but disallow all the other calls. Instead of allowing complete access to network, we're allowing just part of it, whitelisting and blocking everything else by default.
 
 This is now very well explained on the [Permissions page](https://deno.land/manual/getting_started/permissions.), which is one of the documentation improvements that were added after the v.1.0.0 launch.
 
@@ -138,28 +157,28 @@ This is now very well explained on the [Permissions page](https://deno.land/manu
 
 Another very interesting feature of _deno_, is the `bundle` command.
 
-It allows you to bundle your code into a single `.js` file. That file can be run as any other deno program, with `deno run`.
+It allows us to bundle your code into a single `.js` file. That file can be run as any other deno program, with `deno run`.
 
 What I find interesting is that the generated code, when it doesn't use the `Deno` namespace, is that it **can run on the browser**.
 
-The possibilities for this are limitless. For instance, what if I wanted a frontend to interact with my API via a js client?
+The possibilities for this are limitless. For instance, what if I wanted my API to generate an HTTP client for frontends to interact with it?
 
-I can write that client in deno, reusing API code. Here's the code to get the popular tweets.
+We can write that client in _deno_, reusing API code (and types). Here's the code to get the popular tweets.
 
 ```ts
 // client/index.ts
-import { Tweet } from "../twitter/client.ts"
+import { TweetResponse } from "../twitter/client.ts"
 
-export function popular(handle: string): Promise<Tweet[]> {
+export function popular(handle: string): Promise<TweetResponse> {
   return fetch(`http://localhost:8080/popular/${handle}`)
     .then(res => res.json())
     .catch(console.error)
 }
 ```
 
-This code lives on the API codebase, and thus it is written in _deno_ (you can tell by the imports having file extensions). It uses the same types from the twitter client.
+This code lives on the API codebase, (and it is written in _deno_). It uses the same types from the twitter client the API uses.
 
-Having the client living on the API codebase means that whoever updates the API should also update the client, abstracting the backend and API changes from the frontend code. This is not a _deno_ feature but something that it enables.
+Having the API client living on the API codebase means that whoever updates the API can also update the client, abstracting the backend and API changes from the frontend code. This is not a _deno_ feature but something that it enables.
 
 Then, we can run the `bundle` command and put the generated file in a folder.
 
@@ -167,14 +186,16 @@ Then, we can run the `bundle` command and put the generated file in a folder.
 $ deno bundle client/index.ts public/client.js
 ```
 
-It will generate the `client.js` file that is able to be run in the browser. For demonstration purposes we can create a `public/index.html` file with the following code:
+It will generate the `client.js` file that is able to be run in the browser. For demonstration purposes we can create a `public/index.html` file with the following code.
 
 ```html
 <script type="module">
+  // Imports the generated client
   import * as client from "./client.js"
 
   async function fetchTwitter(event) {
-    const result = await client.popular(value)
+    // Uses the methods on it
+    const result = await client.popular(event.target.value)
 
     /*
       Omitted for brevity
@@ -183,17 +204,135 @@ It will generate the `client.js` file that is able to be run in the browser. For
 </script>
 ```
 
+[This is the file on GitHub](https://github.com/asantos00/deno-twitter-popular/blob/master/public/index.html)
+
 Which uses the client that was initially written in deno, and is now a js file.
 
-And the `public` folder can be served by any webserver. Since we're talking about deno, we can serve it with standard library's file server.
+Now, `public` folder can be served by any webserver. Since we're talking about _deno_, we can serve it with standard library's file server.
 
 ```bash
 # inside the public folder
 $ deno run --allow-net --allow-read https://deno.land/std/http/file_server.ts
 ```
 
-With this, our code can use the client that was **originally written in deno** on the frontend, to interact with the API.
+We can now visit `http://0.0.0.0:4507/` and use our very archaic frontend to query for popular tweets. With this, our code can use the client that was **originally written in deno** on the frontend, to interact with the API.
+
+![deno_tweets](./second-adventure-in-deno-land/deno_tweets.png)
 
 ## Testing
 
-To be done
+Following _deno_'s goal of shipping the essentials in a single binary, testing is obviously included. The documentation is, again, quite good on this. With the help of the `doc` command, it gets very straight-forward to write tests.
+
+```bash
+$ deno doc https://deno.land/std/testing/asserts.ts
+```
+
+This prints the documentation for the assert module from _deno_ standard library
+
+```ts
+function assert(expr: unknown, msg): <UNIMPLEMENTED>
+  Make an assertion, if not `true`, then throw.
+
+function assertEquals(actual: unknown, expected: unknown, msg?: string): void
+  Make an assertion that `actual` and `expected` are equal, deeply. If not deeply equal, then throw.
+
+function assertMatch(actual: string, expected: RegExp, msg?: string): void
+  Make an assertion that `actual` match RegExp `expected`. If not then thrown
+
+/* Cut for brevity */
+
+function fail(msg?: string): void
+  Forcefully throws a failed assertion
+
+```
+
+Making it easier to grasp the basics. Let's write a simple test to our "isomorphic" client we created a few lines above.
+
+`Deno.test` will be used to declare the test body, `assertEquals` will be called to make the assertion. In order to mock the server responses, we'll spin up a server using standard-library _http_server_.
+
+We expect that, the `popular` method from the client calls `/popular/:twitterHandle`, let's create a test for that.
+
+```ts
+import * as ApiClient from "./index.ts"
+import { assertEquals } from "../deps.ts"
+import { runServer } from "../util.ts"
+
+Deno.test("calls the correct url", async () => {
+  runServer(async req => {
+    assertEquals(req.url, "/popular/ampsantos0")
+    await req.respond({ body: JSON.stringify({ statuses: [] }) })
+  })
+
+  await ApiClient.popular("ampsantos0")
+})
+```
+
+Our `runServer` util is a very simple function that just spawns a web server that closes after the first connection.
+
+```ts
+import { serve, ServerRequest } from "./deps.ts"
+
+export const runServer = async (
+  handler: (req: ServerRequest) => Promise<any>
+) => {
+  const server = serve(":8080")
+
+  for await (const req of server) {
+    await handler(req)
+    server.close()
+  }
+}
+```
+
+We can now run the test. Remember that everytime we run a _deno_ program we need to pass the permission flags.
+It will also run every file matching the following regex `{*_,*.,}test.{js,ts,jsx,tsx}:`. TLDR: It runs every file that has `test` in its name and ends with one of the mentioned file extensions.
+
+```bash
+$ deno test --allow-net
+```
+
+If the test is failing, we're presented with a nice diff.
+
+```ts
+test calls the correct url ... error: Uncaught AssertionError: Values are not equal:
+
+    [Diff] Actual / Expected
+
+
+-   "/popular/ampsantos0"
++   "/popular/handle-that-doesnt-work"
+
+  throw new AssertionError(message);
+        ^
+    at assertEquals (https://deno.land/std/testing/asserts.ts:170:9)
+    at file:///Users/alexandre/dev/personal/deno/testing-deno/client/index.test.ts:7:5
+    at runServer (file:///Users/alexandre/dev/personal/deno/testing-deno/util.ts:9:11)
+```
+
+In order to run just part of the tests, the `--filter` flag can be used.
+
+```bash
+$ deno test --allow-net --filter="correct url"
+```
+
+A path can also be sent as the last argument
+
+```bash
+$ deno test --allow-net ./client
+```
+
+You can follow all the listed changes related to tests on [this commit](https://github.com/asantos00/deno-twitter-popular/commit/14b7a623ac84d689f9e9872685b93cd6bd138a9c).
+
+## Conclusion
+
+On our second adventure, we went a little further than just presenting the language.
+
+We explored some parts of the runtime that are essential when it comes to running production code. Testing, generating documentation, lock files, fine graining permissions, generating javascript code and running it on the client, all of them are considered critical when writing _real_ production applications.
+
+We have to remember we did all of this with the toolset that is **included** in _deno_.
+
+To me, this doesn't mean that developers will not use libraries, but it means again that the standard library is very well written and easy to use. This opens the potential for developers to write powerful abstractions on top. Together with the standard library, a very good and complete toolchain is offered with the main binary, aligned the goal of _Only ship a single executable_, mentioned on _deno_ docs.
+
+This adventure was a little too long, thanks for reading it.
+
+Tthere's though a missing that I might write a very small article about -- benchmarks, but that's for another small adventure of mine.
