@@ -10,18 +10,18 @@ On my last post, I wrote about [my first adventure in deno.land](https://alexand
 
 It was a fun one, the excitement of trying some new technology was always there. _deno_ left me thinking about new possibilities and asking myself what am I going to build with it.
 
-Last time I built a small twitter bot, to scratch the surface of the standard library, and to get to know _deno_ a little better in a context that is more than an "hello world".
+Last time I built a small twitter bot to scratch the surface of the standard library and to get to know _deno_ a little better in a context that is more than an "hello world".
 
 It was very well-received, way more than what I was expecting. It ended up being, to the time, my most read and reacted post ever. I guess I got quite lucky on the "_deno_ hype train".
 
-Back to what brought me here today, after exploring the standard library, module imports, simple permission system and dependency management. Today I'll go around the following topics:
+Back to what brought me here today. After exploring the standard library, module imports, simple permission system and dependency management, today I'll explore the following topics:
 
-- Lock files
-- Official VSCode extension
-- Documentation generation
-- Permission system -- a tip
-- Running _deno_ code in the browser
-- Testing
+- [Lock files](#lock-files)
+- [Official VSCode extension](#official-vscode-extension)
+- [Documentation generation](#documentation)
+- [Permission system](#fine-grained-permissions)
+- [Running _deno_ code in the browser](#running-code-in-the-browser)
+- [Testing](#testing)
 
 If you want to follow the code, [here you have it](https://github.com/asantos00/deno-twitter-popular).
 
