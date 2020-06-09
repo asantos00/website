@@ -342,7 +342,7 @@ We explored some other parts of the runtime. From testing, generating documentat
 
 We can't forget that we did all of this with the toolset that is **included** in _deno_, no libraries were used.
 
-This doesn't mean that developers will not use and libraries (of course). It means though that the standard library is very well written and easy to use. This opens the door for developers to write powerful, and meaningful abstractions on top of it.
+This doesn't mean that developers will not use and write libraries. It means though that the standard library is very well written and easy to use. This opens the door for developers to write powerful, and meaningful abstractions on top of it.
 
 Together with the standard library, the toolchain offered with the main binary proves itself very complete, aligned the goal of _Only ship a single executable_, mentioned on _deno_ docs I'd say all the essentials are there and you don't have to worry about tooling.
 
