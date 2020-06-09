@@ -180,9 +180,9 @@ export function popular(handle: string): Promise<TweetResponse> {
 }
 ```
 
-This code lives on the API codebase, (and it is written in _deno_). It uses the same types from the twitter client the API uses.
+This code lives on the API codebase and it is written in _deno_. It uses the same types from the twitter client the API uses.
 
-Having the API client living on the API codebase means that whoever updates the API can also update the client, abstracting the backend and API changes from the frontend code. This is not a _deno_ feature but something that it enables.
+Having the API client living on the API codebase means that whoever updates the API can also update the client, abstracting the backend and API changes from the frontend code. This is not a _deno_ feature but something that it enables via this bundling feature.
 
 Then, we can run the `bundle` command and put the generated file in a folder.
 
@@ -190,7 +190,9 @@ Then, we can run the `bundle` command and put the generated file in a folder.
 $ deno bundle client/index.ts public/client.js
 ```
 
-It will generate the `client.js` file that is able to be run in the browser. For demonstration purposes we can create a `public/index.html` file with the following code.
+It will generate the `client.js` file that is able to be run in the browser.
+
+For demonstration purposes we can create a `public/index.html` file with the following code.
 
 ```html
 <script type="module">
@@ -210,7 +212,7 @@ It will generate the `client.js` file that is able to be run in the browser. For
 
 [This is the file on GitHub](https://github.com/asantos00/deno-twitter-popular/blob/master/public/index.html)
 
-Which uses the client that was initially written in deno, and is now a js file.
+Which uses the client that was initially written in _deno_, and is now a js file.
 
 Now, this `public` folder can be served by any webserver. Since we're talking about _deno_, we can take advantage of it and serve the files with standard library's file server.
 
@@ -254,7 +256,7 @@ Let's write a simple test to our "isomorphic" client we created a few lines abov
 
 `Deno.test` will be used to declare the test body, `assertEquals` will be called to make the assertion. In order to mock the server responses, we'll spin up a server using standard-library _http_server_.
 
-We expect that, the `popular` method from the client calls `/popular/:twitterHandle`, let's create a test for that.
+We expect that, the `popular` method from the client calls `/popular/:twitterHandle`. Let's create a test for that.
 
 ```ts
 import * as ApiClient from "./index.ts"
@@ -336,15 +338,13 @@ And with this, we have pretty much everything we need in order to write compreen
 
 On our second adventure, we went a little further than just presenting the language.
 
-We explored some other parts of the runtime. From testing, generating documentation, lock files, stricter permissions, to generating javascript code and running it on the client. All of them features we considered useful when writing _production_ code.
+We explored some other parts of the runtime. From testing, generating documentation, lock files, stricter permissions, to generating javascript code and running it on the client. All of them features we considered useful when writing _production_ code. We let benchmarks out for the next adventure 😉.
 
 We can't forget that we did all of this with the toolset that is **included** in _deno_, no libraries were used.
 
-To me, this doesn't mean that developers will not use libraries (of course). It means though that the standard library is very well written and easy to use. This opens the potential for developers to write powerful abstractions on top of it.
+This doesn't mean that developers will not use and libraries (of course). It means though that the standard library is very well written and easy to use. This opens the door for developers to write powerful, and meaningful abstractions on top of it.
 
-Together with the standard library, the toolchain offered with the main binary proves itself very complete, aligned the goal of _Only ship a single executable_, mentioned on _deno_ docs.
-
-There's though a missing that I might write a very small article about -- benchmarks, but that's for another adventure.
+Together with the standard library, the toolchain offered with the main binary proves itself very complete, aligned the goal of _Only ship a single executable_, mentioned on _deno_ docs I'd say all the essentials are there and you don't have to worry about tooling.
 
 This adventure took a little longer that expected. Thanks for reading it.
 
