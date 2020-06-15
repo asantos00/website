@@ -12,7 +12,7 @@ It was a fun one, the excitement of trying some new technology was always there.
 
 Last time around I have built a small twitter bot in order to scratch the surface of the standard library and to get to know _deno_ a little better in deeper context than a simple "hello world".
 
-It was very well-received, way more than what I was expecting. It ended up being, to the time, my most read and reacted post ever. I guess I got quite lucky on the "_deno_ hype train".
+It was very well-received, way more than what I was expecting. It ended up being, at the time, my most read and reacted post ever. I guess I got quite lucky on the "_deno_ hype train".
 
 Back to what brought me here today. After exploring the standard library, module imports, simple permission system and dependency management, today I'll explore the following topics:
 
