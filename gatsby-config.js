@@ -2,8 +2,8 @@ module.exports = {
   siteMetadata: {
     title: `learning as we go`,
     author: `Alexandre Portela dos Santos`,
-    description: `(trying to) help businesses with tech | Full-time learner | Writer`,
-    siteDescription: `A blog about the learning journey of a software developer interested in solving business problems with the help of technology.`,
+    description: `Helping businesses with tech | Full-time learner | Writer`,
+    siteDescription: `A blog about the learning journey of a full-stack software developer interested in solving business problems with the help of technology.`,
     location: {
       city: "Lisbon",
       country: "Portugal",
@@ -87,6 +87,13 @@ module.exports = {
             resolve: "gatsby-remark-autolink-headers",
             options: {
               offsetY: 54,
+            },
+          },
+          {
+            resolve: "gatsby-plugin-mailchimp",
+            options: {
+              endpoint:
+                "https://alexandrempsantos.us10.list-manage.com/subscribe/post?u=37acc8aa08566077588f03991&amp;id=70433914cd", // string; add your MC list endpoint here; see instructions below
             },
           },
           `gatsby-remark-prismjs`,

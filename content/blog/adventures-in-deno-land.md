@@ -204,4 +204,4 @@ Adding to all of this, deno also got inspiration from golang by shipping a lot o
 
 Gotta say the overall experience of building a (very small) application with it was very good and intuitive. Can't wait to build something more _real_ with it!
 
-I'm excited to see how this will evolve.
+I'm excited to see how this will evolve and thus I wrote another article, my [second adventure in deno.land](https://alexandrempsantos.com/second-adventure-in-deno-land/) where I go a little deeper on the runtime.

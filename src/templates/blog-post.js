@@ -4,16 +4,17 @@ import { Link, graphql } from "gatsby"
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import SubscribeToNewsletter from "../components/subscribe-to-newsletter"
 import { rhythm, scale } from "../utils/typography"
-import './styles.css';
+import "./styles.css"
 
 class BlogPostTemplate extends React.Component {
   render() {
-    const readingTime = this.props.data.markdownRemark.fields.readingTime.text;
+    const readingTime = this.props.data.markdownRemark.fields.readingTime.text
     const post = this.props.data.markdownRemark
     const siteTitle = this.props.data.site.siteMetadata.title
     const { previous, next, published } = this.props.pageContext
-    const slug = this.props.data.markdownRemark.fields.slug;
+    const slug = this.props.data.markdownRemark.fields.slug
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
@@ -47,6 +48,8 @@ class BlogPostTemplate extends React.Component {
             </p>
           </header>
           <section dangerouslySetInnerHTML={{ __html: post.html }} />
+
+          <SubscribeToNewsletter />
           <hr
             style={{
               marginBottom: rhythm(1),
