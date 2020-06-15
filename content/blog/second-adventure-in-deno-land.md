@@ -190,7 +190,7 @@ Then, we can run the `bundle` command and put the generated file in a folder.
 $ deno bundle client/index.ts public/client.js
 ```
 
-It will generate the `client.js` file that is able to be run in the browser.
+It will generate the `client.js` file that can run on the browser.
 
 For demonstration purposes we can create a `public/index.html` file with the following code.
 
@@ -212,7 +212,7 @@ For demonstration purposes we can create a `public/index.html` file with the fol
 
 [This is the file on GitHub](https://github.com/asantos00/deno-twitter-popular/blob/master/public/index.html)
 
-Which uses the client that was initially written in _deno_, and is now a js file.
+This code uses client that was initially written in _deno_, and is now a js file.
 
 Now, this `public` folder can be served by any webserver. Since we're talking about _deno_, we can take advantage of it and serve the files with standard library's file server.
 
@@ -338,13 +338,13 @@ And with this, we have pretty much everything we need in order to write compreen
 
 On our second adventure, we went a little further than just presenting the language.
 
-We explored some other parts of the runtime. From testing, generating documentation, lock files, stricter permissions, to generating javascript code and running it on the client. All of them features we considered useful when writing _production_ code. We let benchmarks out for the next adventure 😉.
+We explored some other parts of the runtime. From testing, generating documentation, lock files, stricter permissions, to generating javascript code and running it on the client. All of them are features we considered useful when writing _production_ code. We let benchmarks out for the next adventure 😉.
 
 We can't forget that we did all of this with the toolset that is **included** in _deno_, no libraries were used.
 
 This doesn't mean that developers will not use and write libraries. It means though that the standard library is very well written and easy to use. This opens the door for developers to write powerful, and meaningful abstractions on top of it.
 
-Together with the standard library, the toolchain offered with the main binary proves itself very complete, aligned the goal of _Only ship a single executable_, mentioned on _deno_ docs I'd say all the essentials are there and you don't have to worry about tooling.
+Together with the standard library, the toolchain offered with the main binary proves itself very complete, aligned the goal of _Only ship a single executable_, mentioned on _deno_ docs. I'd say all the essentials are there and you don't have to worry about tooling.
 
 This adventure took a little longer that expected. Thanks for reading it.
 
