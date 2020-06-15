@@ -43,7 +43,7 @@ To install the dependencies while integrity checking every installed resource, o
 $ deno cache -r --lock=lock.json deps.ts
 ```
 
-The [generated file](https://github.com/asantos00/deno-twitter-popular/blob/master/lock.json) is no more that a json object of dependencies and a checksum
+The [generated file](https://github.com/asantos00/deno-twitter-popular/blob/master/lock.json) is nothing more than a json object of dependencies and its checksum
 
 ## Official VSCode extension
 
