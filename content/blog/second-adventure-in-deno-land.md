@@ -10,7 +10,7 @@ On my last post, I wrote about [my first adventure in deno.land](https://alexand
 
 It was a fun one, the excitement of trying some new technology was always there. _deno_ left me thinking about new possibilities and asking myself what am I going to build with it.
 
-Last time I built a small twitter bot to scratch the surface of the standard library and to get to know _deno_ a little better in a context that is more than an "hello world".
+Last time around I have built a small twitter bot in order to scratch the surface of the standard library and to get to know _deno_ a little better in deeper context than a simple "hello world".
 
 It was very well-received, way more than what I was expecting. It ended up being, to the time, my most read and reacted post ever. I guess I got quite lucky on the "_deno_ hype train".
 
