@@ -170,7 +170,6 @@ The possibilities for this are limitless. For instance, what if I wanted my API 
 We can write that client in _deno_, reusing API code (and types). Here's the code to get the popular tweets.
 
 ```ts
-// client/index.ts
 import { TweetResponse } from "../twitter/client.ts"
 
 export function popular(handle: string): Promise<TweetResponse> {
@@ -179,6 +178,8 @@ export function popular(handle: string): Promise<TweetResponse> {
     .catch(console.error)
 }
 ```
+
+[Code](https://github.com/asantos00/deno-twitter-popular/blob/master/client/index.ts)
 
 This code lives on the API codebase and it is written in _deno_. It uses the same types from the twitter client the API uses.
 
@@ -210,7 +211,7 @@ For demonstration purposes we can create a `public/index.html` file with the fol
 </script>
 ```
 
-[This is the file on GitHub](https://github.com/asantos00/deno-twitter-popular/blob/master/public/index.html)
+[Code](https://github.com/asantos00/deno-twitter-popular/blob/master/public/index.html)
 
 This code uses client that was initially written in _deno_, and is now a js file.
 
@@ -273,6 +274,8 @@ Deno.test("calls the correct url", async () => {
 })
 ```
 
+[Code](https://github.com/asantos00/deno-twitter-popular/blob/master/client/index.test.ts)
+
 Our `runServer` util is a very simple function that just spawns a web server that closes after the first connection.
 
 ```ts
@@ -289,6 +292,8 @@ export const runServer = async (
   }
 }
 ```
+
+[Code](https://github.com/asantos00/deno-twitter-popular/blob/master/util.ts)
 
 We can now run the test. Remember that everytime we run a _deno_ program we need to pass the permission flags.
 
