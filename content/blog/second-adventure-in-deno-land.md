@@ -47,7 +47,7 @@ The [generated file](https://github.com/asantos00/deno-twitter-popular/blob/mast
 
 ## Official VSCode extension
 
-The official vscode extension is launched! However, it is the exact same that I talked about last time. It was just moved to the official repo, as the changelog states
+The official vscode extension has been launched! However, it is the exact same that I have mentioned on my previous post. It simply got moved to the official repo, as the changelog states
 
 > Moved from https://github.com/justjavac/vscode-deno to https://github.com/denoland/vscode_deno in order to have an "official" Deno plugin.
 
@@ -155,7 +155,7 @@ deno run --allow-net=api.twitter.com,0.0.0.0 index.ts
 
 This will, as you probably guessed, allow network calls to `api.twitter.com` and from `0.0.0.0` but disallow all the other calls. Instead of allowing complete access to network, we're allowing just part of it, whitelisting and blocking everything else by default.
 
-This is now very well explained on the [Permissions page](https://deno.land/manual/getting_started/permissions.), which is one of the documentation improvements that were added after the v.1.0.0 launch.
+This is now very well explained on the [Permissions page](https://deno.land/manual/getting_started/permissions), which is one of the documentation improvements that were added after the v.1.0.0 launch.
 
 ## Running code in the browser
 
