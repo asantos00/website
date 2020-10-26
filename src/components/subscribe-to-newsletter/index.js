@@ -26,7 +26,7 @@ const SubscribeToNewsletter = () => {
   const isLoading = status === STATUS.LOADING
 
   return (
-    <div>
+    <div id="subscribe-to-my-newsletter">
       <hr />
       <h2>Subscribe to my newsletter to get updates on my newest articles!</h2>
       <p>
