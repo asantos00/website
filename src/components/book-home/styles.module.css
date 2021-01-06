@@ -1,0 +1,110 @@
+.wrapper {
+  display: flex;
+  margin-bottom: 36px;
+  background-color: #007acc;
+  justify-content: center;
+  padding: 16px 0;
+  color: white;
+  height: 250px;
+}
+
+.content {
+  margin: 0 auto;
+  max-width: 42rem;
+  padding: 16px 1.3125rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.announcement {
+  font-size: 14px;
+  color: #ffa500;
+  font-weight: bold;
+}
+
+.imageWrapper {
+  max-width: 150px;
+  height: 100%;
+  margin-left: 16px;
+  margin-bottom: 0;
+  display: flex;
+  text-align: right;
+}
+
+.imageWrapper img {
+  border-radius: 3px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.text {
+  padding: 16px 0;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.bookTitle {
+  font-weight: bold;
+  color: white;
+  width: 100%;
+  padding-top: 16px;
+}
+
+.buy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  background-color: white;
+  height: 32px;
+  font-size: 14px;
+  color: #ffa500;
+  margin-top: 16px;
+  width: 60px;
+  text-align: center;
+  box-shadow: none;
+}
+
+.buy:hover {
+  background-color: #ddd;
+}
+
+.buy a {
+  color: #007acc;
+  box-shadow: none;
+}
+
+.bookSubtitle {
+  color: white;
+  width: 100%;
+  padding-top: 8px;
+  font-size: 14px;
+}
+
+.bookTitle a {
+  color: white;
+  box-shadow: none;
+}
+
+.bookTitle a {
+  box-shadow: 0 1px 0 0 currentColor;
+}
+
+@media only screen and (max-width: 460px) {
+  .wrapper {
+    font-size: 12px;
+  }
+
+  .announcement {
+    font-size: 14px;
+  }
+
+  .bookSubtitle {
+    font-size: 10px;
+  }
+
+  .imageWrapper {
+    padding-top: 24px;
+    max-width: 120px;
+  }
+}
