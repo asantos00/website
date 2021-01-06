@@ -2,6 +2,16 @@ import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import styles from "./styles.module.css"
 
+const registerEvent = place => {
+  // eslint-disable-next-line
+  ga("send", {
+    hitType: "event",
+    eventCategory: "book",
+    eventAction: "click",
+    eventLabel: `home.${place}`,
+  })
+}
+
 const BookHomePage = () => {
   const data = useStaticQuery(graphql`
     query BookHomeQuery {
@@ -20,7 +30,11 @@ const BookHomePage = () => {
             I recently published a book!
           </span>
           <div className={styles.bookTitle}>
-            <a href={data.site.siteMetadata.bookLink} target="_blank">
+            <a
+              onClick={() => registerEvent("title")}
+              href={data.site.siteMetadata.bookLink}
+              target="_blank"
+            >
               Getting started with Deno
             </a>
           </div>
@@ -29,13 +43,21 @@ const BookHomePage = () => {
             applications using Deno
           </div>
           <div className={styles.buy}>
-            <a href={data.site.siteMetadata.bookLink} target="_blank">
+            <a
+              onClick={() => registerEvent("buy")}
+              href={data.site.siteMetadata.bookLink}
+              target="_blank"
+            >
               BUY
             </a>
           </div>
         </div>
         <div className={styles.imageWrapper}>
-          <a href={data.site.siteMetadata.bookLink} target="_blank">
+          <a
+            onClick={() => registerEvent("image")}
+            href={data.site.siteMetadata.bookLink}
+            target="_blank"
+          >
             <img src="https://images-na.ssl-images-amazon.com/images/I/91mWpao7CWL.jpg" />
           </a>
         </div>
