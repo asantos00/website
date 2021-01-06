@@ -23,6 +23,8 @@ module.exports = {
         url: `https://www.linkedin.com/in/alexandrempsantos/`,
       },
     ],
+    bookLink:
+      "https://www.amazon.com/Getting-started-Deno-JavaScript-applications/dp/180020566X",
   },
   plugins: [
     {

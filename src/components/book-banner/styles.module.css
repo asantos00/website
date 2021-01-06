@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  margin-bottom: 36px;
+  background-color: #007acc;
+  justify-content: center;
+  text-align: center;
+  padding: 16px 0;
+  color: white;
+}
+
+.bookTitle {
+  font-weight: bold;
+  padding: 0 8px;
+  color: white;
+}
+
+.bookTitle a {
+  color: white;
+}
+
+@media only screen and (max-width: 460px) {
+  .wrapper {
+    font-size: 12px;
+  }
+}
