@@ -49,7 +49,7 @@ Before we proceed to actually build our code, we'll create a folder `rust-plugin
 
 To make this a proper Deno plugin, a couple of things are still missing. We'll need to register our function as an operation in Deno's plugins API, and write the code to print hello world to the console.
 
-Operation functions are always called with an `Interface` (ask Nuno for details) and with a `ZeroCopyBuf` that contains the parameters sent from Deno.
+Operation functions are always called with an `Interface` (ask Nuno for details) and with a `ZeroCopyBuf` that contains the parameters sent from Deno. When these functions are synchronous (more about this later) the operation function must return an `Op` with the response;
 
 ```rs
 use deno_core::plugin_api::Interface;
@@ -71,7 +71,7 @@ fn hello_world(
 }
 ```
 
-The public `deno_plugin_init` function is what will be called by Deno when trying to initiate a plugin, and that's where operations are registered, by calling the `register_op` function with a name and a reference for the operation function (`hello_world` for the case).
+The public `deno_plugin_init` function is what will be called by Deno when trying to initiate a plugin, and that's where operations are registered, by calling the `register_op` function with a name and a reference for the operation function (`hello_world` for the case). The hello world function just returns an empty Op, to match the operations function interface.
 
 With this we have the bare minimum for a plugin to work. We just need to compile it, and load it from Deno.
 
@@ -135,7 +135,73 @@ Hello from rust
 
 Hello world is done! We managed to write code in Rust and call it from the Deno side, our initial job here is done! We can now proceed into our initial requirements, write a plugin that converted an image to greyscale, and that's what we'll do next.
 
+## Converting an image to greyscale
 
+This was our initial main goal, to leverage the power of Rust to do processor heavy operations. Now that we know how to develop and communicate with a plugin, we're in great shape to start fulfilling our requirements.
+
+Let's create a new operation function that will receive a buffer of the decoded bytes of an image and convert it to grayscale.
+
+```rs
+
+pub fn deno_plugin_init(interface: &mut dyn Interface) {
+  // Ommited for brevity
+  interface.register_op("toGreyScale", op_to_grey_scale);
+}
+
+fn op_to_grey_scale(
+  _interface: &mut dyn Interface,
+  zero_copy: &mut [ZeroCopyBuf],
+) -> Op {
+  let arg0 = &mut zero_copy[0];
+  let image_array: &mut[u8] = arg0.as_mut();
+
+  to_grey_scale(image_array);
+
+  Op::Sync(Box::new([]))
+}
+
+fn to_grey_scale(image_array: &mut[u8]) {
+  // Logic to convert each separate pixel to grayscale
+}
+
+```
+
+Once again, we need to register the operation and the associated function. In this specific case we're again returning an empty `Op` from the operation function. If you are wondering why that happens is because we are directly mutating the `ZeroCopyBuf`. This gives us some performance benefits, since we don't need to be cloning this array and we can directly mutate the one sent.
+
+The logic to convert to grayscale is quite simple, it's just going through all pixels and calculating the average of the 3 colors (red, green and blue), the result is the gray color to be converted too. It is available [here]() if you want to check the code.
+
+On Deno's side, we need to read an image file, decode it and call this operation we just registered. We'll be using a library (jpegts) to encode and decode the JPEG image.
+
+```ts
+import { decode, encode } from "https://deno.land/x/jpegts@1.1/mod.ts";
+
+// Ommited for brevity
+
+const { helloWorld, toGreyScale } = Deno.core.ops();
+
+// Ommited for brevity
+
+let raw = await Deno.readFile(`dino.jpeg`);
+
+const image = decode(raw);
+
+Deno.core.dispatch(toGreyScale, image.data);
+
+raw = encode(image, 100);
+
+await Deno.writeFile(`dino-grey.jpeg`, raw.data);
+```
+
+The code is quite straightforward, at first we read the JPEG image, then we `dispatch` an action for the `toGrayScale` operation, and send the image data. All the data sent into operations must be sent and received `Uint8Array` format.
+
+By running this, we can actually convert any image into grayscale, in our case we have an image in the current folder, named `dino.jpeg`, and after running the script we get a `dino-grey.jpeg`. Look at the comparison below:
+
+![image-color]()
+![image-gray]()
+
+And that's it! We just fulfilled our requirement and we got it working, leveraging Rust to delegate performance critical operations, and calling that from Deno.
+
+There are other details that we think might be interesting. Those are things like asynchronous operations and when to use one or another, or what's the performance difference between running such code in JavaScript or Rust. We'll address those next.
 _______________________
 
 
