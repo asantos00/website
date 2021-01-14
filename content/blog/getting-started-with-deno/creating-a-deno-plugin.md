@@ -14,17 +14,17 @@ Since this first release, 7 minor versions have been launched, Deno is now at ve
 Today we are here to explore one of Deno's most promising features. Its plugin API.
 
 I still remember one thing Ryan said in its initial talk.
-His desire was that ideally, a developer would be able to start coding in JavaScript, later migrate some code into TypeScript and eventually migrate part of their performance critical code into Rust. This seemed like a thing that was too far ahead, but at the same time it seemed like a big enabler in terms of performance.
+His desire was that ideally, a developer would be able to start coding in JavaScript, later migrate some code into TypeScript and eventually migrate part of their performance critical code into Rust. This seemed like a thing that was too far ahead, but at the same time it seemed like a big enabler in terms of performance. Deno plugin API seemed the solution for this.
 
-Deno shipped a plugin API from its early days. It was and still is unstable, and thus subject to change at any time. It is this plugin API that enabled the interoperability between Deno's core (written in Rust), and the developers' code. Put simply, it enables developers to send information from JavaScript code into Rust and get a response back.
+Deno shipped a plugin API from its early days. It is unstable, and thus subject to change at any time. This plugin API is what enables the interoperability between Deno's core (written in Rust), and the Deno code, written in JavaScript. Put simple, it enables developers to send information from JavaScript code into Rust and get a response back.
 
-In the following article we'll explore how can we use this capacity to execute performance critical code, by writing a plugin that converts images to grayscale. We'll start by learning the basics, and quickly move into hello world, finishing with the plugin.
+In the following article we'll explore how can we use this capacity to execute performance critical code. We'll write a Deno plugin that converts images to grayscale. We will create the Rust crate that will be the plugin, create a hello world function, and call it from Deno. After this, we will implement the functionality to convert an image to greyscale.
 
 ## Creating the plugin
 
-So, the first thing we'll need to use a plugin is two things. A JavaScript file to send messages to the plugin, and the plugin code, written in Rust.
+The first two things we'll need to build a plugin are: A JavaScript file to send messages to the plugin, and the plugin code, written in Rust.
 
-We'll create a folder called `rust-plugin`, and that's where our plugin core will leave. To start, we'll need to identify our Rust package (called crate) by creating its manifest, `Cargo.toml`.
+For this, we'll create a folder called `rust-plugin`. That's where our plugin core will leave. To start, we'll need to identify our Rust package (called crate) by creating its manifest, `Cargo.toml`.
 
 ```toml
 [package]
@@ -41,15 +41,17 @@ crate-type = ["cdylib", "lib", "dylib]
 deno_core = "0.75.0"
 ```
 
-Here we'll define the name and metadata of the Rust package (called crate). Then we will also set the `crate-type` that changes how the final binary is created (and is documented [here](https://doc.rust-lang.org/reference/linkage.html)). We'll use `cdylib`, `lib` and `dylib` to compile to different Operative Systems. The last thing to do is defining our plugin dependencies, for now it will only depend on `deno_core`.
+After defining the metadata or our crate we will also set the `crate-type`. The crate type setting changes how the final binary is created (and is documented [here](https://doc.rust-lang.org/reference/linkage.html)). We'll use `cdylib`, `lib` and `dylib` to compile to different Operative Systems. The last thing to do is defining our plugin dependencies, for now it will only depend on `deno_core`.
 
-We'll then need to compile this using `cargo`, Rust's package manager, by running `cargo build`. On Linux and MacOS you can do it just by running `curl https://sh.rustup.rs -sSf | sh`. More detailed information on [Cargo documentation](https://doc.rust-lang.org/cargo/getting-started/installation.html).
+We'll then need to compile this using `cargo`, Rust's package manager, by running `cargo build`.
 
-Before we proceed to actually build our code, we'll create a folder `rust-plugin/src` and a file (that we called `lib.rs`) inside.
+To do this, we need to have Cargo installed on our system. On Linux and MacOS you can do it just by running `curl https://sh.rustup.rs -sSf | sh`. More detailed information on [Cargo documentation](https://doc.rust-lang.org/cargo/getting-started/installation.html).
 
-To make this a proper Deno plugin, a couple of things are still missing. We'll need to register our function as an operation in Deno's plugins API, and write the code to print hello world to the console.
+Before we proceed and start building the code, we'll create a folder `rust-plugin/src` and a file (that we called `lib.rs`) inside, that is where our plugin code will live.
 
-Operation functions are always called with an `Interface` (ask Nuno for details) and with a `ZeroCopyBuf` that contains the parameters sent from Deno. When these functions are synchronous (more about this later) the operation function must return an `Op` with the response;
+To make this work as a Deno plugin, we need to do a couple of things. We'll need to register our operation (Hello world) in Deno's plugins API, and write the code to print hello world to the console.
+
+Operation functions are always called with an `Interface` (ask Nuno for details) and with a `ZeroCopyBuf` that contains the parameters sent from Deno. When operations are synchronous (more about this later) the operation function must return an `Op` with the response;
 
 ```rs
 use deno_core::plugin_api::Interface;
@@ -201,7 +203,7 @@ By running this, we can actually convert any image into grayscale, in our case w
 
 And that's it! We just fulfilled our requirement and we got it working, leveraging Rust to delegate performance critical operations, and calling that from Deno.
 
-There are other details that we think might be interesting. Those are things like asynchronous operations and when to use one or another, or what's the performance difference between running such code in JavaScript or Rust. We'll address those next.
+There are other details that we think might be interesting. Those are things like asynchronous operations and when to use them in favour of synchronous operations, or what's the performance differences between running such code in JavaScript or Rust. We'll address those next.
 _______________________
 
 
