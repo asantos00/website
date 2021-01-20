@@ -24,45 +24,15 @@ In the following article we'll explore how can we use this capacity to execute p
 
 The first two things we'll need to build a plugin are: A JavaScript file to send messages to the plugin, and the plugin code, written in Rust.
 
-For this, we'll create a folder called `rust-plugin`. That's where our plugin core will leave. To start, we'll need to identify our Rust package (called crate) by creating its manifest, `Cargo.toml`.
+For this, we'll need to create a rust plugin, we'll do it in a folder named `rust-plugin`. We had to setup the manifest, defining multiple crate-types so that it compiles to multiple operative systems (https://doc.rust-lang.org/reference/linkage.html).
 
-```toml
-[package]
-name = "test_plugin"
-version = "0.0.1"
-authors = ["nmfr", "asantos00"]
-edition = "2020"
-publish = false
 
-[lib]
-crate-type = ["cdylib", "lib", "dylib]
 
-[dependencies]
-deno_core = "0.75.0"
-```
+We'll later need to compile this using `cargo`, Rust's package manager, which you can install [here](https://doc.rust-lang.org/cargo/getting-started/installation.html).
 
-After defining the metadata or our crate we will also set the `crate-type`. The crate type setting changes how the final binary is created (and is documented [here](https://doc.rust-lang.org/reference/linkage.html)). We'll use `cdylib`, `lib` and `dylib` to compile to different Operative Systems. The last thing to do is defining our plugin dependencies, for now it will only depend on `deno_core`.
-
-We'll then need to compile this using `cargo`, Rust's package manager, by running `cargo build`.
-
-To do this, we need to have Cargo installed on our system. On Linux and MacOS you can do it just by running `curl https://sh.rustup.rs -sSf | sh`. More detailed information on [Cargo documentation](https://doc.rust-lang.org/cargo/getting-started/installation.html).
-
-Before we proceed and start building the code, we'll create a folder `rust-plugin/src` and a file (that we called `lib.rs`) inside, that is where our plugin code will live.
-
-To make this work as a Deno plugin, we need to do a couple of things. We'll need to register our operation (Hello world) in Deno's plugins API, and write the code to print hello world to the console.
-
-Operation functions are always called with an `Interface` (ask Nuno for details) and with a `ZeroCopyBuf` that contains the parameters sent from Deno. When operations are synchronous (more about this later) the operation function must return an `Op` with the response;
+To make this work as a Deno plugin, we need to do a couple of things. The first is to define what will be our `hello_world` function.
 
 ```rs
-use deno_core::plugin_api::Interface;
-use deno_core::plugin_api::Op;
-
-#[no_mangle]
-pub fn deno_plugin_init(interface: &mut dyn Interface) {
-  interface.register_op("helloWorld", hello_world);
-}
-
-
 fn hello_world(
   _interface: &mut dyn Interface,
   _zero_copy: &mut [ZeroCopyBuf],
@@ -73,11 +43,28 @@ fn hello_world(
 }
 ```
 
+Operation functions are always called with an `Interface` (ask Nuno for details) and with a `ZeroCopyBuf` that contains the parameters sent from Deno. When operations are synchronous (more about this later) the operation function must return an `Op` with the response.
+
+We'll need to register our operation (Hello world) in Deno's plugins API, and write the code to print hello world to the console.
+
+```rs
+use deno_core::plugin_api::Interface;
+
+#[no_mangle]
+pub fn deno_plugin_init(interface: &mut dyn Interface) {
+  interface.register_op("helloWorld", hello_world);
+}
+
+
+fn hello_world(
+  // Cut for brevity
+}
+```
+
 The public `deno_plugin_init` function is what will be called by Deno when trying to initiate a plugin, and that's where operations are registered, by calling the `register_op` function with a name and a reference for the operation function (`hello_world` for the case). The hello world function just returns an empty Op, to match the operations function interface.
 
 With this we have the bare minimum for a plugin to work. We just need to compile it, and load it from Deno.
 
-To compile the plugin, we'll use Cargo again, this time by running `cargo build` inside the `rust-plugin` folder.
 It might take a little on the first time, as it will fetch all the dependent crates, including `deno_core` we established as a dependency. After it finishes, a `target` folder will be created. Inside there will be a folder named `debug` with a `libtest_plugin.so` file (the file exntension might change depending on the OS), this is the file we'll load on Deno in the next section.
 
 // TODO: talk about git fetch env variable CARGO_NET_GIT_FETCH_WITH_CLI
@@ -86,9 +73,7 @@ It might take a little on the first time, as it will fetch all the dependent cra
 
 Rust code done and compiled, we can't wait to interact with it. To do it we'll use a couple of unstable APIs from Deno, `openPlugin` and `core`.
 
-The first thing we'll do is load the plugin. We'll do it by calling `Deno.openPlugin` with the path to the plugin file. Here we'll also have to handle the file extensions, depending on the Operative System.
-
-1. Create a JavaScript file, `main.js` and add the following code there.
+We'll need to load the plugin, using `Deno.openPlugin`, and handling the different file extensions depending on the Operative System.
 
 ```ts
 const filenameBase = "test_plugin";
@@ -111,15 +96,7 @@ const rid = Deno.openPlugin(filename);
 
 Keep in mind that the `filenameBase` variable must match the crate name in `Cargo.toml`. What is returned by the `openPlugin` API is Deno's "equivalent" to a process id, the resource id.
 
-2. Call `Deno.core.ops()` to get the available operations. In our case we want to destructure to get the `helloWorld` operation we registered back there in `rust-plugin/src/lib.rs`.
-
-```ts
-const { helloWorld } = Deno.core.ops()
-```
-
-Now it's just a matter triggering this `helloWorld` operation to run. Deno's architecture is thought so that all the communication between JavaScript and Rust are made using message passing, and that's what we'll do.
-
-3. Use `Deno.core.dispatch` to dispatch the `helloWorld` operation.
+After having the plugin loaded, it is time to start calling and getting results from the core side.
 
 ```ts
 const rid = Deno.openPlugin(filename);
@@ -128,7 +105,7 @@ const { helloWorld } = Deno.core.ops()
 Deno.core.dispatch(helloWorld)
 ```
 
-We can now run this code, and check its result.
+Now it's just a matter triggering this `helloWorld` operation to run. Deno's architecture is thought so that all the communication between JavaScript and Rust are made using message passing, and that's what we'll do. We can now execute our script.
 
 ```bash
 $ deno run --allow-plugin --unstable main.js
@@ -201,9 +178,19 @@ By running this, we can actually convert any image into grayscale, in our case w
 ![image-color]()
 ![image-gray]()
 
-And that's it! We just fulfilled our requirement and we got it working, leveraging Rust to delegate performance critical operations, and calling that from Deno.
+And that's it!
+
+We just fulfilled our requirement and we got it working, leveraging Rust to delegate performance critical operations, and calling that from Deno.
 
 There are other details that we think might be interesting. Those are things like asynchronous operations and when to use them in favour of synchronous operations, or what's the performance differences between running such code in JavaScript or Rust. We'll address those next.
+
+## Sending and retuning JSON
+
+The usecase we just did was quite simple. All we needed was to send an image and convert it to grayscale. As we try to handle more complex logic, it is very likely that we need to send more complex parameters.
+The go-to solution is to send JSON back and forth to the plugin. To do it, we need to JSON marshalling and unmarshalling. This isn't much different to what we did in the past, with the small difference that we're now encoding and decoding the buffer sent.
+
+- Mention json crate (and not using it because of async)
+- Mention deno PR about json comms
 _______________________
 
 
