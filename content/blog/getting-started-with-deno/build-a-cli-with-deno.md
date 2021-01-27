@@ -25,7 +25,7 @@ Even though this feature was not present on version 1.0.0, back in May of the la
 
 This capability proves itself useful in many cases, but today we'll explore one where we think it really shines. Throughout the rest of the article we will build a CLI application which by the end of the blog post will be compiled into a single binary, one you can simply distribute and execute in any machine, without external dependencies.
 
-We'll be doing this using Deno's version 1.7.0.
+We'll be doing this using Deno's version 1.7.0 and the code we'll build is avaialable [here](https://github.com/asantos00/deno-weather-cli).
 
 ## Developing the functionality
 
@@ -46,7 +46,7 @@ To do that, we'll use several APIs:
 - ECMAScript 6 `fetch`, available by default in Deno since it's fully compliant with ES6.
 - Deno `compile` command to compile the code into an executable binary
 
-This is how the final code will look like.
+This is how the final code will look like. [Check it out on GitHub](https://github.com/asantos00/deno-weather-cli/blob/main/mod.ts).
 
 ```ts
 import { parse } from "https://deno.land/std@0.83.0/flags/mod.ts";
