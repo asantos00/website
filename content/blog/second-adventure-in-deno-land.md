@@ -1,5 +1,5 @@
 ---
-title: Second adventure in Deno land
+title: Second adventure in Deno land 🦕
 description: Going a little deeper on Deno. Exploring lock files, testing, sharing code between Deno and the browser, permissions and more.
 date: "2020-06-10"
 published: true
