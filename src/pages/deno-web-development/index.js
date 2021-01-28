@@ -2,7 +2,7 @@ import React from "react"
 import styles from "./getting-started-with-deno.module.css"
 import { useStaticQuery, graphql } from "gatsby"
 
-const GettingStartedWithDeno = () => {
+const DenoWebDevelopment = () => {
   const data = useStaticQuery(graphql`
     query BookGettingStartedQuery {
       site {
@@ -28,7 +28,7 @@ const GettingStartedWithDeno = () => {
       <div className={styles.bookWrapper}>
         <div className={styles.textCoverWrapper}>
           <div className={styles.bookText}>
-            <h1>Getting started with Deno</h1>
+            <h1>Deno Web Development</h1>
             <h2>
               Write, test, maintain JavaScript and TypeScript web applications
               using Deno
@@ -43,7 +43,7 @@ const GettingStartedWithDeno = () => {
           <img
             className={styles.bookCover}
             src="https://images-na.ssl-images-amazon.com/images/I/91mWpao7CWL.jpg"
-            alt="Getting started with Deno book cover"
+            alt="Deno Web Development book cover"
           />
         </div>
         <div></div>
@@ -102,7 +102,7 @@ const GettingStartedWithDeno = () => {
             great developer experience.
           </p>
           <p>
-            “Getting started with Deno” will introduce Deno’s primitives, its
+            “Deno Web Development” will introduce Deno’s primitives, its
             principles, and how developers can use it to build real-world
             applications.
             <br />
@@ -136,7 +136,7 @@ const GettingStartedWithDeno = () => {
         <div className={styles.authorPhotoWrapper}>
           <div>
             <span>Alexandre Portela dos Santos</span>
-            <span>Full-stack Developer @ KI labs</span>
+            <div>Tech lead / Engineering Manager @ KI labs</div>
           </div>
           <div className={styles.authorPhoto}>
             <img src="https://alexandrempsantos.com/static/97261386c948f2ea3d3b1212a37bb449/f1b5a/profile-pic.jpg" />
@@ -182,4 +182,4 @@ const GettingStartedWithDeno = () => {
   )
 }
 
-export default GettingStartedWithDeno
+export default DenoWebDevelopment

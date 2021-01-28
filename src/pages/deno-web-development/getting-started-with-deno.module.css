@@ -108,6 +108,7 @@
   flex-direction: row;
   margin-bottom: 48px;
   padding: 0 16px;
+  overflow: hidden;
 }
 
 .textCoverWrapper {
@@ -196,6 +197,9 @@
 .authorPhotoWrapper {
   display: flex;
   margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
 }
 
 .contacts {
