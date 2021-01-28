@@ -23,11 +23,13 @@ Out of this experience's learnings, and following the evolution of JavaScript ov
 
 We previously explored some of Deno's premises and how it addresses specific Node.js problems in another article named [Adventures in deno land](https://alexandrempsantos.com/adventures-in-deno-land/). This time we're here for a series or articles that will explore different Deno features.
 
-Today we'll explore `deno-puppeteer`, a port of [puppeteer]() to deno. We'll demonstrate how Deno can make it even simpler to write puppeteer scripts and applications.
+Today we'll explore `deno-puppeteer`, a port of [puppeteer]() to deno. We'll demonstrate how Deno can make it even simpler to write *puppeteer* scripts and applications.
 
 ## Deno with Puppeteer
 
-Puppeteer was a changing piece of technology. It enabled developers to directly use JavaScript to control their headless browser of choice (Chrome & Firefox) without all the burden that it used to be. Together with great documentation and an engaged community, Puppeteer has been one of the best solutions when it takes to writing applications connecting with headless browsers.
+Puppeteer was a changing piece of technology. It enabled developers to directly use JavaScript to control their headless browser of choice (Chrome & Firefox) without all the burden that it used to be.
+
+Together with great documentation and an engaged community, Puppeteer has been one of the best solutions when it comes to writing applications connecting with headless browsers.
 
 A few months ago, [Luca Casonato](https://twitter.com/lcasdev), one of Deno's core team members, ported Puppeteer into Deno.
 
@@ -35,30 +37,29 @@ https://twitter.com/lcasdev/status/1344279906809741312
 
 This is, by itself, an interesting topic to explore: how much did the code have to change to get it working in Deno. But that's not what we're doing here today.
 
-With Deno gaining its place among script tools, being able to use puppeteer is one more use case unlocked. With `deno-puppeteer` users can now benefit from the ease of use of Deno while writing puppeteer scripts. In this blogpost we will build a CLI utility that will use both.
+As Deno gains its place among script tools, being able to use *puppeteer* is another interesting step taken. With `deno-puppeteer`, users  can now benefit from the ease of use of Deno while writing *puppeteer* scripts.
 
+In this blogpost we will build a CLI utility that will demonstrate that.
 ## Building a Puppeteer script
 
-The objective of the CLI utility we'll build is one that checks a website for changes.
+The objective of the CLI utility we'll build is to check a website for visual changes in different resolutions. This tool will check the website and create an image with the difference from the last time it was checked.
 
-This tool will then create an image with the difference from the last time it accessed the website. It can work as a QA assurance tool, as something that runs after deploying a specific page to confirm that it is working fine in different resolutions.
+It was multiple use cases, but it can work as a QA assurance tool. Something that runs after deploying your website to confirm that it is working fine in different resolutions.
 
-To achieve this we'll use a couple community packages and tools. Some are functions from Deno's standard library, others are just Node.js packages
+To achieve this, we'll use a couple community packages and tools. Some are functions from Deno's standard library, others are just Node.js packages
 
 - pngjs - PNG encoder/decoder in JS
 - pixelmatch - A JS image comparison library
-- `Deno.env` to get the screenshots' destination path
-- `parse` from Deno's standard-library to parse command-line flags
-- Deno file-system APIs (readFile and writeFile)
+- Deno file-system APIs (`readFile` and `writeFile`)
 
 We'll use [jspm](https://jspm.org/) to make sure `pngjs` and `pixelmatch` (both Node.js packages) are **ES6 module compatible**. This will make sure they work on Deno (yes, Deno is fully ES6 compatible!).
 
-The CLI will have two modes/features:
+The CLI application will have two modes/features:
 
-- Screenshot the website different resolutions and save to a file
-- Compare website with previously taken screenshot
+1. Screenshot the website state in different resolutions
+2. Compare website with previous versions
 
-As you might have guessed, we'll be using puppeteer for that. The puppeteer code for this quite simple. It just needs to go to the website, and take a screenshot.
+As you might have guessed, we'll be using *puppeteer* to access the website. The code for this quite simple, it just needs to go to the website, and take a screenshot.
 
 ```ts
 import puppeteer from "https://deno.land/x/puppeteer@5.5.1/mod.ts";
@@ -80,7 +81,7 @@ await page.goto(website, {
 const screenshot = await page.screenshot();
 ```
 
-After having a screenshot it is just a matter or saving it to the filesystem or comparing it with the one previously stored, using `pixelmatch`.
+After having a screenshot it is just a matter or saving it to the filesystem or comparing it with the one previously stored.
 
 To save to the file system we'd just use `Deno.writeFile`, but to compare with the previously saved image we'll use `pixelmatch` and `pngjs`.
 
@@ -115,7 +116,9 @@ await Deno.writeFile(
 
 The full code is available [here](https://github.com/asantos00/deno-website-resolutions).
 
-Again the code is quite straightforward, we're using `Deno` runtime APIs to access the filesystem, and the third-party packages to decode and compare both images.
+Again, the code is quite straightforward. We're using `Deno` runtime APIs to access the filesystem, and the third-party packages to decode and compare both images.
+
+If the Deno APIs look strange to you, fear nothing, the Deno documentation is quite complete on that.
 
 ## Documentation
 
@@ -135,9 +138,9 @@ For the builtin functions, which include everything that's made available by Jav
 
 After having Deno installed on the system, executing the code is the simplest of tasks. We can just use `deno run` plus the path to the file we want to execute (in our case we've called it `mod.ts`).
 
-However, and as we mentioned all Deno programs run in a sandbox, we need to give your program the specific permissions it needs to execute.
+However, and as we previously mentioned, all Deno programs run in a sandbox thus we need to give your program the specific permissions it needs to execute.
 
-For our specific usecase, and because puppeteer needs quite a lot of permissions, it needs to access the environment, network, file system, and have the ability to run processes.
+For our specific usecase, and because *puppeteer* needs quite a lot of permissions, it needs to access the environment, network, file system, and have the ability to run processes.
 
 We'll also have to use the `--unstable` flag to enable our program to access a few unstable Deno APIs.
 
@@ -145,7 +148,7 @@ We'll also have to use the `--unstable` flag to enable our program to access a f
 $ deno run --allow-read --allow-write --allow-net --allow-env --allow-run --unstable mod.ts https://picsum.photos --diff
 ```
 
-The only thing that's missing is the environment variable required by puppeteer that points to the browser's executable path, as mentioned in the [documentation](https://pptr.dev/#?product=Puppeteer&version=v5.5.0&show=api-environment-variables). We can add that variable to `.bashrc` or use it inline, as we're doing below:
+The only thing that's missing is the environment variable required by *puppeteer* that points to the browser's executable path, as mentioned in the [documentation](https://pptr.dev/#?product=Puppeteer&version=v5.5.0&show=api-environment-variables). We can add that variable to `.bashrc` or use it inline, as we're doing below:
 
 ```bash
 $ PUPPETEER_EXECUTABLE_PATH=/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome deno run --allow-read --allow-write --allow-net --allow-env --allow-run --unstable mod.ts https://picsum.photos
@@ -185,13 +188,13 @@ Diff stored at /Users/alexandre/dev/personal/deno/puppeteer/screenshots/diff-pic
 
 And this completes our objective for the blogpost!
 
-We've demonstrated how can we use Deno's simplicity to make it even easier to write puppeteer scripts.
+We've demonstrated how can we use Deno's simplicity to make it even easier to write *puppeteer* scripts.
 
 You had the opportunity to notice that everything works the same as in Node. The big difference is that you can take advantage of some parts of Deno. Those are things like native TypeScript support, a clean standard-library, no *node_modules* and fine-grained permission control.
 
 ## Conclusion
 
-Today we've explored `deno-puppeteer`, a package that makes it possible to write puppeteer scripts on Deno.
+Today we've explored `deno-puppeteer`, a package that makes it possible to write *puppeteer* scripts on Deno.
 
 Scripting is one of many use cases for Deno, one of the reasons Deno was created, but definitely not the only one. In this blogpost series' we'll explore different parts of Deno, from rust interoperability to static site generation.
 
@@ -199,7 +202,7 @@ We truly believe that, by building on the shoulders of giants (TypeScript, Node.
 
 If you're interested in knowing more about Deno and how to use it to build tools and web applications, make sure you checkout my recently launched book [Getting started with Deno](). In the book, we'll carefully explain all the mentioned Deno features (and many others) while building real-world applications.
 
-This article (and code) was written by me my friend [Felipe Schmitt](https://twitter.com/schmittfelipe), a declared puppeteer fan which is always ready to explore new pieces of technology.
+This article (and code) was written by me my friend [Felipe Schmitt](https://twitter.com/schmittfelipe), a declared *puppeteer* fan which is always ready to explore new pieces of technology.
 
 We'd like to hear what you think about it! If you have any questions, make sure you it us on Twitter or LinkedIn. I'll leave the links below.
 
