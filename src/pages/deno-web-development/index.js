@@ -49,6 +49,14 @@ const DenoWebDevelopment = () => {
         <div></div>
       </div>
       <div className={styles.theBookWrapper}>
+        <h3>Audience</h3>
+        <div>
+          This book is for developers of all levels who want to leverage their
+          JavaScript and TypeScript skills in a secure, simple, and modern
+          runtime, using it for web development.
+        </div>
+      </div>
+      <div className={styles.theBookWrapper}>
         <h3>The book</h3>
         <div>
           A complete guide with step-by-step explanations of Deno’s primitives,
@@ -136,7 +144,9 @@ const DenoWebDevelopment = () => {
         <div className={styles.authorPhotoWrapper}>
           <div>
             <span>Alexandre Portela dos Santos</span>
-            <div>Tech lead / Engineering Manager @ KI labs</div>
+            <div className={styles.authorJob}>
+              Tech lead / Engineering Manager @ KI labs
+            </div>
           </div>
           <div className={styles.authorPhoto}>
             <img src="https://alexandrempsantos.com/static/97261386c948f2ea3d3b1212a37bb449/f1b5a/profile-pic.jpg" />
