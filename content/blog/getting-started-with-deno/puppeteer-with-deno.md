@@ -39,22 +39,22 @@ This is, by itself, an interesting topic to explore: how much did the code have 
 
 As Deno gains its place among script tools, being able to use *puppeteer* is another interesting step taken. With `deno-puppeteer`, users  can now benefit from the ease of use of Deno while writing *puppeteer* scripts.
 
-In this blogpost we will build a CLI utility that demonstrates that.
+In this blog post we will build a CLI utility that demonstrates just that.
 
 The full code is available [here](https://github.com/asantos00/deno-website-diff).
 ## Writing a Puppeteer script
 
 The objective of the CLI utility we'll build is to check a website for visual changes in different resolutions.
 
-This tool will compare the website with the last time it checked, creating an image with the difference. It can work as a QA assurance tool, something that runs after deploying a website to confirm that it is working fine in different resolutions.
+This tool will compare the website with the last time it checked, creating an image with the difference. It can work as a QA assurance tool, something that runs after deploying a website to double-check the changes done and that it is working fine in different screen resolutions.
 
-To achieve this, we'll use a couple community packages and tools. Some are functions from Deno's standard library, others are just Node.js packages
+To achieve this, we'll use a couple community packages and tools. Some are functions from Deno's standard library, others are just existing Node.js packages
 
 - pngjs - PNG encoder/decoder in JS
 - pixelmatch - A JS image comparison library
 - Deno file-system APIs (`readFile` and `writeFile`)
 
-We'll use [jspm](https://jspm.org/) to make sure `pngjs` and `pixelmatch` (both Node.js packages) are **ES6 module compatible**. This will make sure they work on Deno (yes, Deno is fully ES6 compatible!).
+We'll use [jspm](https://jspm.org/) to make sure `pngjs` and `pixelmatch` (both Node.js packages) are **ES6 module compatible**. This will make sure that they work on Deno (yes, Deno is fully ES6 compatible!).
 
 The CLI application will have two modes/features:
 
@@ -120,7 +120,7 @@ The full code is available [here](https://github.com/asantos00/deno-website-diff
 
 Again, the code is quite straightforward. We're using Deno runtime APIs to access the filesystem, and the third-party packages to decode and compare both images.
 
-If the Deno APIs look strange to you, fear nothing, Deno's documentation is quite complete on that.
+If the Deno APIs look strange to you, fear nothing, Deno's documentation is quite detailed and thorough.
 
 ## Documentation
 
@@ -202,13 +202,13 @@ The big difference is that we can take advantage of some Deno advantages. Those 
 
 Today we've explored `deno-puppeteer`, a package that makes it possible to write *puppeteer* scripts on Deno.
 
-Scripting is one of many use cases for Deno, and one of the reasons Deno was created, but definitely not the only one. In this blogpost series' we'll explore different parts of Deno, from rust interoperability to static site generation.
+Scripting is one of many use cases for Deno, and one of the reasons Deno was created, but definitely not the only one. In this blog post series' we'll explore different parts of Deno, from rust interoperability to static site generation.
 
 We truly believe that, by building on the shoulders of giants (TypeScript, Node.js and Rust) and adding a few things to the mixture, Deno has all it takes to stand out.
 
 If you're interested in knowing more about Deno and how to use it to build tools and web applications, make sure you checkout my recently launched book [Getting started with Deno](). In the book, we'll carefully explain all the mentioned Deno features (and many others) while building real-world applications.
 
-This article (and code) was written by me my friend [Felipe Schmitt](https://twitter.com/schmittfelipe), a declared *puppeteer* fan which is always ready to explore new pieces of technology.
+This article (and code) was written by me and my friend [Felipe Schmitt](https://twitter.com/schmittfelipe), a declared *puppeteer* fan which is always ready to explore new pieces of technology.
 
 We'd like to hear what you think about it! If you have any questions, make sure you it us on Twitter or LinkedIn. I'll leave the links below.
 
