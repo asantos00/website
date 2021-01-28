@@ -1,7 +1,7 @@
 ---
 title: Using Puppeteer with Deno
 description: "Interacting with puppeteer and headless browsers using Deno"
-date: "2020-01-11"
+date: "2021-02-19"
 published: true
 ---
 
