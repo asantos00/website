@@ -40,7 +40,7 @@ This is, by itself, an interesting topic to explore: how much did the code have 
 As Deno gains its place among script tools, being able to use *puppeteer* is another interesting step taken. With `deno-puppeteer`, users  can now benefit from the ease of use of Deno while writing *puppeteer* scripts.
 
 In this blogpost we will build a CLI utility that will demonstrate that.
-## Building a Puppeteer script
+## Writing a Puppeteer script
 
 The objective of the CLI utility we'll build is to check a website for visual changes in different resolutions. This tool will check the website and create an image with the difference from the last time it was checked.
 
@@ -140,7 +140,7 @@ After having Deno installed on the system, executing the code is the simplest of
 
 However, and as we previously mentioned, all Deno programs run in a sandbox thus we need to give your program the specific permissions it needs to execute.
 
-For our specific usecase, and because *puppeteer* needs quite a lot of permissions, it needs to access the environment, network, file system, and have the ability to run processes.
+For our specific usecase, and because puppeteer needs quite a lot of permissions, it needs to access the environment, network, file system, and have the ability to run processes.
 
 We'll also have to use the `--unstable` flag to enable our program to access a few unstable Deno APIs.
 
@@ -148,7 +148,7 @@ We'll also have to use the `--unstable` flag to enable our program to access a f
 $ deno run --allow-read --allow-write --allow-net --allow-env --allow-run --unstable mod.ts https://picsum.photos --diff
 ```
 
-The only thing that's missing is the environment variable required by *puppeteer* that points to the browser's executable path, as mentioned in the [documentation](https://pptr.dev/#?product=Puppeteer&version=v5.5.0&show=api-environment-variables). We can add that variable to `.bashrc` or use it inline, as we're doing below:
+The only thing that's missing is the environment variable required by puppeteer that points to the browser's executable path, as mentioned in the [documentation](https://pptr.dev/#?product=Puppeteer&version=v5.5.0&show=api-environment-variables). We can add that variable to `.bashrc` or use it inline, as we're doing below:
 
 ```bash
 $ PUPPETEER_EXECUTABLE_PATH=/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome deno run --allow-read --allow-write --allow-net --allow-env --allow-run --unstable mod.ts https://picsum.photos
@@ -166,7 +166,9 @@ We can now use another Deno command (available in the toolchain) to have this ut
 
 ## Using Deno's script installer
 
-To conclude, we'll explore one of the main tools Deno includes in its binary. The script installer, made available by the `install` command. This is one of many features like a test runner, linter, code formatter that you get access too as long as you install Deno.
+To conclude, we'll explore one of the main tools Deno includes in its binary, the script installer, made available by the `install` command.
+
+This is one of many features like a test runner, linter, code formatter that you get access too as long as you install Deno.
 
 The `install` command will wrap any Deno script in an executable bash program and add it to `/usr/bin`, making it's available across the system.
 
@@ -190,7 +192,9 @@ And this completes our objective for the blogpost!
 
 We've demonstrated how can we use Deno's simplicity to make it even easier to write *puppeteer* scripts.
 
-You had the opportunity to notice that everything works the same as in Node. The big difference is that you can take advantage of some parts of Deno. Those are things like native TypeScript support, a clean standard-library, no *node_modules* and fine-grained permission control.
+As you've seen everything works the same as in Node.
+
+The big difference is that we can take advantage of some Deno advantages. Those are things like native TypeScript support, a clean standard-library, no *node_modules* and fine-grained permission control.
 
 ## Conclusion
 
