@@ -39,12 +39,14 @@ This is, by itself, an interesting topic to explore: how much did the code have 
 
 As Deno gains its place among script tools, being able to use *puppeteer* is another interesting step taken. With `deno-puppeteer`, users  can now benefit from the ease of use of Deno while writing *puppeteer* scripts.
 
-In this blogpost we will build a CLI utility that will demonstrate that.
+In this blogpost we will build a CLI utility that demonstrates that.
+
+The full code is available [here](https://github.com/asantos00/deno-website-diff).
 ## Writing a Puppeteer script
 
-The objective of the CLI utility we'll build is to check a website for visual changes in different resolutions. This tool will check the website and create an image with the difference from the last time it was checked.
+The objective of the CLI utility we'll build is to check a website for visual changes in different resolutions.
 
-It was multiple use cases, but it can work as a QA assurance tool. Something that runs after deploying your website to confirm that it is working fine in different resolutions.
+This tool will compare the website with the last time it checked, creating an image with the difference. It can work as a QA assurance tool, something that runs after deploying a website to confirm that it is working fine in different resolutions.
 
 To achieve this, we'll use a couple community packages and tools. Some are functions from Deno's standard library, others are just Node.js packages
 
@@ -57,9 +59,9 @@ We'll use [jspm](https://jspm.org/) to make sure `pngjs` and `pixelmatch` (both 
 The CLI application will have two modes/features:
 
 1. Screenshot the website state in different resolutions
-2. Compare website with previous versions
+2. Compare website with previous versions (running with the `--diff` flag)
 
-As you might have guessed, we'll be using *puppeteer* to access the website. The code for this quite simple, it just needs to go to the website, and take a screenshot.
+As you might have guessed, we'll be using *puppeteer* to access the website and take the screenshot, and the code is quite straightforward.
 
 ```ts
 import puppeteer from "https://deno.land/x/puppeteer@5.5.1/mod.ts";
@@ -81,9 +83,9 @@ await page.goto(website, {
 const screenshot = await page.screenshot();
 ```
 
-After having a screenshot it is just a matter or saving it to the filesystem or comparing it with the one previously stored.
+After having a screenshot, it is just a matter or saving it on the filesystem or comparing it with the one previously stored.
 
-To save to the file system we'd just use `Deno.writeFile`, but to compare with the previously saved image we'll use `pixelmatch` and `pngjs`.
+To save to the file system we'd just use `Deno.writeFile`. To compare with the previously saved image we'll use `pixelmatch` and `pngjs`, as shown by the script below.
 
 
 ```ts
@@ -114,15 +116,15 @@ await Deno.writeFile(
 );
 ```
 
-The full code is available [here](https://github.com/asantos00/deno-website-resolutions).
+The full code is available [here](https://github.com/asantos00/deno-website-diff).
 
-Again, the code is quite straightforward. We're using `Deno` runtime APIs to access the filesystem, and the third-party packages to decode and compare both images.
+Again, the code is quite straightforward. We're using Deno runtime APIs to access the filesystem, and the third-party packages to decode and compare both images.
 
-If the Deno APIs look strange to you, fear nothing, the Deno documentation is quite complete on that.
+If the Deno APIs look strange to you, fear nothing, Deno's documentation is quite complete on that.
 
 ## Documentation
 
-Any questions regarding the available APIs, or how they work is delighfully explained in Deno's documentation (https://doc.deno.land/).
+Any questions regarding the available APIs and how they work is delighfully explained in Deno's documentation (https://doc.deno.land/).
 
 Deno supports directly importing modules by URL in the code, and the documentation isn't any different. By using the provided URL (https://doc.deno.land) plus the URL to a package, we get a beautifully designed page with the package types and documentation.
 
@@ -130,9 +132,7 @@ For instance, to check `readFile` documentation we just need to navigate to http
 
 ![readfile-documentation](./deno-read-file.png)
 
-*This is possible to be used with a direct GitHub link, ex: https://doc.deno.land/https/raw.githubusercontent.com/timonson/djwt/master/mod.ts*
-
-For the builtin functions, which include everything that's made available by JavaScript itself (`fetch`, `setTimeout`, `window`, and so on) and the Deno namespace functions (like the `Deno.env.get`), we can use https://doc.deno.land/builtin/stable.
+*This is possible to be used with a direct GitHub link to any TS file, ex: https://doc.deno.land/https/raw.githubusercontent.com/timonson/djwt/master/mod.ts*
 
 ## Executing the code
 
@@ -154,7 +154,9 @@ The only thing that's missing is the environment variable required by puppeteer 
 $ PUPPETEER_EXECUTABLE_PATH=/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome deno run --allow-read --allow-write --allow-net --allow-env --allow-run --unstable mod.ts https://picsum.photos
 ```
 
-With this our program will go to `https://picsum.photos` and save a screenshot in the current path, inside a folder called `screenshots`. The next time we run this script (with the `--diff` flag) it will compare with the previously stored screenshots and will generate an image like the following:
+With this our program will go to `https://picsum.photos` and save a screenshot in the current path, inside a folder called `screenshots`.
+
+The next time we run this script (with the `--diff` flag) it will compare with the previously stored screenshots and will generate an image like the following:
 
 ![diff-image](./diff-picsum-Mobile.png)
 
@@ -166,11 +168,11 @@ We can now use another Deno command (available in the toolchain) to have this ut
 
 ## Using Deno's script installer
 
-To conclude, we'll explore one of the main tools Deno includes in its binary, the script installer, made available by the `install` command.
+To conclude, we'll explore one tool Deno includes in its binary, the script installer, made available by the `install` command.
 
-This is one of many features like a test runner, linter, code formatter that you get access too as long as you install Deno.
+This is one of many tools like a test runner, linter, code formatter that you get access to after installing Deno.
 
-The `install` command will wrap any Deno script in an executable bash program and add it to `/usr/bin`, making it's available across the system.
+The `install` command will wrap any Deno program in an executable bash program and add it to `/usr/bin`, making it available across the system.
 
 ```bash
 $ deno install --name website_compare --allow-read --allow-write --allow-net --allow-env --allow-run --unstable mod.ts
@@ -200,7 +202,7 @@ The big difference is that we can take advantage of some Deno advantages. Those 
 
 Today we've explored `deno-puppeteer`, a package that makes it possible to write *puppeteer* scripts on Deno.
 
-Scripting is one of many use cases for Deno, one of the reasons Deno was created, but definitely not the only one. In this blogpost series' we'll explore different parts of Deno, from rust interoperability to static site generation.
+Scripting is one of many use cases for Deno, and one of the reasons Deno was created, but definitely not the only one. In this blogpost series' we'll explore different parts of Deno, from rust interoperability to static site generation.
 
 We truly believe that, by building on the shoulders of giants (TypeScript, Node.js and Rust) and adding a few things to the mixture, Deno has all it takes to stand out.
 
