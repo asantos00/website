@@ -142,7 +142,7 @@ However, and as we previously mentioned, all Deno programs run in a sandbox thus
 
 For our specific usecase, and because puppeteer needs quite a lot of permissions, it needs to access the environment, network, file system, and have the ability to run processes.
 
-Due to *deno-puppeteer* using a few Deno APIs that are still under active development (and subject to changes), we will need to run our program with the `--unstable` flag.
+Due to `deno-puppeteer` using a few Deno APIs that are still under active development (and subject to changes), we will need to run our program with the `--unstable` flag.
 
 ```bash
 $ deno run --allow-read --allow-write --allow-net --allow-env --allow-run --unstable mod.ts https://picsum.photos --diff
