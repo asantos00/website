@@ -210,7 +210,7 @@ If you're interested in knowing more about Deno and how to use it to build tools
 
 This article (and code) was written by me and my friend [Felipe Schmitt](https://twitter.com/schmittfelipe), a declared *puppeteer* fan which is always ready to explore new pieces of technology.
 
-We'd like to hear what you think about it! If you have any questions, make sure you it us on Twitter or LinkedIn. I'll leave the links below.
+We'd like to hear what you think about it! If you have any questions or suggestions, make sure you hit us on Twitter or LinkedIn. I'll leave the links below.
 
 Felipe: [Twitter](https://twitter.com/schmittfelipe) | [LinkedIn](https://www.linkedin.com/in/felipeschmitt/)
 
