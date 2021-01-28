@@ -35,7 +35,7 @@ const BookHomePage = () => {
               href={data.site.siteMetadata.bookLink}
               target="_blank"
             >
-              Getting started with Deno
+              Deno Web Development
             </a>
           </div>
           <div className={styles.bookSubtitle}>
