@@ -19,7 +19,7 @@ class BlogPostTemplate extends React.Component {
 
     return (
       <React.Fragment>
-        <BookBanner />
+        {/* <BookBanner /> */}
         <Layout location={this.props.location} title={siteTitle}>
           <SEO
             title={post.frontmatter.title}

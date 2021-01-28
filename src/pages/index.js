@@ -16,7 +16,7 @@ class BlogIndex extends React.Component {
 
     return (
       <React.Fragment>
-        <BookHomePage />
+        {/* <BookHomePage /> */}
         <Layout location={this.props.location} title={siteTitle}>
           <SEO title="Home" />
           <Bio />
