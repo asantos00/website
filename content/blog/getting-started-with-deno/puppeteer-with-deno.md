@@ -23,7 +23,7 @@ Out of this experience's learnings, and following the evolution of JavaScript ov
 
 We previously explored some of Deno's premises and how it addresses specific Node.js problems in another article named [Adventures in deno land](https://alexandrempsantos.com/adventures-in-deno-land/). This time we're here for a series or articles that will explore different Deno features.
 
-Today we'll explore `deno-puppeteer`, a port of [puppeteer]() to deno. We'll demonstrate how Deno can make it even simpler to write *puppeteer* scripts and applications.
+Today we'll explore `deno-puppeteer`, a port of [puppeteer](https://pptr.dev/) to deno. We'll demonstrate how Deno can make it even simpler to write *puppeteer* scripts and applications.
 
 ## Deno with Puppeteer
 
