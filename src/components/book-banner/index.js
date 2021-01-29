@@ -24,7 +24,7 @@ const BookBanner = () => {
   `)
   return (
     <div className={styles.wrapper}>
-      <span>I recently published a book!</span>
+      <span>I recently published a book, </span>
       <span className={styles.bookTitle}>
         <a
           onClick={() => registerEvent("title")}
