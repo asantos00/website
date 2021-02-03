@@ -10,15 +10,17 @@ This post is part of an article series where we explore multiple Deno features. 
 - Creating a CLI with Deno
 - Using puppeteer with Deno
 
-Today we're here to explore a specific feature: Deno plugins. If you haven't heard of them, Deno plugins enable users to write code in Rust that can be called from JavaScript. This communication is made by using message passing of Buffers (more on this later).
+Today we're here to explore a specific feature: Deno plugins.
+
+If you haven't heard of them, Deno plugins enable users to write code in Rust that can be called from JavaScript. This communication is made by using message passing from JS code into Rust, and vice versa.
 
 The main reason we're here exploring this is because we believe that this interconnection JS <> Rust unlocks a great amount of potential.
 
-This will be a very hands-on blogpost. You shouldn't need to follow or code it by itself, but you can do it.
+This will be a very hands-on blogpost, but you shouldn't need to follow it with the code editor on the side.
 
-We'll create a Deno plugin. To make its scope short enough, we decided to create an image-manipulation plugin with one single feature: **transform an image to grayscale**.
+To make the scope of this post short enough, we decided to create an image-manipulation plugin with one single feature: **transform an image to grayscale**.
 
-As we develop this plugin and understand the features of Deno, we'll also explain some of the concepts we learned, so that you don't have to do it. Get on board!
+We'll explain the Deno plugins' concept as we develop this plugin. Get on board!
 
 <!-- TODO: mention unstable -->
 
@@ -30,7 +32,7 @@ Yeah, here we are, the good old hello world. As the main goal of plugins is to e
 
 This is how the hello_world function looks like in a Deno plugin.
 
-```rs
+```rust
 use deno_core::plugin_api::Interface;
 use deno_core::plugin_api::Op;
 use deno_core::plugin_api::ZeroCopyBuf;
@@ -49,7 +51,7 @@ For now let's ignore the parameters this function receives and the value it retu
 
 After having the hello_world function, and for Deno to recognize what functions are available to be called from Rust, we need to register this operation by using one specific Deno's core API - `register_op`.
 
-```rs
+```rust
 use deno_core::plugin_api::Interface;
 use deno_core::plugin_api::Op;
 use deno_core::plugin_api::ZeroCopyBuf;
@@ -109,7 +111,7 @@ And that's it, hello world is done! Pursuing our goal of creating a function tha
 
 We previously noticed that Deno operation functions are called with two parameters:
 
-```rs
+```rust
 fn hello_world(
   _interface: &mut dyn Interface,
   _zero_copy: &mut [ZeroCopyBuf],
@@ -151,7 +153,7 @@ We're using the globals `TextEncoder` and `TextDecoder` to encode the text "test
 
 To get this message printed on the console from Rust, this is what we'll have to do:
 
-```rs
+```rust
 pub fn deno_plugin_init(interface: &mut dyn Interface) {
   interface.register_op("testTextParamsAndReturn", op_test_text_params_and_return);
 }
@@ -220,7 +222,7 @@ Note how we have to covert back and forth from JSON into Buffer and vice-versa. 
 
 Parameters sent from JS, we now need to get this image metadata on Rust, and this is how it looks like:
 
- ```rs
+ ```rust
 use deno_core::plugin_api::Interface;
 use deno_core::plugin_api::Op;
 use deno_core::plugin_api::ZeroCopyBuf;
@@ -279,7 +281,7 @@ We're getting closer and closer to our final goal. Until now we managed to get t
 
 We now know that somehow we'll be able to send the metadata and the image into the plugin. Having the image, it's the plugins' job to convert it into grayscale, as the next code snippet does.
 
-```rs
+```rust
 const RGB_PIXEL_SIZE: usize = 3;
 const RGBA_PIXEL_SIZE: usize = 4;
 
@@ -319,7 +321,7 @@ You might have noticed that we're running `std::thread::sleep` method inside thi
 
 The conversion into grayscale is then delegated to another function, `to_grey_scale`, which contains the following code:
 
-```rs
+```rust
 fn to_grey_scale(image_array: &mut[u8], pixel_size: usize) {
   let image_array_length = image_array.len() - (image_array.len() % pixel_size);
 
