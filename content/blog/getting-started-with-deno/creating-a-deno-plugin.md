@@ -175,7 +175,7 @@ You can see that we're converting the buffers coming from JS into text and print
 
 The final result of executing this is the following:
 
-```sh
+```bash
 $ deno run --unstable --allow-plugin main.js
 
 ADD OUTPUT
@@ -265,7 +265,7 @@ Then, we're logging the paramters, and sending a JSON object back to JavaScript 
 
 We can now run this code and check the result:
 
-```sh
+```bash
 $ deno run --unstable --allow-plugin main.js
 
 OUTPUT
@@ -382,7 +382,7 @@ The plugin code that will handle this `toGreyScale` from the plugin side is the 
 
 If we execute the following code with a random image, this is the result we get.
 
-```sh
+```bash
 $ deno run --unstable --allow-plugin --allow-read
 
 OUTPUT
