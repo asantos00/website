@@ -5,125 +5,286 @@ date: "2021-01-15"
 published: true
 ---
 
-In May 2020, the first stable version of Deno was launched. There was plenty of enthusiasm around its release, many people jumped on the hype train and started to try it out.
+This post is part of an article series where we explore multiple Deno features. This is the 3rd post, but previously we wrote about:
 
-As a JavaScript enthusiast and as someone that loved Deno's premises from the day Ryan first presented it, I did the same and documented it in a [blogpost]().
+- Creating a CLI with Deno
+- Using puppeteer with Deno
 
-Since this first release, 7 minor versions have been launched, Deno is now at version 1.7, and many new features were added.
+Today we're here to explore a specific feature: Deno plugins. If you haven't heard of them, Deno plugins enable users to write code in Rust that can be called from JavaScript. This communication is made by using message passing of Buffers (more on this later).
 
-Today we are here to explore one of Deno's most promising features. Its plugin API.
+The main reason we're here exploring this is because we believe that this interconnection JS <> Rust unlocks a great amount of potential.
 
-I still remember one thing Ryan said in its initial talk.
-His desire was that ideally, a developer would be able to start coding in JavaScript, later migrate some code into TypeScript and eventually migrate part of their performance critical code into Rust. This seemed like a thing that was too far ahead, but at the same time it seemed like a big enabler in terms of performance. Deno plugin API seemed the solution for this.
+This will be a very hands-on blogpost. You shouldn't need to follow or code it by itself, but you can do it.
 
-Deno shipped a plugin API from its early days. It is unstable, and thus subject to change at any time. This plugin API is what enables the interoperability between Deno's core (written in Rust), and the Deno code, written in JavaScript. Put simple, it enables developers to send information from JavaScript code into Rust and get a response back.
+We'll create a Deno plugin. To make its scope short enough, we decided to create an image-manipulation plugin with one single feature: **transform an image to grayscale**.
 
-In the following article we'll explore how can we use this capacity to execute performance critical code. We'll write a Deno plugin that converts images to grayscale. We will create the Rust crate that will be the plugin, create a hello world function, and call it from Deno. After this, we will implement the functionality to convert an image to greyscale.
+As we develop this plugin and understand the features of Deno, we'll also explain some of the concepts we learned, so that you don't have to do it. Get on board!
 
-## Creating the plugin
+<!-- TODO: mention unstable -->
 
-The first two things we'll need to build a plugin are: A JavaScript file to send messages to the plugin, and the plugin code, written in Rust.
+If you want to follow by looking at the code, [here you have it]().
 
-For this, we'll need to create a rust plugin, we'll do it in a folder named `rust-plugin`. We had to setup the manifest, defining multiple crate-types so that it compiles to multiple operative systems (https://doc.rust-lang.org/reference/linkage.html).
+## Hello world
 
+Yeah, here we are, the good old hello world. As the main goal of plugins is to enable us to write Rust code in a JavaScript codebase, that's where we started.
 
-
-We'll later need to compile this using `cargo`, Rust's package manager, which you can install [here](https://doc.rust-lang.org/cargo/getting-started/installation.html).
-
-To make this work as a Deno plugin, we need to do a couple of things. The first is to define what will be our `hello_world` function.
+This is how the hello_world function looks like in a Deno plugin.
 
 ```rs
+use deno_core::plugin_api::Interface;
+use deno_core::plugin_api::Op;
+use deno_core::plugin_api::ZeroCopyBuf;
+
 fn hello_world(
   _interface: &mut dyn Interface,
   _zero_copy: &mut [ZeroCopyBuf],
 ) -> Op {
-  println!("Hello from rust");
+  println!("Rust: Hello from rust.");
 
   Op::Sync(Box::new([]))
 }
 ```
 
-Operation functions are always called with an `Interface` (ask Nuno for details) and with a `ZeroCopyBuf` that contains the parameters sent from Deno. When operations are synchronous (more about this later) the operation function must return an `Op` with the response.
+For now let's ignore the parameters this function receives and the value it returns. What matters here is that this function is printing a message to the console.
 
-We'll need to register our operation (Hello world) in Deno's plugins API, and write the code to print hello world to the console.
+After having the hello_world function, and for Deno to recognize what functions are available to be called from Rust, we need to register this operation by using one specific Deno's core API - `register_op`.
 
 ```rs
 use deno_core::plugin_api::Interface;
+use deno_core::plugin_api::Op;
+use deno_core::plugin_api::ZeroCopyBuf;
 
 #[no_mangle]
 pub fn deno_plugin_init(interface: &mut dyn Interface) {
   interface.register_op("helloWorld", hello_world);
 }
 
-
 fn hello_world(
-  // Cut for brevity
+  _interface: &mut dyn Interface,
+  _zero_copy: &mut [ZeroCopyBuf],
+) -> Op {
+  println!("Rust: Hello from rust.");
+
+  Op::Sync(Box::new([]))
 }
 ```
 
-The public `deno_plugin_init` function is what will be called by Deno when trying to initiate a plugin, and that's where operations are registered, by calling the `register_op` function with a name and a reference for the operation function (`hello_world` for the case). The hello world function just returns an empty Op, to match the operations function interface.
+<!-- TODO: mention no_mangle? -->
 
-With this we have the bare minimum for a plugin to work. We just need to compile it, and load it from Deno.
+Operation registered, we should now be able to call it from our JavaScript code. Deno's plugin API doesn't allow to directly call a function, but instead we must dispatch a message that will do it for us.
 
-It might take a little on the first time, as it will fetch all the dependent crates, including `deno_core` we established as a dependency. After it finishes, a `target` folder will be created. Inside there will be a folder named `debug` with a `libtest_plugin.so` file (the file exntension might change depending on the OS), this is the file we'll load on Deno in the next section.
+```js
+const rustPluginId = Deno.openPlugin(`./rust-plugin/${rustLibFilename}`);
 
-// TODO: talk about git fetch env variable CARGO_NET_GIT_FETCH_WITH_CLI
+const { helloWorld } = Deno.core.ops();
 
-## Loading the plugin from Deno
-
-Rust code done and compiled, we can't wait to interact with it. To do it we'll use a couple of unstable APIs from Deno, `openPlugin` and `core`.
-
-We'll need to load the plugin, using `Deno.openPlugin`, and handling the different file extensions depending on the Operative System.
-
-```ts
-const filenameBase = "test_plugin";
-
-let filenameSuffix = ".so";
-let filenamePrefix = "lib";
-
-if (Deno.build.os === "windows") {
-  filenameSuffix = ".dll";
-  filenamePrefix = "";
-}
-if (Deno.build.os === "darwin") {
-  filenameSuffix = ".dylib";
+function runHelloWorld() {
+  Deno.core.dispatch(helloWorld);
 }
 
-const filename = `./rust-plugin/${filenamePrefix}${filenameBase}${filenameSuffix}`;
-
-const rid = Deno.openPlugin(filename);
+runHelloWorld();
 ```
 
-Keep in mind that the `filenameBase` variable must match the crate name in `Cargo.toml`. What is returned by the `openPlugin` API is Deno's "equivalent" to a process id, the resource id.
+That's all we need to get the hello_world function we wrote on Rust to be called. Some things are happening here, let me explain it before we execute this.
 
-After having the plugin loaded, it is time to start calling and getting results from the core side.
+- Loading the plugin by calling `Deno.openPlugin` with the path for the compiled Rust artifact.
 
-```ts
-const rid = Deno.openPlugin(filename);
-const { helloWorld } = Deno.core.ops()
+*Gotcha*: Rust artifact's file extension changes depending on the Operative System. We create a function called `resolveRustLibFilename` that handles it [here](https://github.com/NMFR/deno-image-transform/blob/add-rust-plugin/main.js#L9).
 
-Deno.core.dispatch(helloWorld)
+- Getting the operation identifier from `Deno.core.ops` with the same name we registered on Rust
+
+- Dispatching a message with the operation identifier (`helloWorld`) to run it
+
+If we execute the following code, this is what we get:
+
+```
+$ deno run --unstable --allow-plugin main.ts
+
+ADD OUTPUT HERE
 ```
 
-Now it's just a matter triggering this `helloWorld` operation to run. Deno's architecture is thought so that all the communication between JavaScript and Rust are made using message passing, and that's what we'll do. We can now execute our script.
+And that's it, hello world is done! Pursuing our goal of creating a function that transforms an image into grayscale, the next step is to be able to send parameters into the plugin code, written in Rust. That's what we'll do next.
 
-```bash
-$ deno run --allow-plugin --unstable main.js
-Hello from rust
-```
+## Sending parameters
 
-Hello world is done! We managed to write code in Rust and call it from the Deno side, our initial job here is done! We can now proceed into our initial requirements, write a plugin that converted an image to greyscale, and that's what we'll do next.
-
-## Converting an image to greyscale
-
-This was our initial main goal, to leverage the power of Rust to do processor heavy operations. Now that we know how to develop and communicate with a plugin, we're in great shape to start fulfilling our requirements.
-
-Let's create a new operation function that will receive a buffer of the decoded bytes of an image and convert it to grayscale.
+We previously noticed that Deno operation functions are called with two parameters:
 
 ```rs
+fn hello_world(
+  _interface: &mut dyn Interface,
+  _zero_copy: &mut [ZeroCopyBuf],
+) -> Op {
+```
 
+The first parameter, `_interface`, is the same interface made available in the `deno_plugin_init` function, the one that allows us to register new operations.
+
+The second one, `_zero_copy` is what interests us more here. It's a `ZeroCopyBuffer` from JavaScript. Deno plugin API mandates that all communications are made using buffers, and the `_zero_copy` buffer is where the parameters sent from JavaScript will live.
+
+As you might have guessed by now, if we're sending Buffers but we want to send text, we will need to do some encoding and decoding before we send these messages, as the following JavaScript snippet shows.
+
+```js
+const rustPluginId = Deno.openPlugin(`./rust-plugin/${rustLibFilename}`);
+const { testTextParamsAndReturn } = Deno.core.ops();
+
+function runTestTextParamsAndReturn() {
+  const textEncoder = new TextEncoder();
+  const param0 = textEncoder.encode("text");
+  const param1 = textEncoder.encode("sent from");
+  const param2 = textEncoder.encode("deno");
+
+  const response = Deno.core.dispatch(
+    testTextParamsAndReturn,
+    param0,
+    param1,
+    param2
+  );
+
+  const textDecoder = new TextDecoder();
+  const result = textDecoder.decode(response);
+  console.log(`Deno: result: ${result}`);
+}
+
+runTestTextParamsAndReturn();
+```
+
+We're using the globals `TextEncoder` and `TextDecoder` to encode the text "test sent from deno" that will be sent as 3 different paramters to `Deno.core.dispatch`. Then we're decoding the message we get from Rust, and printing it to the console.
+
+To get this message printed on the console from Rust, this is what we'll have to do:
+
+```rs
 pub fn deno_plugin_init(interface: &mut dyn Interface) {
-  // Ommited for brevity
+  interface.register_op("testTextParamsAndReturn", op_test_text_params_and_return);
+}
+
+fn op_test_text_params_and_return(
+  _interface: &mut dyn Interface,
+  zero_copy: &mut [ZeroCopyBuf],
+) -> Op {
+  for (idx, buf) in zero_copy.iter().enumerate() {
+    let param_str = std::str::from_utf8(&buf[..]).unwrap();
+
+    println!("Rust: param[{}]: {}", idx, param_str);
+  }
+
+  let result = b"result from rust";
+  Op::Sync(Box::new(*result))
+}
+```
+
+You can see that we're converting the buffers coming from JS into text and printing it. Then we're returning `Op:Sync`, this method is the way for plugins to send messages back into the JavaScript code.
+
+The final result of executing this is the following:
+
+```sh
+$ deno run --unstable --allow-plugin main.js
+
+ADD OUTPUT
+```
+
+As we can see, we get the params sent printed by the Rust code, and the response from Rust code printed using JavaScript, the communication is working!
+
+The next step towards getting this image to grayscale plugin to work, is to be able to send the image metadata to the plugin. Since JSON is the native format on JavaScript, that's what we'll use.
+
+## Sending JSON parameters
+
+Our objective here is to send a JSON object with some specificites about the image to the plugin code. We already know that the communication is done using Buffers, and thus we'll need to convert this JSON object into a Buffer (`Uint8Array`), this is what the JavaScript code looks like.
+
+```js
+const rustPluginId = Deno.openPlugin(`./rust-plugin/${rustLibFilename}`);
+const { testJsonParamsAndReturn } = Deno.core.ops();
+
+function runTestJsonParamsAndReturn() {
+  const textEncoder = new TextEncoder();
+  const image = {
+    hasAlphaChannel: true,
+    size: {
+      width: 100,
+      height: 50,
+    },
+  };
+
+  const imageMetadata = textEncoder.encode(JSON.stringify(image));
+  const response = Deno.core.dispatch(testJsonParamsAndReturn, imageMetadata);
+
+  const textDecoder = new TextDecoder();
+  const result = textDecoder.decode(response);
+  console.log(`Deno: result: ${result}`);
+  const jsonResult = JSON.parse(result);
+  console.log(`Deno: jsonResult.success: ${jsonResult.success}`);
+}
+
+runTestJsonParamsAndReturn();
+```
+
+Note how we have to covert back and forth from JSON into Buffer and vice-versa. We're also logging these values to the console so that it's clear what's happening when we execute the code.
+
+Parameters sent from JS, we now need to get this image metadata on Rust, and this is how it looks like:
+
+ ```rs
+use deno_core::plugin_api::Interface;
+use deno_core::plugin_api::Op;
+use deno_core::plugin_api::ZeroCopyBuf;
+use deno_core::serde_json;
+
+ fn op_test_json_params_and_return(
+  _interface: &mut dyn Interface,
+  zero_copy: &mut [ZeroCopyBuf],
+) -> Op {
+  let image_metadata = &zero_copy[0];
+  let json: serde_json::Value = serde_json::from_slice(image_metadata).unwrap();
+  let has_alpha_channel: bool = match &json[("hasAlphaChannel")] {
+    serde_json::Value::Bool(b) => *b,
+    _ => true,
+  };
+  let width = match &json["size"]["width"] {
+    serde_json::Value::Number(n) => n.as_u64().unwrap_or(0),
+    _ => 0,
+  };
+  let height = match &json["size"]["height"] {
+    serde_json::Value::Number(n) => n.as_u64().unwrap_or(0),
+    _ => 0,
+  };
+
+  println!("Rust: json param: {}", json);
+  println!("Rust: has_alpha_channel: {}", has_alpha_channel);
+  println!("Rust: width: {}", width);
+  println!("Rust: height: {}", height);
+
+  let result = serde_json::json!({
+    "success": true
+  });
+  Op::Sync(serde_json::to_vec(&result).unwrap().into_boxed_slice())
+}
+```
+
+Our previous knowledge tells us that `_zero_copy` contains the paramters sent from JS, and thus we're getting the first, which is the image metadata Buffer.
+
+We're decoding this buffer using `serde_json`, made available by the Deno core. This function decodes JSON parameters into a dicionary object, which we called `json` here.
+
+Then, we're logging the paramters, and sending a JSON object back to JavaScript indicating that the function run successfully.
+
+We can now run this code and check the result:
+
+```sh
+$ deno run --unstable --allow-plugin main.js
+
+OUTPUT
+```
+
+We can see that the parameters are being printed from Rust, and that the success message sent from the plugin is reaching the JS code. We're getting there! The next step is to send the image to grayscale into the plugin.
+
+## Sending the image to the plugin
+
+We're getting closer and closer to our final goal. Until now we managed to get the communication working between the plugin and the JavaScript code. We also managed to send a JSON with important metadata information.
+
+We now know that somehow we'll be able to send the metadata and the image into the plugin. Having the image, it's the plugins' job to convert it into grayscale, as the next code snippet does.
+
+```rs
+const RGB_PIXEL_SIZE: usize = 3;
+const RGBA_PIXEL_SIZE: usize = 4;
+
+#[no_mangle]
+pub fn deno_plugin_init(interface: &mut dyn Interface) {
   interface.register_op("toGreyScale", op_to_grey_scale);
 }
 
@@ -131,102 +292,166 @@ fn op_to_grey_scale(
   _interface: &mut dyn Interface,
   zero_copy: &mut [ZeroCopyBuf],
 ) -> Op {
-  let arg0 = &mut zero_copy[0];
-  let image_array: &mut[u8] = arg0.as_mut();
+  let image_metadata = &zero_copy[0];
+  let json: serde_json::Value = serde_json::from_slice(image_metadata).unwrap();
+  let has_alpha_channel: bool = match &json[("hasAlphaChannel")] {
+    serde_json::Value::Bool(b) => *b,
+    _ => true,
+  };
+  let pixel_size = if has_alpha_channel { RGBA_PIXEL_SIZE } else { RGB_PIXEL_SIZE };
+  let image = &mut zero_copy[1];
+  let image_array: &mut[u8] = image.as_mut();
 
-  to_grey_scale(image_array);
+  println!("Rust: sleeping for 2000 ms (simulating a >2000 ms execution time)");
+  std::thread::sleep(std::time::Duration::from_secs(2));
+
+  to_grey_scale(image_array, pixel_size);
+
+  println!("Rust: to_grey_scale() finished");
 
   Op::Sync(Box::new([]))
 }
-
-fn to_grey_scale(image_array: &mut[u8]) {
-  // Logic to convert each separate pixel to grayscale
-}
-
 ```
 
-Once again, we need to register the operation and the associated function. In this specific case we're again returning an empty `Op` from the operation function. If you are wondering why that happens is because we are directly mutating the `ZeroCopyBuf`. This gives us some performance benefits, since we don't need to be cloning this array and we can directly mutate the one sent.
+Once again we're decoding the image metadata and getting its parameters. Then we're checking what's the pixel size based on that (images with alpha channel have a pixel size of 4, while images without transparency have a pixel size of 3).
 
-The logic to convert to grayscale is quite simple, it's just going through all pixels and calculating the average of the 3 colors (red, green and blue), the result is the gray color to be converted too. It is available [here]() if you want to check the code.
+You might have noticed that we're running `std::thread::sleep` method inside this function. We're using this to simulate a CPU heavy task that will take more than 2 seconds. You can ignore this for now, as we'll come back later to explain why we want this there.
 
-On Deno's side, we need to read an image file, decode it and call this operation we just registered. We'll be using a library (jpegts) to encode and decode the JPEG image.
+The conversion into grayscale is then delegated to another function, `to_grey_scale`, which contains the following code:
 
-```ts
+```rs
+fn to_grey_scale(image_array: &mut[u8], pixel_size: usize) {
+  let image_array_length = image_array.len() - (image_array.len() % pixel_size);
+
+  for i in (0..image_array_length).step_by(pixel_size) {
+    let pixel_average = (((image_array[i] as u16) + (image_array[i + 1] as u16) + (image_array[i + 2] as u16)) / 3) as u8;
+    image_array[i] = pixel_average;
+    image_array[i + 1] = pixel_average;
+    image_array[i + 2] = pixel_average;
+  }
+}
+```
+
+*Note*: Converting an image to grayscale is just setting the values of the red, green, and blue pixesl to an average of all of them.
+
+<!-- TODO: better explanation -->
+
+What we'll do now is to load the image from the filesystem using Deno APIs, and sending it's decoded content into Rust, then letting it do its magic.
+
+The JavaScript code that does this is quite simple:
+
+```js
 import { decode, encode } from "https://deno.land/x/jpegts@1.1/mod.ts";
 
-// Ommited for brevity
+const rustPluginId = Deno.openPlugin(`./rust-plugin/${rustLibFilename}`);
+const {
+  toGreyScale,
+} = Deno.core.ops();
 
-const { helloWorld, toGreyScale } = Deno.core.ops();
+async function runToGreyScale(inputFilename, outputFilename) {
+  let raw = await Deno.readFile(`images/${inputFilename}`);
+  const image = decode(raw);
+  const textEncoder = new TextEncoder();
+  const imageDescriptor = {
+    hasAlphaChannel: true,
+    size: {
+      width: image.width,
+      height: image.height,
+    },
+  };
+  const imageMetadata = textEncoder.encode(JSON.stringify(imageDescriptor));
+  const decodedImage = image.data;
 
-// Ommited for brevity
+  Deno.core.dispatch(toGreyScale, imageMetadata, decodedImage);
 
-let raw = await Deno.readFile(`dino.jpeg`);
+  raw = encode(image, 100);
 
-const image = decode(raw);
+  await Deno.writeFile(`images/output/${outputFilename}`, raw.data);
 
-Deno.core.dispatch(toGreyScale, image.data);
-
-raw = encode(image, 100);
-
-await Deno.writeFile(`dino-grey.jpeg`, raw.data);
-```
-
-The code is quite straightforward, at first we read the JPEG image, then we `dispatch` an action for the `toGrayScale` operation, and send the image data. All the data sent into operations must be sent and received `Uint8Array` format.
-
-By running this, we can actually convert any image into grayscale, in our case we have an image in the current folder, named `dino.jpeg`, and after running the script we get a `dino-grey.jpeg`. Look at the comparison below:
-
-![image-color]()
-![image-gray]()
-
-And that's it!
-
-We just fulfilled our requirement and we got it working, leveraging Rust to delegate performance critical operations, and calling that from Deno.
-
-There are other details that we think might be interesting. Those are things like asynchronous operations and when to use them in favour of synchronous operations, or what's the performance differences between running such code in JavaScript or Rust. We'll address those next.
-
-## Sending and retuning JSON
-
-The usecase we just did was quite simple. All we needed was to send an image and convert it to grayscale. As we try to handle more complex logic, it is very likely that we need to send more complex parameters.
-The go-to solution is to send JSON back and forth to the plugin. To do it, we need to JSON marshalling and unmarshalling. This isn't much different to what we did in the past, with the small difference that we're now encoding and decoding the buffer sent.
-
-- Mention json crate (and not using it because of async)
-- Mention deno PR about json comms
-_______________________
-
-
-## Pitfalls
-
-But not everything is perfect and full of roses. Currently, and mainly due to its still unstable nature, there are still a couple of pitfalls one might encounter while developing a Deno plugin. We'll list the ones we found until now.
-
-### Plugin extension for multiple OSes
-
-As we previously mentioned, the process of developing a plugin requires you to write a file in Rust that gets compiled and later loaded into Deno.
-
-The outcome of this Rust code compilation results in different file extensions depending on the target operating system. To get a Deno plugin running on the currently suported environments (Windows, MacOS, Linux), we have to take this in consideration, and load different files depending on the host Operating System.
-
-This is why you'll find code like this in plugins very frequently:
-
-```ts
-const filenameBase = "test_plugin";
-
-let filenameSuffix = ".so";
-let filenamePrefix = "lib";
-
-if (Deno.build.os === "windows") {
-  filenameSuffix = ".dll";
-  filenamePrefix = "";
-}
-if (Deno.build.os === "darwin") {
-  filenameSuffix = ".dylib";
+  console.log(
+    `Deno: runToGreyScale(\"images/${inputFilename}\") > "images/output/${outputFilename}"`
+  );
 }
 
-const filename = `./rust-plugin/${filenamePrefix}${filenameBase}${filenameSuffix}`;
-
-const rid = Deno.openPlugin(filename);
+await runToGreyScale("dice.jpg", "dice.jpg");
 ```
 
-### No type definitions
+We're using a third-party library named `jpegjs` to decode the image from JPEG into a buffer. That buffer is then sent to the plugin. After the plugin returns, all we do is writing its result into a file.
 
-Another topic where Deno really shines are type definitions. The fact that its core and standard-library are written and TypeScript makes sure there are very well-defined types. This gives developers a really complete documentation and autocomplete experience.
+The plugin code that will handle this `toGreyScale` from the plugin side is the following:
 
-However, as of the plugins API, this isn't yet the case, again due to this API being in constant evolution and still unstable.
+If we execute the following code with a random image, this is the result we get.
+
+```sh
+$ deno run --unstable --allow-plugin --allow-read
+
+OUTPUT
+```
+
+**Before**
+
+![image-before]()
+
+**After**
+
+![image-after]()
+
+And it is working!
+
+One thing you might have noticed that we're not getting the return value from Rust after calling `Deno.core.dispatch`. However, our final code works. This is quite a strange behaviour, let me tell you why it happened:
+
+In the above snippet we're using the same exact `image` variable that before contained the image in colors to save to the filesystem, and its working, but why?
+
+We previously mentioned that the `ZeroCopyBuffer` sent into the plugins is a reference to the buffer sent from JS. This means that if this same buffer is modified (as it was by Rust's code), these changes directly reflect on the JavaScript side. That's what happened here.
+
+Even though we got it working, this behaviour might be a little unintuitive. We'll fix it later in this blogpost.
+
+It might seem like our final objective is achieved. Not so fast 😄. Remember that `std::tread::sleep` that we said we'd be back to? That's what we're doing now
+
+One of the reasons we want to delegate CPU heavy tasks like image manipulation to a plugin is because of performance. We know that these logics will run much faster in Rust, enabling us to keep executing JavaScript code as the task is being executed in the background.
+
+Our code might have worked, but it might not be using this *asychronosity* as it should.
+
+Let's do a test and add a couple of console logs to a function that calls `toGreyScale` so that we get a better understanding of the execution order.
+
+```js
+const sleep = (milliseconds) => {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+};
+
+async function runToGreyScaleHangTest() {
+  const toGreyScalePromise = runToGreyScale("dice.jpg", "hang-dice.jpg");
+
+  console.log(
+    "Deno: runToGreyScale() started, will try to do other stuff meanwhile"
+  );
+
+  for (let i = 0; i < 5; ++i) {
+    console.log(
+      "Deno: sleeping for 200 ms (pretending to do something in parallel of runToGreyScale())"
+    );
+    await sleep(200);
+  }
+
+  await toGreyScalePromise;
+}
+
+await runToGreyScaleHangTest();
+```
+
+Note how we're firing the `runToGreyScale` execution but only awaiting on its execution at the end of the function with `await runToGreyScaleHangTest()`. If you are familiar with JavaScript, and assuming that our `runToGreyScale` function is asynchronous, the code inside the for loop should run before `runToGreyScale` finishes, right?
+
+Well... Let's check.
+
+
+```bash
+$ deno run
+
+OUTPUT
+```
+
+It doesn't seem like it, the function is triggered to start on the plugin, but then it *stops the world* and nothing is executed as the Rust code is doing its processing (and waiting for 2 full seconds).
+
+This isn't the behaviour we want. One of the advantages of JavaScript asynchronicity is that it allows other code to be executed while heavy processing tasks are happening. The next section we'll explain how can we solve this problem.
+
+## Fully leveraging asynchronicity
