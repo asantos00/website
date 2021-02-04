@@ -12,15 +12,13 @@ This post is part of an article series where we explore multiple Deno features. 
 
 Today we're here to explore a specific feature: Deno plugins.
 
-If you haven't heard of them, Deno plugins enable users to write code in Rust that can be called from JavaScript. This communication is made by using message passing from JS code into Rust, and vice versa.
+If you haven't heard of them, Deno plugins enable users to write code in Rust that can be called from JavaScript using message passing.
 
-The main reason we're here exploring this is because we believe that this interconnection JS <> Rust unlocks a great amount of potential.
+The main reason we're here exploring this feature is because we believe that this interconnection between JS and Rust unlocks a great amount of potential.
 
-This will be a very hands-on blogpost, but you shouldn't need to follow it with the code editor on the side.
+As we want this to resemble the real environment of developing a plugin, we'll develop one through the course of this blog post. To make the scope short enough, we will create a simple image-manipulation plugin with one single feature: **transform an image to grayscale**.
 
-To make the scope of this post short enough, we decided to create an image-manipulation plugin with one single feature: **transform an image to grayscale**.
-
-We'll explain the Deno plugins' concept as we develop this plugin. Get on board!
+Excited? Let's go!
 
 <!-- TODO: mention unstable -->
 
@@ -179,7 +177,7 @@ You can see that we're converting the buffers coming from JS into text and print
 
 The final result of executing this is the following:
 
-```bash
+```shell
 $ deno run --unstable --allow-plugin main.js
 
 ADD OUTPUT
@@ -271,7 +269,7 @@ Then, we're logging the paramters, and sending a JSON object back to JavaScript 
 
 We can now run this code and check the result:
 
-```bash
+```shell
 $ deno run --unstable --allow-plugin main.js
 
 OUTPUT
@@ -389,7 +387,7 @@ We're using a third-party library named `jpegjs` to decode the image from JPEG i
 
 If we execute the following code with a random image, this is the result we get.
 
-```bash
+```shell
 $ deno run --unstable --allow-plugin --allow-read
 
 OUTPUT
@@ -457,7 +455,7 @@ Note how we're firing the `runToGreyScale` execution but only awaiting on its ex
 Well... Let's check.
 
 
-```bash
+```shell
 $ deno run
 
 OUTPUT
