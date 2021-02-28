@@ -16,11 +16,11 @@ If you haven't heard of them, Deno plugins enable users to write code in Rust th
 
 The main reason we're here exploring this feature is because we believe that this interconnection between JS and Rust unlocks a great amount of potential.
 
-As we want this to resemble the real environment of developing a plugin, we'll develop one through the course of this blog post. To make the scope short enough, we will create a simple image-manipulation plugin with one single feature: **transform an image to grayscale**.
+We want this exploration to resemble a real world use case, so we'll be creating a simple image-manipulation Rust plugin with one single feature: **transform an image to grayscale**.
 
 Excited? Let's go!
 
-<!-- TODO: mention unstable -->
+*Note*: It's worth to mention that Deno's Rust plugin feature is at the unstable stage, so expect its API to change. For example, this is the reason our examples are not in typescript but in javascript, the `Deno.core` type definition is missing and this will cause type errors if we try to use `.ts`. We will also need to use the deno `--unstable` flag to use the Rust plugin.
 
 If you want to follow by looking at the code, [here you have it]().
 
@@ -28,7 +28,7 @@ If you want to follow by looking at the code, [here you have it]().
 
 Yeah, here we are, the good old hello world. As the main goal of plugins is to enable us to write Rust code in a JavaScript codebase, that's where we started.
 
-This is how the hello_world function looks like in a Deno plugin.
+This is how the hello_world function looks like from Rust's side.
 
 ```rust
 use deno_core::plugin_api::Interface;
@@ -47,7 +47,7 @@ fn hello_world(
 
 For now let's ignore the parameters this function receives and the value it returns. What matters here is that this function is printing a message to the console.
 
-After having the hello\_world function, and for Deno to recognize what functions are available to be called from Rust, we need to register this operation by using one specific Deno's core API - `register_op`.
+After having the hello\_world Rust function we still need to tell Deno to recognize what functions are available to be called from Rust, we need to register this operation by using one specific Deno's core API - `register_op`.
 
 ```rust
 use deno_core::plugin_api::Interface;
@@ -69,7 +69,7 @@ fn hello_world(
 }
 ```
 
-<!-- TODO: mention no_mangle? -->
+*Note*: The `#[no_mangle]` attribute turns off Rust's name mangling, so that it is easier to link to. Deno requires this.
 
 Operation registered, we should now be able to call it from our JavaScript code. Deno's plugin API doesn't allow to directly call a function, but instead we must dispatch a message that will do it for us.
 
@@ -78,6 +78,10 @@ const rustPluginId = Deno.openPlugin(`./rust-plugin/${rustLibFilename}`);
 
 const { helloWorld } = Deno.core.ops();
 
+if (!(helloWorld > 0)) {
+  throw "bad op id for helloWorld";
+}
+
 function runHelloWorld() {
   Deno.core.dispatch(helloWorld);
 }
@@ -85,27 +89,38 @@ function runHelloWorld() {
 runHelloWorld();
 ```
 
-That's all we need to get the hello\_world function we wrote on Rust to be called.
+That's all we need to get the hello\_world Rust function called.
 
-Some things are happening here, let me explain it before we execute this.
+If we run:
 
-- Loading the plugin by calling `Deno.openPlugin` with the path for the compiled Rust artifact.
-
-*Gotcha*: Rust artifact's file extension changes depending on the Operative System. We create a function called `resolveRustLibFilename` that handles it [here](https://github.com/NMFR/deno-image-transform/blob/add-rust-plugin/main.js#L9).
-
-- Getting the operation identifier from `Deno.core.ops` with the same name we registered on Rust
-
-- Dispatching a message with the operation identifier (`helloWorld`) to run it
-
-If we execute the following code, this is what we get:
-
-```
+```sh
 $ deno run --unstable --allow-plugin main.ts
-
-ADD OUTPUT HERE
 ```
 
-And that's it, hello world is done! Pursuing our goal of creating a function that transforms an image into grayscale, the next step is to be able to send parameters into the plugin code, written in Rust. That's what we'll do next.
+We should see this output:
+
+```sh
+Rust: Hello from rust.
+```
+
+Lets break down what happened:
+
+- We are loading the plugin in Deno by calling `Deno.openPlugin` with the path for the compiled Rust artifact.
+
+*Note*: Rust artifact's file name and extension change depending on the Operative System. We created a function called [`resolveRustLibFilename`](https://github.com/NMFR/deno-image-transform/blob/add-rust-plugin/main.js#L9) that handles this.
+
+- Deno will load the Rust artifact (SHOULD WE SWITCH THE "artifact" WORD WITH "library"?) and will execute the Rust `deno_plugin_init` function. This function in turn registers the `hello_world` Rust function has an operation with the name "helloWorld".
+
+- After the plugin is loaded we get the "helloWorld" operation identifier from `Deno.core.ops`.
+
+- We check if the operation identifier is valid ensuring that Deno knows the "helloWorld" operation.
+
+- We then dispatch a message with the "helloWorld" operation identifier telling Deno to call the Rust operation.
+
+- The dispatch will in turn call the `hello_world` Rust function, and the function will print the output that we see.
+
+
+And that's it, hello world is done! Pursuing our goal of creating a function that transforms an image into grayscale, the next step is to be able to send parameters and receive results from the plugin code, written in Rust. That's what we'll do next.
 
 ## Sending parameters
 
