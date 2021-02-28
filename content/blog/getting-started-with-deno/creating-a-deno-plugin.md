@@ -47,7 +47,7 @@ fn hello_world(
 
 For now let's ignore the parameters this function receives and the value it returns. What matters here is that this function is printing a message to the console.
 
-After having the hello\_world Rust function we still need to tell Deno to recognize what functions are available to be called from Rust, we need to register this operation by using one specific Deno's core API - `register_op`.
+After having the hello\_world Rust function we still need to tell Deno about the functions that are available to be called from Rust, we need to register this operation by using one specific Deno's core API - `register_op`.
 
 ```rust
 use deno_core::plugin_api::Interface;
