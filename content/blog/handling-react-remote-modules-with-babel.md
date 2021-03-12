@@ -5,8 +5,11 @@ date: '2021-03-12'
 published: false
 ---
 
-As my friend and colleague David is sharing on his blogpost series, we're using Microfrontends to enable different products to be created under the same codebase.
-This is an ongoing effort to give teams the capability to iterate faster, and have independent release cycles while sharing code and maintaining the User Experience. David is doing a great job documenting this whole process and architecture, and thus I'll not repeat myself here.
+As my friend and colleague David is sharing on his blogpost series, we're using Microfrontends to enable different products to be created under the same codebase. 
+
+This is an ongoing effort to give teams the capability to iterate fast, and to have independent release cycles while sharing code and maintaining the User Experience. 
+
+David is doing a great job documenting this whole process and architecture, and thus I'll not repeat myself here. [add-david-mfe-link]()
 
 As part of this initiative, we created a shared library (which works as any other MFE) and only contains the components that are shared across products. All of this lives on a single repo, and we're using Webpack's Module Federation to define this clear interface between products.
 
