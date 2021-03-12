@@ -249,7 +249,8 @@ We believe that, even though the loader's code might not be too easy to understa
 
 It was also a very nice learning opportunity, navigating in the world of babel plugins and AST manipulation.
 
-TODO: conclusion & fixing bugs
+TODO: conclusion & fixing bugs & mentions (tiago, david, joni)
+
 
 
 
