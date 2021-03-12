@@ -13,7 +13,12 @@ David is doing a great job documenting this whole process and architecture, and 
 
 As part of this initiative, we created a shared library (which works as any other MFE) and only contains the components that are shared across products. All of this lives on a single repo, and we're using Webpack's Module Federation to define this clear interface between products.
 
-Here's what we need to do when we load a component that belongs to the **shared** library. This is what we'll refer to as a "remote component" throughout the rest of the article.
+However, some challenges came out of this, and one of them is the one I'm sharing here today.
+## The challenge
+
+We wanted to import components from a different MFE, and we wanted this to be _code-splitted_, meaning that it should only be loaded when it is needed. We'll refer to this components as **remote components** as they live in a different location.
+
+Webpack allows to do this by using the _dynamic import_ syntax (`import()`). Here's what we needed to do to load a component that belongs to the **shared** library.
 
 - Import it using the ES6 `import` function - `import('shared/components/Button')`
 - Wraps it in a React.lazy `const Button = React.lazy(() => import('shared/components/Button'))`
@@ -33,6 +38,8 @@ const HomePage = () => {
 Then, when this `Button` component is used, it will be fetched from the remote source, and rendered to the page. This makes it possible for webpack to code-split our codebase, only downloading the Button when the user needs it.
 
 However, and even thus it works, we though it would be too much of a burden for developers to do. They shouldn't have to care if the component lives in a remote source or not, nor they have to remember of wrapping it in a React.lazy call. All of this would make it very error prone, and at the same time would get our codebase full of `React.lazy` calls.
+
+## The solution
 
 That was when we started to think that _this might have been solved_. Our research lead us to believe that this specific problem with remote components wasn't solved. However, our problem wasn't specific to remote components, it was mainly an imports/code transformation problem.
 
@@ -99,6 +106,8 @@ To this
 ```js
 const Button = React.lazy(() => import("shared/components/Button"));
 ```
+
+## The plugin
 
 By adding the initial code on [AST Explorer], we could already see the AST of it, we created a custom babel loader, opened [babel-handbook], and here we go:
 
@@ -242,6 +251,7 @@ function moduleFederationReactImportAliases(_, ...options) {
 ```
 
 The above code finds the `ImportDefaultSpecifier` and modifies the initial import declaration so that it keeps all except the default. Then it adds the code to do the dynamic import, together with `React.lazy`.
+## Conclusion
 
 This completely solved our problem, enabling developers to seamlessly import shared components in their code, allowing the underlying infrastructure to take care of how the code was loaded and imported for them. That was the experience we wanted.
 
