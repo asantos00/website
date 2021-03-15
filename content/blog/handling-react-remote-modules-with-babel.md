@@ -2,7 +2,7 @@
 title: Handling react remote modules with babel (wip)
 description: 'WIP'
 date: '2021-03-12'
-published: false
+published: true
 ---
 
 As my friend and colleague David is sharing on his blogpost series, we're using Microfrontends to enable different products to be created under the same codebase. 
