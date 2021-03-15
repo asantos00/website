@@ -24,7 +24,7 @@ module.exports = {
       },
     ],
     bookLink:
-      "https://www.amazon.com/Getting-started-Deno-JavaScript-applications/dp/180020566X",
+      "https://www.amazon.com/Deno-Web-Development-JavaScript-applications-ebook/dp/B08PDF5F16",
   },
   plugins: [
     {
