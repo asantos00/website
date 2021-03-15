@@ -58,7 +58,7 @@ const BookHomePage = () => {
             href={data.site.siteMetadata.bookLink}
             target="_blank"
           >
-            <img src="https://images-na.ssl-images-amazon.com/images/I/91mWpao7CWL.jpg" />
+            <img src="https://m.media-amazon.com/images/I/51zeJMNIe5L.jpg" />
           </a>
         </div>
       </div>
