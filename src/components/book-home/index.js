@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React from "react"
 import {useStaticQuery, graphql} from "gatsby"
 import styles from "./styles.module.css"
 
@@ -24,8 +24,8 @@ const BookHomePage = () => {
   `)
   return (
     <div className={styles.wrapper}>
-      <div class={styles.content}>
-        <div class={styles.text}>
+      <div className={styles.content}>
+        <div className={styles.text}>
           <span className={styles.announcement}>
             I recently published a book!
           </span>
