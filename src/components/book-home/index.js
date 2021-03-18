@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { useStaticQuery, graphql } from "gatsby"
+import React, {useState} from "react"
+import {useStaticQuery, graphql} from "gatsby"
 import styles from "./styles.module.css"
 
 const registerEvent = place => {
@@ -42,15 +42,14 @@ const BookHomePage = () => {
             Write, test, maintain and deploy JavaScript and TypeScript web
             applications using Deno
           </div>
-          <div className={styles.buy}>
-            <a
-              onClick={() => registerEvent("buy")}
-              href={data.site.siteMetadata.bookLink}
-              target="_blank"
-            >
-              BUY
+          <a
+            onClick={() => registerEvent("buy")}
+            href={data.site.siteMetadata.bookLink}
+            className={styles.buy}
+            target="_blank"
+          >
+            BUY
             </a>
-          </div>
         </div>
         <div className={styles.imageWrapper}>
           <a

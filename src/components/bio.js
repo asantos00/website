@@ -6,10 +6,10 @@
  */
 
 import React from "react"
-import { useStaticQuery, graphql } from "gatsby"
+import {useStaticQuery, graphql, Link} from "gatsby"
 import Image from "gatsby-image"
 
-import { rhythm } from "../utils/typography"
+import {rhythm} from "../utils/typography"
 
 const Bio = () => {
   const data = useStaticQuery(graphql`
@@ -38,7 +38,7 @@ const Bio = () => {
     }
   `)
 
-  const { author, social, description, location } = data.site.siteMetadata
+  const {author, social, description, location} = data.site.siteMetadata
   return (
     <div
       style={{
@@ -63,11 +63,14 @@ const Bio = () => {
         {author} - {location.city}, {location.country}
         <br />
         {description}
-        <br/>
+        <br />
+        <Link to="/about-me">
+          about me
+        </Link>
         {social.map(social => (
           <React.Fragment>
+            {' | '}
             <a href={social.url}>{social.name}</a>
-            {'  '}
           </React.Fragment>
         ))}
       </p>

@@ -22,6 +22,7 @@ class BlogIndex extends React.Component {
           <Bio />
           {posts.map(({ node }) => {
             const title = node.frontmatter.title || node.fields.slug
+            const externalLink = node.frontmatter.externalLink;
             return (
               <article key={node.fields.slug}>
                 <header>
@@ -30,12 +31,18 @@ class BlogIndex extends React.Component {
                       marginBottom: rhythm(1 / 4),
                     }}
                   >
+                      {externalLink ? (
+                        <a href={externalLink}>
+                          {title}
+                        </a>
+                      ) : (
                     <Link style={{ boxShadow: `none` }} to={node.fields.slug}>
                       {title}
                     </Link>
+                      )}
                   </h3>
                   <small>
-                    {node.fields.readingTime.text} - {node.frontmatter.date}
+                    {node.frontmatter.readingTime || node.fields.readingTime.text} - {node.frontmatter.date}
                   </small>
                 </header>
                 <section>
@@ -82,6 +89,8 @@ export const pageQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             title
             description
+            externalLink
+            readingTime
           }
         }
       }
