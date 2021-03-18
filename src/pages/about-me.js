@@ -13,7 +13,7 @@ const About = ({data, location}) => {
     <Layout location={location} title={title}>
       <SEO
         url={`${siteUrl}/about-me`}
-        title={title}
+        title={"about me"}
       />
       <h1>About me</h1>
       <Bio />
