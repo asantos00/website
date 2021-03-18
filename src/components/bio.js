@@ -77,7 +77,7 @@ const Bio = () => {
           </React.Fragment>
         ))}
         {' | '}
-        <a href={data.file.absolutePath} download>
+        <a href={data.file.absolutePath} download="AlexandrePortelaDosSantos-Engineer-Resume">
           resume
         </a>
       </p>
