@@ -15,7 +15,7 @@ const Bio = () => {
   const data = useStaticQuery(graphql`
     query BioQuery {
       file(name: {eq: "resume"}) {
-        absolutePath
+        publicURL
       }
       avatar: file(absolutePath: { regex: "/profile-pic.jpg/" }) {
         childImageSharp {
@@ -77,7 +77,7 @@ const Bio = () => {
           </React.Fragment>
         ))}
         {' | '}
-        <a href={data.file.absolutePath} download="AlexandrePortelaDosSantos-Engineer-Resume">
+        <a href={data.file.publicURL} download="AlexandrePortelaDosSantos-Engineer-Resume">
           resume
         </a>
       </p>
