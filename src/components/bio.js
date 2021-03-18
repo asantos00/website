@@ -14,6 +14,9 @@ import {rhythm} from "../utils/typography"
 const Bio = () => {
   const data = useStaticQuery(graphql`
     query BioQuery {
+      file(name: {eq: "resume"}) {
+        absolutePath
+      }
       avatar: file(absolutePath: { regex: "/profile-pic.jpg/" }) {
         childImageSharp {
           fixed(width: 50, height: 50) {
@@ -73,6 +76,10 @@ const Bio = () => {
             <a href={social.url}>{social.name}</a>
           </React.Fragment>
         ))}
+        {' | '}
+        <a href={data.file.absolutePath} download>
+          resume
+        </a>
       </p>
     </div>
   )
