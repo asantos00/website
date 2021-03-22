@@ -11,7 +11,7 @@ import BookHomePage from "../components/book-home"
 class BlogIndex extends React.Component {
   render() {
     const { data } = this.props
-    const { title: siteTitle, author } = data.site.siteMetadata;
+    const { title: siteTitle, author } = data.site.siteMetadata
     const posts = data.allMarkdownRemark.edges
 
     return (
@@ -22,7 +22,7 @@ class BlogIndex extends React.Component {
           <Bio />
           {posts.map(({ node }) => {
             const title = node.frontmatter.title || node.fields.slug
-            const externalLink = node.frontmatter.externalLink;
+            const externalLink = node.frontmatter.externalLink
             return (
               <article key={node.fields.slug}>
                 <header>
@@ -31,18 +31,18 @@ class BlogIndex extends React.Component {
                       marginBottom: rhythm(1 / 4),
                     }}
                   >
-                      {externalLink ? (
-                        <a href={externalLink}>
-                          {title}
-                        </a>
-                      ) : (
-                    <Link style={{ boxShadow: `none` }} to={node.fields.slug}>
-                      {title}
-                    </Link>
-                      )}
+                    {externalLink ? (
+                      <a href={externalLink}>{title}</a>
+                    ) : (
+                      <Link style={{ boxShadow: `none` }} to={node.fields.slug}>
+                        {title}
+                      </Link>
+                    )}
                   </h3>
                   <small>
-                    {node.frontmatter.readingTime || node.fields.readingTime.text} - {node.frontmatter.date}
+                    {node.frontmatter.readingTime ||
+                      node.fields.readingTime.text}{" "}
+                    - {node.frontmatter.date}
                   </small>
                 </header>
                 <section>
@@ -75,7 +75,7 @@ export const pageQuery = graphql`
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
       limit: 1000
-      filter: { frontmatter: { published: { eq: true } } }
+      filter: { frontmatter: { published: { eq: true }, hidden: { ne: true } } }
     ) {
       edges {
         node {

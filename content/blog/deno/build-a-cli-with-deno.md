@@ -1,29 +1,17 @@
 ---
-title: Building a CLI with Deno
+title: Building a CLI with Deno 🦕
 description: "How to build and distribute a CLI with Deno that fetches the weather for a specific location"
-date: "2020-01-11"
+date: "2021-03-25"
 published: true
 ---
 
-Almost a year ago, in May 2020, [Deno](https://deno.land) was launched.
+*This blog post is part of a a [blog post series](/deno/series-introduction) where we use [Deno](https://deno.land) to build different applications. We'll go from CLIs to scrapping tools, among others. You can find the other posts [here](/deno/series-introduction).*
 
-It is the outcome of Node's creator (Ryan Dahl) experience of using Node.js after almost a decade of leaving its core team.
+We previously explored some of Deno's premises and how it addresses specific Node.js problems. But that's not why we are here today. 
 
-Ryan originally created Node.js back in 2009. Back then, Node.js brought JavaScript to the server side. Among other things, Node.js was a paradigm shift in the way many languages handled common tasks, as it deeply leveraged asynchronousity, something familiar among JavaScript users.
+Today we are here to build a CLI application with Deno.
 
-It suddently enabled many JavaScript developers to start building server-side applications. From there, it started being used for HTTP servers, but its usecases never stopped growing, helping make JavaScript today's most popular language.
-
-**But...**
-
-However, as all the great creations, Node.js comes with its flaws. And for Ryan, its creator, they were a little itchy, especially when he used Node.js again to write simple scripts, after a few years not using it. Ryan felt like he loved the productivity and prototypability of JavaScript, but some parts of Node.js were now getting in the way, as he explained in this [talk])(https://www.youtube.com/watch?v=M3BM9TB-8yA&ab_channel=JSConf).
-
-Out of this experience's learnings, and following the evolution of JavaScript over the last 10 years, Ryan created Deno, which is, as the documentation says:
-
-> A JavaScript/TypeScript runtime with secure defaults and a great developer experience.
-
-We previously explored some of Deno's premises and how it addresses specific Node.js problems in another article named [Adventures in deno land](https://alexandrempsantos.com/adventures-in-deno-land/), but today we'll explore a single one.
-
-## Goal: compiling to a binary
+## The goal: compiling to a binary
 
 What we'll do today is exploring one of Ryan's original goals when he first created Deno: **compiling JavaScript code into a binary**.
 
@@ -33,13 +21,10 @@ Even though this feature was not present on version 1.0.0 of Deno, back in May o
 
 This capability proves itself useful in many cases, but today we'll explore one where we think it really shines, building a CLI.
 
-Throughout the rest of the article we will build a CLI application. By the end of the blog post this application will be compiled into a single binary that can be distributed and execute in any machine, without external dependencies.
-
-We'll be doing using Deno's version [1.7.0](https://github.com/denoland/deno/releases/tag/v1.7.0).
-
-If you to directly jump to the code, it's available [here](https://github.com/asantos00/deno-weather-cli).
-
+By the end of the blog post we'll have an application compiled to a single binary that can be distributed and execute in any machine, without external dependencies.
 ## Developing the functionality
+
+*We'll be doing using Deno's version [1.7.0](https://github.com/denoland/deno/releases/tag/v1.7.0), and if you want to directly jump to the code, it's available [here](https://github.com/asantos00/deno-weather-cli).*
 
 The command line application we will build is one that makes it possible to check the weather in any world city.
 
@@ -175,18 +160,22 @@ This achieves our goal for this blogpost. We've explored Deno's ease of use and 
 
 What you just read is part of a series of blogposts where we explore multiple Deno functionalities, from interoperability with Rust to static site generation, among others.
 
-## Summary
+## Conclusion
 
 Today we've grasped the surface on one of the many possibilities [Deno](https://deno.land) opens.
 
 We truly believe that, by building on the shoulders of giants (TypeScript, Node.js and Rust) and adding a few things to the mixture, Deno has all it takes to stand out.
 
-If you're interested in knowing more about Deno and how to use it to build tools and web applications, make sure you checkout my recently launched book [Getting started with Deno](). In the book, we'll carefully explain all the mentioned Deno features (and many others) while building real-world applications.
+If you're interested in knowing more about Deno and how to use it to build tools and web applications, make sure you checkout my recently launched book [Deno Web Development](https://deno-web-development.com). In the book, we carefully explain all the mentioned Deno features (and many others) while building real-world applications.
 
-This article (and code) was written by me my friend [Joni Oliveira](https://twitter.com/joniroliveira) from whom I deeply appreciate the support and constant enthusiasm in learning new things.
+This article (and code) was written together with my friend [Joni Oliveira](https://twitter.com/joniroliveira) from whom I deeply appreciate the support and constant enthusiasm to learn new things.
 
 We'd like to hear what you think about it! If you have any questions, make sure you it us on Twitter or LinkedIn. I'll leave the links below.
 
-Joni: [Twitter](https://twitter.com/joniroliveira) | [LinkedIn](https://www.linkedin.com/in/jonioliveira/)
+If you want to read more about Deno, check out the [other posts in this series](/deno/series-introduction).
 
-Alexandre: [Twitter](https://twitter.com/ampsantos0) | [LinkedIn](https://www.linkedin.com/in/alexandrempsantos/)
+Best,
+
+Joni Oliveira: [Twitter](https://twitter.com/joniroliveira) | [LinkedIn](https://www.linkedin.com/in/jonioliveira/)
+
+

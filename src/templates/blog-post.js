@@ -52,12 +52,6 @@ class BlogPostTemplate extends React.Component {
             </header>
             <section dangerouslySetInnerHTML={{ __html: post.html }} />
 
-            <SubscribeToNewsletter />
-            <hr
-              style={{
-                marginBottom: rhythm(1),
-              }}
-            />
             <footer>
               <Bio />
             </footer>
@@ -101,6 +95,7 @@ class BlogPostTemplate extends React.Component {
               </li>
             </ul>
           </nav>
+          <SubscribeToNewsletter />
         </Layout>
       </React.Fragment>
     )
