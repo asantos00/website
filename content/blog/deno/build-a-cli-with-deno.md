@@ -13,9 +13,9 @@ Today we are here to build a CLI application with Deno.
 
 ## The goal: compiling to a binary
 
-What we'll do today is exploring one of Ryan's original goals when he first created Deno: **compiling JavaScript code into a binary**.
+What we'll do today is to explore one of Ryan's original goals when he first created Deno: **compiling JavaScript code to a single binary**.
 
-As an admirer of golang (which heavily inspired Deno), Node.js's creator loved the idea of having a complete toolchain as part of the runtime binary (linter, testing suite, dependency manager, and so on). On such a complete toolchain, the capability to build any application into a **single executable binary** couldn't be left out.
+As an admirer of golang (which heavily inspired Deno), Node.js' creator loved the idea of having a complete toolchain as part of the runtime binary (linter, testing suite, dependency manager, and so on). On such a complete toolchain, the capability to build any application into a **single executable binary** couldn't be left out.
 
 Even though this feature was not present on version 1.0.0 of Deno, back in May of the last year, it was added on version 1.5 (October 2020), and it's been improving since then. By itself, this feature isn't something completely new, as there were a few third-party Node.js packages that did it before. The main difference is that it's included in the main binary, making it a lot simpler.
 
