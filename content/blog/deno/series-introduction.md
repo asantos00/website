@@ -17,7 +17,7 @@ Here's what we'll cover in the upcoming posts:
 - Static site generation in Deno, with aleph.js
 - ...
 
-*I wrote these posts in collaboration with some friends that working in the industry. I believe this will make such posts more interesting -- as these are people with completely different backgrounds and experiences.*
+*I wrote these posts in collaboration with some friends who work in the industry. I believe this will make such posts more interesting -- as these are people with completely different backgrounds and experiences.*
 
 We'll use these example applications to explore Deno and how to use it to perform common tasks. By the end of it, you will have a better understanding of how to use this new JavaScript runtime.
 
@@ -25,7 +25,7 @@ From now on it is up to you.
 
 The above posts do not require to be read in any specific order, but if you want a suggestion, you can start by [Creating a CLI with Deno](/deno/build-a-cli-with-deno) written by my friend [Joni Oliveira]() and me.
 
-I hope you find it interesting.
+I hope you find it interesting and have some fun while exploring these posts. If you have any questions, feel free to reach out to me on [Twitter](https://twitter.com/ampsantos0)!
 
 *If there is any Deno-related topic you're interested in reading or writing about, I'd be happy to help.*
 
