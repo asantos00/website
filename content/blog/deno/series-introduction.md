@@ -9,7 +9,7 @@ This is the introduction for a blog post series where we'll use [Deno](https://d
 
 If you're not familiar with Deno, here's the [TLDR](/deno/tldr). If you have heard about Deno and are here to know more about it, let’s not waste any more of your time.
 
-Here's what we'll cover on the upcoming posts: 
+Here's what we'll cover in the upcoming posts: 
 
 - [Building a CLI with Deno](/deno/build-a-cli-with-deno)
 - Using Deno with Puppeteer
@@ -17,9 +17,9 @@ Here's what we'll cover on the upcoming posts:
 - Static site generation in Deno, with aleph.js
 - ...
 
-*Most of these posts are written in collaboration with friends working in the industry. I believe this will make such posts more interesting -- as these are people with completely different backgrounds and experiences.*
+*I wrote these posts in collaboration with some friends that working in the industry. I believe this will make such posts more interesting -- as these are people with completely different backgrounds and experiences.*
 
-We'll use these example applications to explore Deno and how it can be applied to common tasks. By the end of it, you will have a better understanding of this new JavaScript runtime and how it can be used.
+We'll use these example applications to explore Deno and how to use it to perform common tasks. By the end of it, you will have a better understanding of how to use this new JavaScript runtime.
 
 From now on it is up to you. 
 
@@ -29,6 +29,6 @@ I hope you find it interesting.
 
 Best,
 
-*If there is any Deno related topic you're interested in reading or writing about, I'd be happy to help.*
+*If there is any Deno-related topic you're interested in reading or writing about, I'd be happy to help.*
 
 
