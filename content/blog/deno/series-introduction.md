@@ -7,11 +7,11 @@ published: true
 
 This is the introduction for a blog post series where we'll use [Deno](https://deno.land) to build different applications going from CLIs to web scrapping tools, among others.
 
-If you're not familiar with Deno, here's the [TLDR](/deno/tldr). If you at least have heard of Deno and you are here to know more about it, let's not waste you more time.
+If you're not familiar with Deno, here's the [TLDR](/deno/tldr). If you have heard about Deno and are here to know more about it, let’s not waste any more of your time.
 
 Here's what we'll cover on the upcoming posts: 
 
-- [Creating a CLI with Deno](/deno/build-a-cli-with-deno)
+- [Building a CLI with Deno](/deno/build-a-cli-with-deno)
 - Using Deno with Puppeteer
 - Building a Deno plugin, the interoperability with Rust
 - Static site generation in Deno, with aleph.js
@@ -20,8 +20,6 @@ Here's what we'll cover on the upcoming posts:
 *Most of these posts are written in collaboration with friends working in the industry. I believe this will make such posts more interesting -- as these are people with completely different backgrounds and experiences.*
 
 We'll use these example applications to explore Deno and how it can be applied to common tasks. By the end of it, you will have a better understanding of this new JavaScript runtime and how it can be used.
-
-## Let's start!
 
 From now on it is up to you. 
 
