@@ -16,15 +16,15 @@ const About = ({ data, location }) => {
       <p>Hello! I'm Alexandre,</p>
       <p>
         I'm a software engineer passionate about products and startups. For the
-        last 8+ years I've been working together with multiple companies, using
+        last 8+ years I've been working with multiple companies, using
         technology as an enabler for ideas and businesses.
       </p>
       <p>
         With a big interest in education and getting people excited about
-        technology, I make sure I'm always involved with people that are
-        learning about it, being it via blog posts, books, hackathons,
-        open-source contributions, or meetups. This is, by itself, a learning
-        adventure that I love to be a part of.
+        technology, I make sure I'm always involved with people who are learning
+        about it, being it via blog posts, books, hackathons, open-source
+        contributions, or meetups. This is, by itself, a learning adventure that
+        I love to be a part of.
       </p>
       <p>
         I'm a true believer that great software only happens through
@@ -32,9 +32,10 @@ const About = ({ data, location }) => {
         to nurture those values in every project/team I work in.
       </p>
       <p>
-        Let me tell you I'd be very happy to get to know you and hear about your
-        best ideas, who knows we can do something amazing together!
+        I'd be very happy to get to know you and hear about your best ideas, who
+        knows we can do something amazing together, reach out!
       </p>
+      <p>Best,</p>
       <p>Alexandre</p>
     </Layout>
   )
