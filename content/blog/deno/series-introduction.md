@@ -31,6 +31,6 @@ I hope you find it interesting.
 
 Best,
 
-*If there is any topic you're interested in reading (or writing) about, I'd be happy to write it down myself, or to contribute to anything you're writing on the subject.*
+*If there is any Deno related topic you're interested in reading or writing about, I'd be happy to help.*
 
 
