@@ -25,10 +25,9 @@ From now on it is up to you.
 
 The above posts do not require to be read in any specific order, but if you want a suggestion, you can start by [Creating a CLI with Deno](/deno/build-a-cli-with-deno) written by my friend [Joni Oliveira]() and me.
 
-I hope you find it interesting.
+I hope you find it interesting and have some fun while exploring these posts. If you have any questions, feel free to reach out to me on [Twitter](https://twitter.com/ampsantos0)!
 
 Best,
 
 *If there is any Deno-related topic you're interested in reading or writing about, I'd be happy to help.*
-
 
