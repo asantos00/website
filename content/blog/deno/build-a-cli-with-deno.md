@@ -1,7 +1,7 @@
 ---
 title: Building a CLI with Deno 🦕
 description: "How to build and distribute a CLI with Deno that fetches the weather for a specific location"
-date: "2021-03-25"
+date: "2021-03-31"
 published: true
 ---
 
