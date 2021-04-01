@@ -3,7 +3,7 @@ title: Second adventure in Deno land 🦕
 description: Going a little deeper on Deno. Exploring lock files, testing, sharing code between Deno and the browser, permissions and more.
 date: "2020-06-10"
 published: true
-featuredImage: ./adventures-in-deno-land/banner.png
+featuredImage: ./deno/adventures-in-deno-land/banner.png
 ---
 
 On my last post, I wrote about [my first adventure in Deno.land](https://alexandrempsantos.com/adventures-in-deno-land/).

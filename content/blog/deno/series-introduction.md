@@ -1,6 +1,6 @@
 ---
-title: Exploring the deno.land - A blog post series 🦕
-description: "Introduction to a blog post series where we use Deno for multiple contexts, from building CLIs to web scrapping tools, among others."
+title: exploring the deno.land - a blog post series 🦕
+description: "introduction to a blog post series where we use deno for multiple contexts, from building clis to web scrapping tools, among others."
 date: "2021-03-30"
 published: true
 ---
