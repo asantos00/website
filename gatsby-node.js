@@ -21,6 +21,7 @@ exports.createPages = async ({ graphql, actions }) => {
               frontmatter {
                 title
                 published
+                externalLink
               }
             }
           }
@@ -57,13 +58,21 @@ exports.createPages = async ({ graphql, actions }) => {
     throw result.errors
   }
 
+  const isExternalLink = node => node && node.frontmatter.externalLink
+  const shouldHide = node =>
+    isExternalLink(node) || (node && node.frontmatter.hidden)
+
   // Create blog posts pages.
   const posts = result.data.allMarkdownRemark.edges
   const drafts = draftResult.data.allMarkdownRemark.edges
 
   posts.forEach((post, index) => {
-    const previous = index === posts.length - 1 ? null : posts[index + 1].node
-    const next = index === 0 ? null : posts[index - 1].node
+    if (shouldHide(post.node)) {
+      return
+    }
+
+    let previous = index === posts.length - 1 ? null : posts[index + 1].node
+    let next = index === 0 ? null : posts[index - 1].node
 
     createPage({
       path: post.node.fields.slug,

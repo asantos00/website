@@ -11,17 +11,18 @@ import BookHomePage from "../components/book-home"
 class BlogIndex extends React.Component {
   render() {
     const { data } = this.props
-    const siteTitle = data.site.siteMetadata.title
+    const { title: siteTitle, author } = data.site.siteMetadata
     const posts = data.allMarkdownRemark.edges
 
     return (
       <React.Fragment>
         <BookHomePage />
         <Layout location={this.props.location} title={siteTitle}>
-          <SEO title="Home" />
+          <SEO title={author} />
           <Bio />
           {posts.map(({ node }) => {
             const title = node.frontmatter.title || node.fields.slug
+            const externalLink = node.frontmatter.externalLink
             return (
               <article key={node.fields.slug}>
                 <header>
@@ -30,12 +31,18 @@ class BlogIndex extends React.Component {
                       marginBottom: rhythm(1 / 4),
                     }}
                   >
-                    <Link style={{ boxShadow: `none` }} to={node.fields.slug}>
-                      {title}
-                    </Link>
+                    {externalLink ? (
+                      <a href={externalLink}>{title}</a>
+                    ) : (
+                      <Link style={{ boxShadow: `none` }} to={node.fields.slug}>
+                        {title}
+                      </Link>
+                    )}
                   </h3>
                   <small>
-                    {node.fields.readingTime.text} - {node.frontmatter.date}
+                    {node.frontmatter.readingTime ||
+                      node.fields.readingTime.text}{" "}
+                    - {node.frontmatter.date}
                   </small>
                 </header>
                 <section>
@@ -62,12 +69,13 @@ export const pageQuery = graphql`
     site {
       siteMetadata {
         title
+        author
       }
     }
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
       limit: 1000
-      filter: { frontmatter: { published: { eq: true } } }
+      filter: { frontmatter: { published: { eq: true }, hidden: { ne: true } } }
     ) {
       edges {
         node {
@@ -82,6 +90,8 @@ export const pageQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             title
             description
+            externalLink
+            readingTime
           }
         }
       }

@@ -52,12 +52,6 @@ class BlogPostTemplate extends React.Component {
             </header>
             <section dangerouslySetInnerHTML={{ __html: post.html }} />
 
-            <SubscribeToNewsletter />
-            <hr
-              style={{
-                marginBottom: rhythm(1),
-              }}
-            />
             <footer>
               <Bio />
             </footer>
@@ -75,20 +69,33 @@ class BlogPostTemplate extends React.Component {
             >
               <li>
                 {previous && (
-                  <Link to={previous.fields.slug} rel="prev">
+                  previous.frontmatter.externalLink ?  (
+                    <a href={previous.frontmatter.externalLink}>
                     ← {previous.frontmatter.title}
-                  </Link>
+                    </a>
+                  ) : (
+                    <Link to={previous.fields.slug} rel="prev">
+                      ← {previous.frontmatter.title}
+                    </Link>
+                  )
                 )}
               </li>
               <li>
                 {next && (
-                  <Link to={next.fields.slug} rel="next">
-                    {next.frontmatter.title} →
-                  </Link>
+                  next.frontmatter.externalLink ?  (
+                    <a href={next.frontmatter.externalLink}>
+                      {next.frontmatter.title} →
+                    </a>
+                  ) : (
+                    <Link to={next.fields.slug} rel="prev">
+                      {next.frontmatter.title} →
+                    </Link>
+                  )
                 )}
               </li>
             </ul>
           </nav>
+          <SubscribeToNewsletter />
         </Layout>
       </React.Fragment>
     )

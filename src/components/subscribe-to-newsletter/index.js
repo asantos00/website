@@ -27,14 +27,14 @@ const SubscribeToNewsletter = () => {
 
   return (
     <div id="subscribe-to-my-newsletter">
-      <hr />
-      <h2>Subscribe to my newsletter to get updates on my newest articles!</h2>
+      <h2>Get a once-a-month digest of my posts</h2>
       <p>
         No worries, I will{" "}
         <span className={styles.bold}>
           not send more than 1 email per month
-        </span>{" "}
-        , nor sell your email to third parties.
+        </span>
+        , and I'll mail you only when there's new content.
+        <br></br>
       </p>
       {isSuccess ? (
         <p>Thank you, I appreciate it! 🙌</p>
