@@ -1,27 +1,13 @@
 ---
 title: Using Puppeteer with Deno
-description: "Interacting with puppeteer and headless browsers using Deno"
-date: "2021-02-19"
+description: "Building a website diff checker using Deno and Puppeteer"
+date: "2021-04-07"
 published: true
 ---
 
-Almost a year ago, in May 2020, [Deno](https://deno.land) was launched.
+*This blog post is part of a a [blog post series](/deno/series-introduction) where we use [Deno](https://deno.land) to build different applications. We'll go from CLIs to scrapping tools, among others. You can find the other posts [here](/deno/series-introduction).*
 
-It is the outcome of Node's creator (Ryan Dahl) experience of using Node.js after almost a decade of leaving its core team.
-
-Ryan originally created Node.js back in 2009. Back then, Node.js brought JavaScript to the server side. Among other things, Node.js was a paradigm shift in the way many languages handled common tasks, as it deeply leveraged asynchronousity, something familiar among JavaScript users.
-
-It suddently enabled many JavaScript developers to start building server-side applications. From there, it started being used for HTTP servers, but its usecases never stopped growing, helping make JavaScript today's most popular language.
-
-**But...**
-
-However, as all the great creations, Node.js comes with its flaws. And for Ryan, its creator, they were a little itchy, especially when he used Node.js again to write simple scripts, after a few years not using it. Ryan felt like he loved the productivity and prototypability of JavaScript, but some parts of Node.js were now getting in the way, as he explained in this [talk](https://www.youtube.com/watch?v=M3BM9TB-8yA&ab_channel=JSConf).
-
-Out of this experience's learnings, and following the evolution of JavaScript over the last 10 years, Ryan created Deno, which is, as the documentation says:
-
-> A JavaScript/TypeScript runtime with secure defaults and a great developer experience.
-
-We previously explored some of Deno's premises and how it addresses specific Node.js problems in another article named [Adventures in deno land](https://alexandrempsantos.com/adventures-in-deno-land/). This time we're here for a series or articles that will explore different Deno features.
+We previously explored some of Deno's premises and how it addresses specific Node.js problems. But that's not why we are here today. 
 
 Today we'll explore `deno-puppeteer`, a port of [puppeteer](https://pptr.dev/) to deno. We'll demonstrate how Deno can make it even simpler to write *puppeteer* scripts and applications.
 
@@ -42,9 +28,10 @@ As Deno gains its place among script tools, being able to use *puppeteer* is ano
 In this blog post we will build a CLI utility that demonstrates just that.
 
 The full code is available [here](https://github.com/asantos00/deno-website-diff).
+
 ## Writing a Puppeteer script
 
-The objective of the CLI utility we'll build is to check a website for visual changes in different resolutions.
+The objective of the CLI utility we'll build is to **check a website for visual changes** in different resolutions.
 
 This tool will compare the website with the last time it checked, creating an image with the difference. It can work as a QA assurance tool, something that runs after deploying a website to double-check the changes done and that it is working fine in different screen resolutions.
 
@@ -192,7 +179,7 @@ Diff stored at /Users/alexandre/dev/personal/deno/puppeteer/screenshots/diff-pic
 
 And this completes our objective for the blogpost!
 
-We've demonstrated how can we use Deno's simplicity to make it even easier to write *puppeteer* scripts.
+We've demonstrated how can we benefits of Deno's simplicity to make it even easier to write *puppeteer* scripts.
 
 As you've seen everything works the same as in Node.
 
@@ -202,16 +189,18 @@ The big difference is that we can take advantage of some Deno advantages. Those 
 
 Today we've explored `deno-puppeteer`, a package that makes it possible to write *puppeteer* scripts on Deno.
 
-Scripting is one of many use cases for Deno, and one of the reasons Deno was created, but definitely not the only one. In this blog post series' we'll explore different parts of Deno, from rust interoperability to static site generation.
+Scripting is one of many use cases for Deno, and one of the reasons Deno was created, but definitely not the only one. 
 
-We truly believe that, by building on the shoulders of giants (TypeScript, Node.js and Rust) and adding a few things to the mixture, Deno has all it takes to stand out.
+If you're interested in knowing more about Deno and how to use it to build tools and web applications, make sure you checkout my recently launched book [Deno Web Development](https://deno-web-development.com). In the book, we carefully explain all the mentioned Deno features (and many others) while building real-world applications.
 
-If you're interested in knowing more about Deno and how to use it to build tools and web applications, make sure you checkout my recently launched book [Getting started with Deno](). In the book, we'll carefully explain all the mentioned Deno features (and many others) while building real-world applications.
+This article (and code) was written by me and my friend [Felipe Schmitt](https://twitter.com/schmittfelipe), a declared *puppeteer* fan who is always ready to explore new pieces of technology. He's was also a big contributor to the book, by providing insane amounts of feedback and suggestions.
 
-This article (and code) was written by me and my friend [Felipe Schmitt](https://twitter.com/schmittfelipe), a declared *puppeteer* fan which is always ready to explore new pieces of technology.
+We'd like to hear what you think about it! If you have any questions, make sure you it us on Twitter or LinkedIn. I'll leave the links below.
 
-We'd like to hear what you think about it! If you have any questions or suggestions, make sure you hit us on Twitter or LinkedIn. I'll leave the links below.
+If you want to read more about Deno, check out the [other posts in this series](/deno/series-introduction).
+
+Best,
 
 Felipe: [Twitter](https://twitter.com/schmittfelipe) | [LinkedIn](https://www.linkedin.com/in/felipeschmitt/)
 
-Alexandre: [Twitter](https://twitter.com/ampsantos0) | [LinkedIn](https://www.linkedin.com/in/alexandrempsantos/)
+

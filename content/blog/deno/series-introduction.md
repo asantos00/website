@@ -1,5 +1,5 @@
 ---
-title: exploring the deno.land - a blog post series 🦕
+title: Exploring the deno.land - a blog post series 🦕
 description: "introduction to a blog post series where we use deno for multiple contexts, from building clis to web scrapping tools, among others."
 date: "2021-03-30"
 published: true
@@ -12,7 +12,7 @@ If you're not familiar with Deno, here's the [TLDR](/deno/tldr). If you have hea
 Here's what we'll cover in the upcoming posts: 
 
 - [Building a CLI with Deno](/deno/build-a-cli-with-deno)
-- Using Deno with Puppeteer
+- [Using Deno with Puppeteer](/deno/puppeteer-with-deno)
 - Building a Deno plugin, the interoperability with Rust
 - Static site generation in Deno, with aleph.js
 - ...
