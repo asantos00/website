@@ -1,5 +1,5 @@
 ---
-title: Using Puppeteer with Deno
+title: Using Puppeteer with Deno 🦕
 description: "Building a website diff checker using Deno and Puppeteer"
 date: "2021-04-07"
 published: true
@@ -191,7 +191,7 @@ Today we've explored `deno-puppeteer`, a package that makes it possible to write
 
 Scripting is one of many use cases for Deno, and one of the reasons Deno was created, but definitely not the only one. 
 
-If you're interested in knowing more about Deno and how to use it to build tools and web applications, make sure you checkout my recently launched book [Deno Web Development](https://deno-web-development.com). In the book, we carefully explain all the mentioned Deno features (and many others) while building real-world applications.
+If you're interested in knowing more about Deno and how to use it to build tools and web applications, make sure you checkout my recently launched book [Deno Web Development](/deno/i-published-a-book-deno-web-development). In the book, we carefully explain all the mentioned Deno features (and many others) while building real-world applications.
 
 This article (and code) was written by me and my friend [Felipe Schmitt](https://twitter.com/schmittfelipe), a declared *puppeteer* fan who is always ready to explore new pieces of technology. He's was also a big contributor to the book, by providing insane amounts of feedback and suggestions.
 
