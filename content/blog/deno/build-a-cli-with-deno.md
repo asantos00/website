@@ -166,7 +166,7 @@ Today we've grasped the surface on one of the many possibilities [Deno](https://
 
 We truly believe that, by building on the shoulders of giants (TypeScript, Node.js and Rust) and adding a few things to the mixture, Deno has all it takes to stand out.
 
-If you're interested in knowing more about Deno and how to use it to build tools and web applications, make sure you checkout my recently launched book [Deno Web Development](https://deno-web-development.com). In the book, we carefully explain all the mentioned Deno features (and many others) while building real-world applications.
+If you're interested in knowing more about Deno and how to use it to build tools and web applications, make sure you checkout my recently launched book [Deno Web Development](/deno/i-published-a-book-deno-web-development). In the book, we carefully explain all the mentioned Deno features (and many others) while building real-world applications.
 
 This article (and code) was written together with my friend [Joni Oliveira](https://twitter.com/joniroliveira) from whom I deeply appreciate the support and constant enthusiasm to learn new things.
 
