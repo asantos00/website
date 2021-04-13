@@ -21,8 +21,7 @@ Plugins in Deno are written in Rust. Deno provides an API to load and call the p
 
 By the end of this blog post, we'll have a Deno application that uses a Rust plugin to grayscale an image.
 
-If you want to follow by looking at the code, [here you have it]().
-
+If you want to follow by looking at the code, [here you have it](https://github.com/asantos00/deno-image-transform).
 
 ## Hello world
 
