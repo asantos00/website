@@ -2,10 +2,10 @@ module.exports = {
   siteMetadata: {
     title: `learning as we go`,
     author: `Alexandre Portela dos Santos`,
-    description: `Helping businesses with tech | Full-time learner | Writer`,
-    siteDescription: `A blog about the learning journey of a full-stack software developer interested in solving business problems with the help of technology.`,
+    description: `Helping businesses with tech | Business and product enthusiast | Author`,
+    siteDescription: `A blog about the learning journey of a software engineer interested in solving business challenges using technology.`,
     location: {
-      city: "Lisbon",
+      city: "Ericeira",
       country: "Portugal",
     },
     siteUrl: "https://alexandrempsantos.com",
@@ -24,7 +24,7 @@ module.exports = {
       },
     ],
     bookLink:
-      "https://www.amazon.com/Getting-started-Deno-JavaScript-applications/dp/180020566X",
+      "https://www.amazon.com/Deno-Web-Development-JavaScript-applications-ebook/dp/B08PDF5F16",
   },
   plugins: [
     {
@@ -107,6 +107,7 @@ module.exports = {
           `gatsby-remark-prismjs`,
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
+          `gatsby-plugin-catch-links`,
         ],
       },
     },
@@ -118,7 +119,49 @@ module.exports = {
         trackingId: `UA-81851050-1`,
       },
     },
-    `gatsby-plugin-feed`,
+    {
+      resolve: `gatsby-plugin-feed`,
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+                site_url: siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            query: `
+              {
+                allMarkdownRemark(
+                  sort: { order: DESC, fields: [frontmatter___date] },
+      filter: { frontmatter: { published: { eq: true } } }
+                ) {
+                  edges {
+                    node {
+                      excerpt
+                      html
+                      fields { slug }
+                      frontmatter {
+                        title
+                        date
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+            output: "/rss.xml",
+            title: "alexandrempsantos.com rss feed",
+          },
+        ],
+      },
+    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {

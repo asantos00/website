@@ -10,7 +10,8 @@
 
 .content {
   margin: 0 auto;
-  max-width: 42rem;
+  max-width: 56rem;
+  flex-grow: 1;
   padding: 16px 1.3125rem;
   display: flex;
   align-items: center;
@@ -63,15 +64,11 @@
   width: 60px;
   text-align: center;
   box-shadow: none;
+  color: #007acc;
 }
 
 .buy:hover {
   background-color: #ddd;
-}
-
-.buy a {
-  color: #007acc;
-  box-shadow: none;
 }
 
 .bookSubtitle {

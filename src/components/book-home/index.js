@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { useStaticQuery, graphql } from "gatsby"
+import React from "react"
+import {useStaticQuery, graphql} from "gatsby"
 import styles from "./styles.module.css"
 
 const registerEvent = place => {
@@ -24,8 +24,8 @@ const BookHomePage = () => {
   `)
   return (
     <div className={styles.wrapper}>
-      <div class={styles.content}>
-        <div class={styles.text}>
+      <div className={styles.content}>
+        <div className={styles.text}>
           <span className={styles.announcement}>
             I recently published a book!
           </span>
@@ -35,22 +35,21 @@ const BookHomePage = () => {
               href={data.site.siteMetadata.bookLink}
               target="_blank"
             >
-              Getting started with Deno
+              Deno Web Development
             </a>
           </div>
           <div className={styles.bookSubtitle}>
             Write, test, maintain and deploy JavaScript and TypeScript web
             applications using Deno
           </div>
-          <div className={styles.buy}>
-            <a
-              onClick={() => registerEvent("buy")}
-              href={data.site.siteMetadata.bookLink}
-              target="_blank"
-            >
-              BUY
+          <a
+            onClick={() => registerEvent("buy")}
+            href={data.site.siteMetadata.bookLink}
+            className={styles.buy}
+            target="_blank"
+          >
+            BUY
             </a>
-          </div>
         </div>
         <div className={styles.imageWrapper}>
           <a
@@ -58,7 +57,7 @@ const BookHomePage = () => {
             href={data.site.siteMetadata.bookLink}
             target="_blank"
           >
-            <img src="https://images-na.ssl-images-amazon.com/images/I/91mWpao7CWL.jpg" />
+            <img src="https://m.media-amazon.com/images/I/51zeJMNIe5L.jpg" />
           </a>
         </div>
       </div>

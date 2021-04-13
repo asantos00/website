@@ -1,12 +1,12 @@
 ---
-title: Second adventure in deno land
-description: Going a little deeper on deno. Exploring lock files, testing, sharing code between deno and the browser, permissions and more.
+title: Second adventure in Deno land 🦕
+description: Going a little deeper on Deno. Exploring lock files, testing, sharing code between Deno and the browser, permissions and more.
 date: "2020-06-10"
 published: true
-featuredImage: ./adventures-in-deno-land/banner.png
+featuredImage: ./deno/adventures-in-deno-land/banner.png
 ---
 
-On my last post, I wrote about [my first adventure in deno.land](https://alexandrempsantos.com/adventures-in-deno-land/).
+On my last post, I wrote about [my first adventure in Deno.land](https://alexandrempsantos.com/adventures-in-deno-land/).
 
 It was a fun one, the excitement of trying some new technology was always there. _deno_ left me thinking about new possibilities and asking myself what am I going to build with it.
 
@@ -18,10 +18,12 @@ Back to what brought me here today. After exploring the standard library, module
 
 - [Lock files](#lock-files)
 - [Official VSCode extension](#official-vscode-extension)
-- [Documentation generation](#documentation)
-- [Permission system](#fine-grained-permissions)
-- [Running _deno_ code in the browser](#running-code-in-the-browser)
+- [Documentation](#documentation)
+  - [Browse modules documentation](#browse-modules-documentation)
+- [Fine grained permissions](#fine-grained-permissions)
+- [Running code in the browser](#running-code-in-the-browser)
 - [Testing](#testing)
+- [Conclusion](#conclusion)
 
 If you want to follow the code, [here you have it](https://github.com/asantos00/deno-twitter-popular).
 
@@ -57,11 +59,11 @@ I'm sure it will be fixed soon but it's also a good **oportunity for contributio
 
 ## Documentation
 
-Another of the advantages presented by Ryan in his talk was that deno included a documentation generator on its toolchain. It doesn't have (yet) a section on the website, but we'll explore it a bit here.
+Another of the advantages presented by Ryan in his talk was that Deno included a documentation generator on its toolchain. It doesn't have (yet) a section on the website, but we'll explore it a bit here.
 
 ### Browse modules documentation
 
-Even though deno has no `install` step, the `cache` lets you develop in an airplane (as you did with `node_modules`), as it loads the modules the first time and then uses the cached one.
+Even though Deno has no `install` step, the `cache` lets you develop in an airplane (as you did with `node_modules`), as it loads the modules the first time and then uses the cached one.
 
 While working on an airplane, what if you want to look at third party code docs? You can use your editor of choice, yes, but there's an alterantive.
 
@@ -161,7 +163,7 @@ This is now very well explained on the [Permissions page](https://deno.land/manu
 
 Another very interesting feature of _deno_, is the `bundle` command.
 
-It allows us to bundle your code into a single `.js` file. That file can be run as any other deno program, with `deno run`.
+It allows us to bundle your code into a single `.js` file. That file can be run as any other Deno program, with `deno run`.
 
 What I find interesting is that the generated code, when it doesn't use the `Deno` namespace, is that it **can run on the browser**.
 
@@ -222,7 +224,7 @@ Now, this `public` folder can be served by any webserver. Since we're talking ab
 $ deno run --allow-net --allow-read https://deno.land/std/http/file_server.ts
 ```
 
-We can now visit `http://0.0.0.0:4507/` and use our very archaic frontend to query for popular tweets. With this, our code can use the client that was **originally written in deno** on the frontend, to interact with the API.
+We can now visit `http://0.0.0.0:4507/` and use our very archaic frontend to query for popular tweets. With this, our code can use the client that was **originally written in Deno** on the frontend, to interact with the API.
 
 ![deno_tweets](./second-adventure-in-deno-land/deno_tweets.png)
 
