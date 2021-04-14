@@ -9,7 +9,7 @@ published: true
 
 We previously explored some of Deno's premises and how it addresses specific Node.js problems. But that's not why we are here today. 
 
-Today we'll explore Deno plugins. If you haven't heard of them, Deno plugins enable users to write code in Rust that can be called from JavaScript.
+Today we'll explore Deno plugins. If you haven't heard of them, Deno plugins enable users to write code in Rust and then call it from JavaScript.
 
 ## Building a plugin
 
@@ -25,7 +25,7 @@ If you want to follow by looking at the code, [here you have it](https://github.
 
 ## Hello world
 
-Yeah, here we are, the good old hello world. Let's get with a Rust hello world called from Deno.
+Yeah, here we are, the good old hello world. Let's get started with a Rust hello world called from Deno.
 
 [lib.rs](https://github.com/asantos00/deno-image-transform/blob/main/rust-plugin/src/lib.rs#L17)
 ```rust
@@ -45,7 +45,7 @@ fn hello_world(
 
 For now let's ignore the parameters this function receives and the value it returns. What matters here is that this function is printing a message to the console, using `println!`.
 
-After having the `hello\_world` Rust function, we'll use `register_op` to register it as an operation on Deno.
+After creating the `hello_world` Rust function, we'll use `register_op` to register it as an operation on Deno.
 
 [lib.rs](https://github.com/asantos00/deno-image-transform/blob/main/rust-plugin/src/lib.rs#L9)
 ```rust
@@ -55,7 +55,7 @@ pub fn deno_plugin_init(interface: &mut dyn Interface) {
 }
 ```
 
-*Note*: The `#[no_mangle]` attribute turns off Rust's name mangling, so that it is easier to link to. Deno requires this.
+*Note: The `#[no_mangle]` attribute turns off Rust's name mangling, so that it is easier to link to. Deno requires this.*
 
 Operation registered, we should now be able to load and call it from our JavaScript code. The way we call Rust operations from Deno is by dispatching a message. We'll use `Deno.core.dispatch` for that.
 
@@ -75,7 +75,7 @@ function runHelloWorld() {
 
 runHelloWorld();
 ```
-_Note: The the reason our examples are in JavaScript and not in TypeScript is due the Deno plugin APIs being still in the unstable stage. The `Deno.core` type definition is missing and this will cause type errors if we try to use `.ts`. We will also need to use the deno `--unstable` flag to use Rust plugins._
+_Note: The the reason our examples are in JavaScript and not in TypeScript is due the Deno plugin API being still in the unstable stage. The `Deno.core` type definition is missing and this will cause type errors if we try to use `.ts`. We will also need to use the deno `--unstable` flag to use Rust plugins._
 
 That's all we need to get the `hello_world` Rust function called.
 
@@ -97,7 +97,7 @@ Rust: Hello from rust.
 const rustPluginId = Deno.openPlugin(`./rust-plugin/${rustLibFilename}`);
 ```
 
-*Note*: Rust artifact's file name and extension change depending on the Operative System. We created a function called [`resolveRustLibFilename`](https://github.com/NMFR/deno-image-transform/blob/add-rust-plugin/main.js#L9) that handles this.
+*Note: Rust artifact's file name and extension change depending on the Operative System. We created a function called [`resolveRustLibFilename`](https://github.com/NMFR/deno-image-transform/blob/add-rust-plugin/main.js#L9) that handles this.*
 
 - Deno will load the Rust artifact and will execute the Rust `deno_plugin_init` function. This function in turn registers the `hello_world` Rust function has an operation with the name `helloWorld`.
 
@@ -212,7 +212,10 @@ The final result of executing this is the following:
 ```bash
 $ deno run --unstable --allow-plugin main.js
 
-TODO: ADD OUTPUT
+Rust: param[0]: text
+Rust: param[1]: sent from
+Rust: param[2]: deno
+Deno: result: result from rust
 ```
 
 As we can see, the parameters sent are printed by the Rust code, and the response from Rust code is printed using JavaScript. We can now send and receive data from the plugin.
@@ -221,7 +224,7 @@ The next step towards getting this image to grayscale plugin to work, is to send
 
 ## Sending JSON parameters
 
-Our objective is to send a JSON object the image metadata to the plugin.
+Our objective is to send a JSON object with the image metadata to the plugin.
 
 All this communication must be done using `Uint8Array` buffers, and thus we'll need to convert this JSON object into a buffer.
 
@@ -295,7 +298,7 @@ use deno_core::serde_json;
 
 As we previously saw, `_zero_copy` contains the parameters sent from JavaScript. Here we're getting the first item of the array, containing the JSON image metadata as a buffer.
 
-We're decoding this buffer using `serde_json` module, made available by the Deno core. This function decodes JSON parameters into a dicionary object, which we called `json` here.
+We're decoding this buffer using `serde_json` module, made available by the Deno core. This function decodes JSON parameters into a dicionary like object, which we called `json` here.
 
 Then, we're logging the parameters, and sending a JSON object back to JavaScript indicating that the function run successfully, using `Op:Sync`.
 
@@ -304,7 +307,12 @@ We can now run this code and check the result:
 ```shell
 $ deno run --unstable --allow-plugin main.js
 
-OUTPUT
+Rust: json param: {"hasAlphaChannel":true,"size":{"width":100,"height":50}}
+Rust: has_alpha_channel: true
+Rust: width: 100
+Rust: height: 50
+Deno: result: {"success":true}
+Deno: jsonResult.success: true
 ```
 
 We can see that the parameters are being printed from Rust, and that the success message sent from the plugin is reaching the JavaScript code.
@@ -418,9 +426,9 @@ It is working! Notice that we modified the image pixels directly instead of retu
 
 What we've done so far accomplishes our objective for this article. 
 
-We've created a Deno plugin, written in Rust, that converts an image to grayscale. Then we've used the APIs provided by Deno to communicate with it from the JavaScript side.
+We've created a Deno plugin, written in Rust, that converts an image to grayscale. Then we've used the API provided by Deno to communicate with it from the JavaScript side.
 
-We'll later explore more about writing Deno plugins, namely how use the asynchronous APIs to leverage Rust performance on CPU heavy tasks, in another article of this series.
+We'll later explore more about writing Deno plugins, namely how use the asynchronous API to leverage Rust performance on CPU heavy tasks, in another article of this series.
 
 If you're interested in knowing more about Deno and how to use it to build tools and web applications, make sure you checkout my recently launched book [Deno Web Development](/deno/i-published-a-book-deno-web-development). In the book, we carefully explain all the mentioned Deno features (and many others) while building real-world applications.
 
