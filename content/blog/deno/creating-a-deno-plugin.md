@@ -17,7 +17,7 @@ We want this exploration to resemble a real world use case, so we'll be creating
 
 Plugins in Deno are written in Rust. Deno provides an API to load and call the plugin's code from JavaScript. The plugin API dispatches events to and from the plugin, all the communication is made using `Uint8Array`s.
 
-*Note*: It's worth to mention that Deno's Rust plugin feature is at the _unstable_ stage, so expect its API to change. 
+*Note: It's worth to mention that Deno's Rust plugin feature is at the _unstable_ stage, so expect its API to change.* 
 
 By the end of this blog post, we'll have a Deno application that uses a Rust plugin to grayscale an image.
 
@@ -91,7 +91,11 @@ We should see this output:
 Rust: Hello from rust.
 ```
 
-- We are loading the plugin in Deno by calling `Deno.openPlugin` with the path for the compiled Rust artifact.
+## Breaking it down
+
+Lets break down this hello world:
+
+- We start by loading the plugin in Deno by calling `Deno.openPlugin` with the path for the compiled Rust artifact.
 
 ```js
 const rustPluginId = Deno.openPlugin(`./rust-plugin/${rustLibFilename}`);
