@@ -140,7 +140,7 @@ Pursuing our goal of creating a function that transforms an image into grayscale
 
 That's what we'll do next.
 
-## Sending and received data
+## Sending and receiving data
 
 We previously mentioned that Deno operation functions are called with two parameters:
 
@@ -438,7 +438,7 @@ If you're interested in knowing more about Deno and how to use it to build tools
 
 This article (and code) was written by me and my friend [Nuno Rodrigues](https://twitter.com/nfrodrigues),
 
-We'd like to hear what you think about it! If you have any questions, make sure you it us on Twitter or LinkedIn. I'll leave the links below.
+We'd like to hear what you think about it! If you have any questions, make sure you hit us on Twitter or LinkedIn. I'll leave the links below.
 
 If you want to read more about Deno, check out the [other posts in this series](/deno/series-introduction).
 
