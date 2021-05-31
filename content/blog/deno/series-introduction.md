@@ -13,7 +13,7 @@ Here's what we'll cover in the upcoming posts:
 
 - [Building a CLI with Deno](/deno/build-a-cli-with-deno)
 - [Using Deno with Puppeteer](/deno/puppeteer-with-deno)
-- Building a Deno plugin, the interoperability with Rust
+- [Creating a Deno plugin with Rust](/deno/creating-a-deno-plugin)
 - Static site generation in Deno, with aleph.js
 - ...
 
