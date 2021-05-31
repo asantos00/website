@@ -1,7 +1,7 @@
 ---
 title: "Creating a Deno plugin with Rust"
 description: Exploring the process of creating a Deno plugin
-date: "2021-05-07"
+date: "2021-05-31"
 published: true
 ---
 
